@@ -46,7 +46,7 @@ function App() {
       </Button>
     </Box>
   );
-  return <Container sx={{ margin: "10px auto" }}>{navbar}</Container>;
+  return <Container sx={{ margin: "5px auto" }}>{navbar}</Container>;
 }
 
 export default App;
