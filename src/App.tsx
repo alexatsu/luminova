@@ -1,32 +1,42 @@
 import { Grid } from "@mui/material";
 import Container from "@mui/material/Container";
+import Footer from "./layouts/Footer";
 import Navbar from "./layouts/Navbar";
 
-function App() {
+export default function App() {
   return (
-    <Container sx={{ margin: "0 auto" }}>
+    <>
       <Navbar />
-      <Container>
-        <Grid sx={{ height: "100%" }}>
-          <div style={{ backgroundColor: "teal", width: "300px", height: "350px" }}>
+      <Container sx={{ marginTop: "30px" }}>
+        <Grid
+          columns={3}
+          justifyContent={"center"}
+          gap={2}
+          container
+          spacing={2}
+          sx={{ height: "100%" }}
+        >
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
             Hello World
-          </div>
-          <div style={{ backgroundColor: "teal", width: "300px", height: "350px" }}>
+          </Grid>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
             Hello World
-          </div>
-          <div style={{ backgroundColor: "teal", width: "300px", height: "350px" }}>
+          </Grid>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
             Hello World
-          </div>
-          <div style={{ backgroundColor: "teal", width: "300px", height: "350px" }}>
+          </Grid>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
             Hello World
-          </div>
-          <div style={{ backgroundColor: "teal", width: "300px", height: "350px" }}>
+          </Grid>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
             Hello World
-          </div>
+          </Grid>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+            Hello World
+          </Grid>
         </Grid>
       </Container>
-    </Container>
+      <Footer />
+    </>
   );
 }
-
-export default App;
