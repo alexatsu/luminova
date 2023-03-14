@@ -5,12 +5,14 @@ export default function Navbar() {
   return (
     <Box
       sx={{
+        top: 0,
+        position: "fixed",
         display: "flex",
         justifyContent: "space-around",
         padding: "10px 20px",
         width: "100%",
         boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.25)",
-        backgroundColor: "#f5f4fa",
+        backgroundColor: "#ffffff",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "space-between" }}>
@@ -30,7 +32,7 @@ export default function Navbar() {
               ":hover": { border: "transparent" },
               ":focus": { border: "1px solid #e0e0e0" },
               "& .MuiInput-underline:before": { borderBottom: "transparent" },
-              "& .MuiInputBase-root:after": { borderBottom: "1px solid #63b8d5" },
+              "& .MuiInputBase-root:after": { borderBottom: "1px solid #767676" },
               // "& .MuiInputBase-root:hover": { borderBottom: "transparent" },
             }}
             InputProps={{
@@ -46,12 +48,13 @@ export default function Navbar() {
       </Box>
       <Button
         sx={{
-          backgroundColor: "lightblue",
-          color: "black",
-          ":hover": { backgroundColor: "rgb(46, 163, 190)" },
+          backgroundColor: "white",
+          color: "#767676",
+          ":hover": { backgroundColor: "white", color: "black" },
           height: "30px",
           marginTop: "5px",
           fontSize: "12px",
+          border: "1px solid #d1d1d1",
         }}
         variant={"contained"}
       >

@@ -7,7 +7,7 @@ export default function Footer() {
         justifyContent: "center",
         alignItems: "center",
         height: "60px",
-        marginTop: "20px",
+        marginTop: "30px",
         backgroundColor: "#2f303a",
         color: "white",
       }}

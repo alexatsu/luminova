@@ -7,31 +7,31 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <Container sx={{ marginTop: "30px" }}>
+      <Container sx={{ marginTop: "100px" }}>
         <Grid
-          columns={3}
           justifyContent={"center"}
+          columns={3}
           gap={2}
           container
           spacing={2}
-          sx={{ height: "100%" }}
+          sx={{ height: "100%", maxWidth: "900px", margin: "0 auto" }}
         >
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
             Hello World
           </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
             Hello World
           </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
             Hello World
           </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
             Hello World
           </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
             Hello World
           </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "300px", height: "350px" }}>
+          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
             Hello World
           </Grid>
         </Grid>
