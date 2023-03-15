@@ -18,10 +18,5 @@ svg {
 }
 :root {
   --primary-text-color: #2d2d2d;
-  --title-text-color: #212121;
-  --accent-color: #002f55;
-  --primary-white-color: #fdfdfd;
-  --secondary-white-color: #f5f4fa;
-  --footer-white-color: #2f303a;
-  --card: #ffedd5;
+/* removing colors */
 }
