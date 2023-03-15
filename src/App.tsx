@@ -1,40 +1,34 @@
-import { Grid } from "@mui/material";
+import { Grid, ImageList, ImageListItem } from "@mui/material";
 import Container from "@mui/material/Container";
 import Footer from "./layouts/Footer";
 import Navbar from "./layouts/Navbar";
+import img from "../src/assets/images/patient.jpg";
+import bubbles from "../src/assets/images/bubbles.jpg";
 
 export default function App() {
   return (
     <>
       <Navbar />
       <Container sx={{ marginTop: "100px" }}>
-        <Grid
-          justifyContent={"center"}
-          columns={3}
-          gap={2}
-          container
-          spacing={2}
-          sx={{ height: "100%", maxWidth: "900px", margin: "0 auto" }}
-        >
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
-            Hello World
-          </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
-            Hello World
-          </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
-            Hello World
-          </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
-            Hello World
-          </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
-            Hello World
-          </Grid>
-          <Grid item style={{ backgroundColor: "#ffedd5", width: "30%", height: "350px" }}>
-            Hello World
-          </Grid>
-        </Grid>
+        <ImageList variant="masonry" cols={3} gap={8}>
+          <ImageListItem>
+            <img src={img} width="350px" alt="patient" loading="lazy" />
+          </ImageListItem>
+          <ImageListItem>
+            <img src={bubbles} width="350px" alt="patient" loading="lazy" />
+          </ImageListItem>
+          
+          {/* {itemData.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                src={`${item.img}?w=248&fit=crop&auto=format`}
+                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt={item.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))} */}
+        </ImageList>
       </Container>
       <Footer />
     </>

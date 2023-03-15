@@ -5,6 +5,7 @@ export default function Navbar() {
   return (
     <Box
       sx={{
+        zIndex: "1",
         top: 0,
         position: "fixed",
         display: "flex",
