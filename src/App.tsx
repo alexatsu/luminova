@@ -1,9 +1,12 @@
-import { Grid, ImageList, ImageListItem } from "@mui/material";
+import { ImageList, ImageListItem } from "@mui/material";
 import Container from "@mui/material/Container";
 import Footer from "./layouts/Footer";
 import Navbar from "./layouts/Navbar";
-import img from "../src/assets/images/patient.jpg";
+
+import patient from "../src/assets/images/patient.jpg";
 import bubbles from "../src/assets/images/bubbles.jpg";
+import river from "../src/assets/images/river.jpg";
+import sunset from "../src/assets/images/sunset.jpg";
 
 export default function App() {
   return (
@@ -12,10 +15,16 @@ export default function App() {
       <Container sx={{ marginTop: "100px" }}>
         <ImageList variant="masonry" cols={3} gap={8}>
           <ImageListItem>
-            <img src={img} width="350px" alt="patient" loading="lazy" />
+            <img src={patient} width="350px" alt="patient" loading="lazy" />
           </ImageListItem>
           <ImageListItem>
-            <img src={bubbles} width="350px" alt="patient" loading="lazy" />
+            <img src={bubbles} width="350px" alt="bubbles" loading="lazy" />
+          </ImageListItem>
+          <ImageListItem>
+            <img src={river} width="350px" alt="river" loading="lazy" />
+          </ImageListItem>
+          <ImageListItem>
+            <img src={sunset} width="350px" alt="river" loading="lazy" />
           </ImageListItem>
           
           {/* {itemData.map((item) => (
