@@ -1,5 +1,6 @@
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Link } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
+
 const footerStyles = {
   container: {
     display: "flex",
@@ -17,15 +18,18 @@ const footerStyles = {
     transition: "all 0.15s ease-in-out",
   },
 };
+const FooterContainer = ({ children }: { children: React.ReactNode }) => (
+  <footer style={footerStyles.container}>
+    <Box style={{ display: "flex", alignItems: "center" }}>{children}</Box>
+  </footer>
+);
 export default function Footer() {
   return (
-    <footer style={footerStyles.container}>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <Link href="https://github.com/AlexanderKudr" target={"_blank"} sx={footerStyles.link}>
-          <GitHubIcon />
-        </Link>
-        <span style={{ marginLeft: "5px", marginTop: "-3px" }}>Developed by Alex</span>
-      </div>
-    </footer>
+    <FooterContainer>
+      <Link href="https://github.com/AlexanderKudr" target={"_blank"} sx={footerStyles.link}>
+        <GitHubIcon />
+      </Link>
+      <Typography style={{ marginLeft: "5px", marginTop: "-3px" }}>Developed by Alex</Typography>
+    </FooterContainer>
   );
 }

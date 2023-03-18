@@ -1,6 +1,6 @@
-- Add modal to "Add a photo" button 
-- functionality to add link to a photo
-- optional add photo from a local machine
 - Add title and link description to photos (make them appear on hover)
+- Add modal to "Add a photo" button 
+- Functionality to add link to a photo
+- (optional) Add photo from a local machine
 - Create filter functionality + debounce
 - Delete photo functionality
