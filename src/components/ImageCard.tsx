@@ -1,4 +1,5 @@
-import { Box, ImageListItem, Typography } from "@mui/material";
+import { ImageListItem, Typography } from "@mui/material";
+// import { LegacyRef, useRef } from "react";
 import { images } from "../assets/images";
 
 const imagesStyles = {
@@ -20,13 +21,17 @@ const imagesStyles = {
   },
 };
 export default function ImageCard() {
+  // const ref = useRef(null);
+  // const test = () => {
+  //   console.log(ref.current);
+  // }
   return (
     <>
-      {images.map((image) => (
-        <ImageListItem key={image} sx={imagesStyles.container}>
-          <img src={image} alt={image} loading="lazy" style={{ width: "100%", height: "100%" }} />
+      {images.map(({ image, index, title }) => (
+        <ImageListItem key={index} sx={imagesStyles.container}>
+          <img src={image} alt={title} loading="lazy" style={{ width: "100%", height: "100%" }} />
           <Typography sx={imagesStyles.title} variant={"h5"}>
-            Some text here
+            {title}
           </Typography>
         </ImageListItem>
       ))}
