@@ -1,10 +1,10 @@
-import { Footer, Navbar, Main } from "./layouts";
+import { Footer, Navbar, Hero } from "./layouts";
 
 export default function App() {
   return (
     <>
       <Navbar />
-      <Main />
+      <Hero />
       <Footer />
     </>
   );

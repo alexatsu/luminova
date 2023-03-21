@@ -9,6 +9,7 @@ const imagesStyles = {
     transition: "all 0.15s ease-in-out",
     opacity: 0.97,
     ":hover": { transform: "scale(0.99)", opacity: 1 },
+  
   },
   title: {
     position: "absolute",
