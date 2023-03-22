@@ -1,5 +1,4 @@
 import { ImageListItem, Typography } from "@mui/material";
-// import { LegacyRef, useRef } from "react";
 import { images } from "../assets/images";
 
 const imagesStyles = {
@@ -9,7 +8,6 @@ const imagesStyles = {
     transition: "all 0.15s ease-in-out",
     opacity: 0.97,
     ":hover": { transform: "scale(0.99)", opacity: 1 },
-  
   },
   title: {
     position: "absolute",
@@ -22,10 +20,6 @@ const imagesStyles = {
   },
 };
 export default function ImageCard() {
-  // const ref = useRef(null);
-  // const test = () => {
-  //   console.log(ref.current);
-  // }
   return (
     <>
       {images.map(({ image, index, title }) => (
