@@ -1,7 +1,10 @@
-- Functionality to add link to a photo
-- Delete photo functionality
-- Create filter functionality + debounce
-- Add tooltip to "Add photo" button
+- Functionality to add link to a photo (done)
+- Create filter functionality + debounce (done)
+- Create useDebounce hook and move logic there
+- Move logic from ModalCard to Navbar
+- Add async imitation when addin photo after clicking upload button
+- Delete photo functionality and visual notification
+- Add tooltip to "Add photo" button 
 - (optional) Add photo from a local machine
 - (optional) auth
 - (optional) add to favorites

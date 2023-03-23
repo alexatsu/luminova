@@ -1,44 +1,44 @@
 import { Box, Button, Modal, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-type ModalProps = {
-  modalOpen: boolean;
-  handleClose: () => void;
+import { useImagesStore } from "../store/useImagesStore";
+import { ReactNode, useState } from "react";
+import { modalStyles } from "../styles/modal";
+
+type ModalProps = { modalOpen: boolean; handleClose: () => void };
+type InputsProps = {
+  imageData: {
+    title: string;
+    url: string;
+  };
+  setImageData: React.Dispatch<
+    React.SetStateAction<{
+      title: string;
+      url: string;
+    }>
+  >;
 };
-const modalStyles = {
-  container: {
-    position: "absolute",
-    top: "600%" /* temporarily */,
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    height: 220,
-    "@media (max-width: 568px)": {
-      width: 300,
-      height: 220,
-    },
-    border: "1px solid #000",
-    boxShadow: 24,
-    pt: 2,
-    px: 4,
-    pb: 3,
-    backgroundColor: "#ededed",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  closeIcon: {
-    position: "absolute",
-    right: "5px",
-    top: "5px",
-    cursor: "pointer",
-    color: "#767676",
-    transition: "all 0.15s ease-in-out",
-    "&:hover": {
-      color: "#000",
-    },
-  },
-};
+const Inputs = ({ imageData, setImageData }: InputsProps) => (
+  <Box sx={{ marginBottom: "10px" }}>
+    <TextField
+      label="title"
+      sx={{ margin: "10px 0", width: "100%" }}
+      onChange={(event) => setImageData({ ...imageData, title: event.target.value })}
+    />
+    <TextField
+      label="url"
+      sx={{ width: "100%" }}
+      onChange={(event) => setImageData({ ...imageData, url: event.target.value })}
+    />
+  </Box>
+);
+
 export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
+  const { addImage } = useImagesStore();
+  const [imageData, setImageData] = useState({ title: "", url: "" });
+  const addImageHandler = () => {
+    addImage(imageData.url, imageData.title);
+    handleClose();
+  };
   return (
     <Modal
       hideBackdrop={true}
@@ -51,11 +51,10 @@ export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
     >
       <Box>
         <CloseIcon sx={modalStyles.closeIcon} onClick={handleClose} fontSize={"small"} />
-        <Box sx={{ marginBottom: "10px" }}>
-          <TextField label="title" sx={{ margin: "10px 0", width: "100%" }} />
-          <TextField label="link" sx={{ width: "100%" }} />
-        </Box>
-        <Button sx={{ display: "flex", marginBottom: "-20px" }}>Upload</Button>
+        <Inputs imageData={imageData} setImageData={setImageData} />
+        <Button sx={{ display: "flex", marginBottom: "-20px" }} onClick={addImageHandler}>
+          Upload
+        </Button>
       </Box>
     </Modal>
   );
