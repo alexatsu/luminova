@@ -1,14 +1,15 @@
-import { ImageListItem, Typography } from "@mui/material";
+import { IconButton, ImageListItem, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useImagesStore } from "../store/useImagesStore";
 import { imagesStyles } from "../styles/imageCard";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ImageCard() {
   const { img, query } = useImagesStore();
   const [initialImages, setInitialImages] = useState(img);
 
   useEffect(() => {
-    const debouncedFilter = setTimeout(() => {
+    const debouncedSearch = setTimeout(() => {
       const filterImages = img.filter(({ title }) => {
         const lowerCasedTitle = title.toLowerCase();
         const lowerCasedQuery = query.toLowerCase();
@@ -16,7 +17,7 @@ export default function ImageCard() {
       });
       setInitialImages(filterImages);
     }, 500);
-    return () => clearTimeout(debouncedFilter);
+    return () => clearTimeout(debouncedSearch);
   }, [img, query]);
 
   return (

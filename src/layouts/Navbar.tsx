@@ -10,6 +10,7 @@ import { navstyles } from "../styles/navbar";
 type SearchInputProps = { event: (event: ChangeEvent<HTMLInputElement>) => void };
 type HandleSearchProps = ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 type BtnAddPhotoProps = { handleOpen: MouseEventHandler<HTMLButtonElement> };
+
 const SearchInput: React.FC<SearchInputProps> = ({ event }) => (
   <TextField
     placeholder="Search photos"
