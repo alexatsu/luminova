@@ -1,4 +1,4 @@
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
+import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useImagesStore } from "../store/useImagesStore";
 import { useEffect, useState } from "react";
@@ -24,21 +24,23 @@ const Inputs = ({ imageData, setImageData }: InputsProps) => (
       sx={{ margin: "10px 0", width: "100%" }}
       onChange={(event) => setImageData({ ...imageData, title: event.target.value })}
       value={imageData.title}
+      required
     />
     <TextField
       label="url"
       sx={{ width: "100%" }}
       onChange={(event) => setImageData({ ...imageData, url: event.target.value })}
       value={imageData.url}
+      required
     />
   </Box>
 );
 
 export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
   const { addImage } = useImagesStore();
-  const [imageData, setImageData] = useState({ title: "", url: "" });
   const [loading, setLoading] = useState(false);
   const [doneLoading, setDoneLoading] = useState(false);
+  const [imageData, setImageData] = useState({ title: "", url: "" });
 
   const addImageHandler = () => {
     if (loading) return;
@@ -56,7 +58,6 @@ export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
     let timeout: ReturnType<typeof setTimeout>;
     if (doneLoading) {
       timeout = setTimeout(() => setDoneLoading(false), 3000);
-      
     }
     return () => clearTimeout(timeout);
   }, [doneLoading]);
@@ -70,19 +71,26 @@ export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
       aria-describedby="modal-modal-description"
       sx={modalStyles.container}
       disablePortal
+      closeAfterTransition
     >
-      <Box>
-        <CloseIcon sx={modalStyles.closeIcon} onClick={handleClose} fontSize={"small"} />
-        <Inputs imageData={imageData} setImageData={setImageData} />
-        <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-          <Button sx={{ display: "flex", marginBottom: "-20px" }} onClick={addImageHandler}>
-            {loading ? "Loading..." : "Add"}
-          </Button>
-          {doneLoading && (
-            <Typography sx={{ marginBottom: "-19px", fontSize: "14px" }}>Done!</Typography>
-          )}
+      <Fade in={modalOpen}>
+        <Box>
+          <CloseIcon sx={modalStyles.closeIcon} onClick={handleClose} fontSize={"small"} />
+          <Inputs imageData={imageData} setImageData={setImageData} />
+          <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
+            <Button
+              sx={{ display: "flex", marginBottom: "-20px" }}
+              onClick={addImageHandler}
+              disabled={imageData.title === "" || imageData.url === ""}
+            >
+              {loading ? "Loading..." : "Add"}
+            </Button>
+            {doneLoading && (
+              <Typography sx={{ marginBottom: "-19px", fontSize: "14px" }}>Done!</Typography>
+            )}
+          </Box>
         </Box>
-      </Box>
+      </Fade>
     </Modal>
   );
 }
