@@ -8,4 +8,5 @@
 - (optional) Add photo from a local machine
 - (optional) auth
 - (optional) add to favorites
+- (optional) ai image generator
 
