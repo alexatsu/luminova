@@ -4,7 +4,7 @@ import { images } from "../assets/images";
 
 type ImagesStoreProps = {
   img: typeof images;
-  query: string;
+  query: string;//move it into separate store
   addImage: (imgSrc: string, title: string) => void;
   searchQuery: (query: string) => void;
   deleteImage: (id: string) => void;

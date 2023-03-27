@@ -4,15 +4,15 @@ import { Footer, Navbar, Hero } from "./layouts";
 
 export default function App() {
   const isLoading = useLoader();
-  const spinner = (
+  const Spinner = () => (
     <PuffLoader style={{ position: "absolute", top: "40%", right: "50%" }} color="#36d7b7" />
   );
-  const page = (
+  const Page = () => (
     <>
       <Navbar />
       <Hero />
       <Footer />
     </>
   );
-  return isLoading ? spinner : page;
+  return isLoading ? <Spinner /> : <Page />;
 }
