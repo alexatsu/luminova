@@ -3,6 +3,9 @@
 - Add async imitation when adding photo after clicking upload button (done)
 - Add validation when adding new photos, simple is enough (done)
 - Add tooltip to "Add photo" button (done)
+- Add progress bar (done)
+- Add skeleton when images are loading
+- Fix footer bug when filtering images
 
 - (optional) Add proper validation
 - (optional) Add photo from a local machine

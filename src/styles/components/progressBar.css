@@ -1,0 +1,14 @@
+.ProgressBar {
+  height: 3px;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  top: 50px;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+}
+.ProgressBar-inner {
+  height: 3px;
+  background-color: rgb(106, 156, 237);
+  width: 0%;
+}

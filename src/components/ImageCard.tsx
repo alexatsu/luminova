@@ -1,7 +1,7 @@
-import { ImageListItem, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useImagesStore } from "../store/useImagesStore";
 import { imagesStyles } from "../styles/imageCard";
+import { useImagesStore } from "../store/useImagesStore";
+import { useEffect, useState } from "react";
+import { ImageListItem, Typography } from "@mui/material";
 
 export default function ImageCard() {
   const { img, query } = useImagesStore();

@@ -1,13 +1,13 @@
+import Fade from "@mui/material/Fade";
+import Tooltip from "@mui/material/Tooltip";
 import useModal from "../hooks/useModal";
-import SearchIcon from "@mui/icons-material/Search";
 import ModalCard from "../components/ModalCard";
+import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import { navstyles } from "../styles/navbar";
 import { useImagesStore } from "../store/useImagesStore";
 import { MouseEventHandler, ChangeEventHandler, ChangeEvent } from "react";
-import { Box, Typography, TextField, InputAdornment, IconButton, Button } from "@mui/material";
-import { navstyles } from "../styles/navbar";
-import Tooltip from "@mui/material/Tooltip";
-import Fade from "@mui/material/Fade";
+import { Box, Typography, TextField, InputAdornment, IconButton } from "@mui/material";
 
 type SearchInputProps = { event: (event: ChangeEvent<HTMLInputElement>) => void };
 type HandleSearchProps = ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;

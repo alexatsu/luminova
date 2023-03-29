@@ -9,7 +9,9 @@
   padding: 0;
   font: inherit;
 }
-
+body {
+  height: 100%;
+}
 img,
 picture,
 svg {

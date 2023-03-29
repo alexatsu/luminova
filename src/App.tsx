@@ -1,7 +1,7 @@
 import useLoader from "./hooks/useLoader";
 import { PuffLoader } from "react-spinners";
 import { Footer, Navbar, Hero } from "./layouts";
-
+import { ProgressBar } from "./components/progressBar";
 export default function App() {
   const isLoading = useLoader();
   const Spinner = () => (
@@ -10,6 +10,7 @@ export default function App() {
   const Page = () => (
     <>
       <Navbar />
+      <ProgressBar />
       <Hero />
       <Footer />
     </>

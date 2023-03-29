@@ -1,8 +1,8 @@
-import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { modalStyles } from "../styles/modal";
 import { useImagesStore } from "../store/useImagesStore";
 import { useEffect, useState } from "react";
-import { modalStyles } from "../styles/modal";
+import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 
 type ModalProps = { modalOpen: boolean; handleClose: () => void };
 type InputsProps = {
