@@ -13,7 +13,7 @@ export default function Footer() {
       <Link href="https://github.com/AlexanderKudr" target={"_blank"} sx={footerStyles.link}>
         <GitHubIcon />
       </Link>
-      <Typography style={{ marginLeft: "5px", marginTop: "-3px" }}>Developed by Alex</Typography>
+      <Typography sx={{ marginLeft: "5px", marginTop: "-3px" }}>Developed by Alex</Typography>
     </FooterContainer>
   );
 }

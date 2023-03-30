@@ -1,5 +1,8 @@
 export const footerStyles = {
   container: {
+    // position: "absolute",
+    // bottom: "0",
+    // width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -7,7 +10,7 @@ export const footerStyles = {
     marginTop: "30px",
     backgroundColor: "#2f303a",
     color: "white",
-  },
+  } as React.CSSProperties,
   link: {
     cursor: "pointer",
     ":hover": { textDecoration: "none", color: "#767676" },
