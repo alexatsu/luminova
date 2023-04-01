@@ -15,7 +15,7 @@ export const useImagesStore = create<ImagesStoreProps>()(
     query: "",
     addImage: (imgSrc, title) => {
       set((state) => {
-        state.img.push({ id: crypto.randomUUID(), image: imgSrc, title: title });
+        state.img.unshift({ id: crypto.randomUUID(), image: imgSrc, title: title });
       });
     },
     deleteImage: (id) => {

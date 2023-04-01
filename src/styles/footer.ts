@@ -1,8 +1,7 @@
 export const footerStyles = {
   container: {
-    // position: "absolute",
-    // bottom: "0",
-    // width: "100%",
+    bottom: "0",
+    width: "100%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
