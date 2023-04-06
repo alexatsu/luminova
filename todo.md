@@ -7,9 +7,9 @@
 - Add skeleton when images are loading, when backend is ready
 - Fix footer bug when filtering images, when backend is ready 
 
-- (optional) Add proper validation
-- (optional) Add photo from a local machine
 - (optional) auth
 - (optional) add to favorites
 - (optional) ai image generator
+- (optional) Add photo from a local machine
+- (optional) Add proper validation
 

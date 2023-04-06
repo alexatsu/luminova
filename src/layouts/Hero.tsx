@@ -5,13 +5,14 @@ import { Container, ImageList, ImageListItem, Typography } from "@mui/material";
 import { imagesStyles } from "../styles/imageCard";
 
 const baseURL = "http://localhost:8080";
-type Images = {
-  id: string;
-  image: string;
-  title: string;
+type ImagesProps = {
+  public_id: string;
+  url: string;
+  filename: string;
 };
+type ImageResources = { resources: ImagesProps[] };
 export default function Hero() {
-  const [img, setImg] = useState<null | Images[]>();
+  const [img, setImg] = useState<null | ImageResources>();
   const width = useResizeWidth();
 
   useEffect(() => {
@@ -26,17 +27,16 @@ export default function Hero() {
     <Container sx={{ marginTop: "100px" }}>
       <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
         <>
-          {img?.map(({ id, image, title }) => (
-            <ImageListItem key={id} sx={imagesStyles.container}>
+          {img?.resources.map(({ public_id, url, filename }: ImagesProps) => (
+            <ImageListItem key={public_id} sx={imagesStyles.container}>
               <img
-                key={id}
-                src={`${baseURL}/${image}`}
-                alt={title}
+                src={url}
+                alt={filename}
                 loading={"lazy"}
                 style={{ width: "100%", height: "100%" }}
               />
               <Typography sx={imagesStyles.title} variant={"h5"}>
-                {title}
+                {filename}
               </Typography>
             </ImageListItem>
           ))}
