@@ -4,6 +4,7 @@ import { useImagesStore } from "../store/useImagesStore";
 import { useEffect, useState } from "react";
 import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 
+const baseURL = "http://localhost:8080";
 type ModalProps = { modalOpen: boolean; handleClose: () => void };
 type InputsProps = {
   imageData: {
@@ -37,17 +38,26 @@ const Inputs = ({ imageData, setImageData }: InputsProps) => (
 );
 
 export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
-  const { addImage } = useImagesStore();
+  // const { addImage } = useImagesStore();
   const [loading, setLoading] = useState(false);
   const [doneLoading, setDoneLoading] = useState(false);
   const [imageData, setImageData] = useState({ title: "", url: "" });
 
-  const addImageHandler = () => {
+  const addImageHandler = async () => {
     if (loading) return;
     setLoading(true);
     setTimeout(() => {
       const { url, title } = imageData;
-      addImage(url, title);
+      // addImage(url, title);
+      console.log("fired");
+      fetch(`${baseURL}/api/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url, title }),
+      })
+        .then((data) => console.log(data, "data sent"))
+        .catch((err) => console.log(err, "coudn't send data"));
+
       setLoading(false);
       setDoneLoading(true);
       setImageData({ title: "", url: "" });
