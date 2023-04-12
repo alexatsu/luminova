@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import ImageCard from "../components/ImageCard";
+// import ImageCard from "../components/ImageCard";
 import useResizeWidth from "../hooks/useResizeWidth";
 import { Container, ImageList, ImageListItem, Typography } from "@mui/material";
 import { imagesStyles } from "../styles/imageCard";
+import { useImagesStore } from "../store/useImagesStore";
 
 const baseURL = "http://localhost:8080";
 type ImagesProps = {
@@ -12,8 +13,10 @@ type ImagesProps = {
 };
 type ImageResources = { resources: ImagesProps[] };
 export default function Hero() {
-  const [img, setImg] = useState<null | ImageResources>();
   const width = useResizeWidth();
+  const { query } = useImagesStore();
+  const [img, setImg] = useState<null | ImageResources>();
+  const [initialImages, setInitialImages] = useState(img?.resources);
 
   useEffect(() => {
     fetch(`${baseURL}/api/images`)
@@ -22,12 +25,23 @@ export default function Hero() {
       .catch((error) => console.error(error));
   }, []);
   console.log(img, "img");
+  useEffect(() => {
+    const debouncedSearch = setTimeout(() => {
+      const filterImages = img!.resources.filter(({ public_id }) => {
+        const lowerCasedTitle = public_id.toLowerCase();
+        const lowerCasedQuery = query.toLowerCase();
+        return lowerCasedTitle.includes(lowerCasedQuery);
+      });
+      setInitialImages(filterImages);
+    }, 500);
+    return () => clearTimeout(debouncedSearch);
+  }, [img, query]);
 
   return (
     <Container sx={{ marginTop: "100px" }}>
       <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
         <>
-          {img?.resources.map(({ public_id, url, filename }: ImagesProps) => (
+          {initialImages?.map(({ public_id, url, filename }) => (
             <ImageListItem key={public_id} sx={imagesStyles.container}>
               <img
                 src={url}
