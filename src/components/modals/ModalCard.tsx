@@ -1,11 +1,11 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { modalStyles } from "../styles/modal";
-import { useImagesStore } from "../store/useImagesStore";
+import { modalStyles } from "../../styles/modal";
+import { useImagesStore } from "../../store/useImagesStore";
 import { useEffect, useState } from "react";
 import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
-
+import { ModalProps } from "./Modal.types";
 const baseURL = "http://localhost:8080";
-type ModalProps = { modalOpen: boolean; handleClose: () => void };
+
 type InputsProps = {
   imageData: {
     title: string;
@@ -23,14 +23,14 @@ const Inputs = ({ imageData, setImageData }: InputsProps) => (
     <TextField
       label="title"
       sx={{ margin: "10px 0", width: "100%" }}
-      onChange={(event) => setImageData({ ...imageData, title: event.target.value })}
+      onChange={event => setImageData({ ...imageData, title: event.target.value })}
       value={imageData.title}
       required
     />
     <TextField
       label="url"
       sx={{ width: "100%" }}
-      onChange={(event) => setImageData({ ...imageData, url: event.target.value })}
+      onChange={event => setImageData({ ...imageData, url: event.target.value })}
       value={imageData.url}
       required
     />
@@ -55,8 +55,8 @@ export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url, title }),
       })
-        .then((data) => console.log(data, "data sent"))
-        .catch((err) => console.log(err, "coudn't send data"));
+        .then(data => console.log(data, "data sent"))
+        .catch(err => console.log(err, "coudn't send data"));
 
       setLoading(false);
       setDoneLoading(true);

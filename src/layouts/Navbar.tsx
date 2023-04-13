@@ -1,27 +1,21 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
 import useModal from "../hooks/useModal";
-import ModalCard from "../components/ModalCard";
+import ModalCard from "../components/modals/ModalCard";
 import SearchIcon from "@mui/icons-material/Search";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { navstyles } from "../styles/navbar";
 import { useImagesStore } from "../store/useImagesStore";
-import { MouseEventHandler, ChangeEventHandler, ChangeEvent } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
+import { MouseEventHandler, ChangeEventHandler, ChangeEvent, FC } from "react";
+import { Box, Typography, TextField, InputAdornment, IconButton } from "@mui/material";
 import { ProgressBar } from "../components/ProgressBar";
+import AuthModal from "../components/modals/AuthModal";
 
 type SearchInputProps = {
   event: (event: ChangeEvent<HTMLInputElement>) => void;
 };
-type HandleSearchProps = ChangeEventHandler<
-  HTMLInputElement | HTMLTextAreaElement
->;
+type HandleSearchProps = ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 type BtnAddPhotoProps = { handleOpen: MouseEventHandler<HTMLButtonElement> };
 
 const SearchInput: React.FC<SearchInputProps> = ({ event }) => (
@@ -40,30 +34,34 @@ const SearchInput: React.FC<SearchInputProps> = ({ event }) => (
   />
 );
 const Logo = () => (
-  <Typography
-    sx={navstyles.logo}
-    component={"h1"}
-    fontWeight={"bold"}
-    variant="h6"
-  >
+  <Typography sx={navstyles.logo} component={"h1"} fontWeight={"bold"} variant="h6">
     Unsplash
   </Typography>
 );
 const BtnAddPhoto = ({ handleOpen }: BtnAddPhotoProps) => (
   <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add">
-    <IconButton
-      children={<CloudDownloadIcon />}
-      sx={navstyles.btnAddPhoto}
-      onClick={handleOpen}
-    />
+    <IconButton children={<CloudDownloadIcon />} sx={navstyles.btnAddPhoto} onClick={handleOpen} />
   </Tooltip>
 );
 
+const AuthBtn: FC<BtnAddPhotoProps> = ({ handleOpen }) => {
+  return (
+    <Button disableRipple sx={navstyles.authBtn()} onClick={handleOpen}>
+      Login
+    </Button>
+  );
+};
+
 export default function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
+  const {
+    modalOpen: authOpen,
+    handleOpen: handleAuthOpen,
+    handleClose: handleAuthClose,
+  } = useModal();
+
   const { searchQuery } = useImagesStore();
-  const handleSearch: HandleSearchProps = event =>
-    searchQuery(event.target.value);
+  const handleSearch: HandleSearchProps = event => searchQuery(event.target.value);
   return (
     <header>
       <Box
@@ -76,6 +74,8 @@ export default function Navbar() {
         </Box>
         <BtnAddPhoto handleOpen={handleOpen} />
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
+        <AuthBtn handleOpen={handleAuthOpen} />
+        <AuthModal handleClose={handleAuthClose} modalOpen={authOpen} />
       </Box>
       <ProgressBar />
     </header>

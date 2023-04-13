@@ -1,3 +1,5 @@
+import { navstyles } from "./navbar";
+
 export const modalStyles = {
   container: {
     position: "absolute",
@@ -30,5 +32,45 @@ export const modalStyles = {
     "&:hover": {
       color: "#000",
     },
+  },
+};
+
+export const authModalStyles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalWrapper: {
+    backgroundColor: modalStyles.container.backgroundColor,
+    padding: "0.75rem 1.2rem",
+    borderRadius: ".5rem",
+    display: "flex",
+    flexDirection: "column",
+    minWidth: "65%",
+  },
+  inputsWrapper: {
+    display: "flex",
+    gap: ".5rem",
+    padding: ".5rem 0",
+    flexDirection: "column",
+  },
+  modalFooter: {
+    display: "flex",
+    flexDirection: "column",
+    gap: ".5rem",
+  },
+  submitBtn: {
+    // ...navstyles.btnAddPhoto,
+    color: navstyles.btnAddPhoto.color,
+    ":hover": { color: "#000" },
+    background: "transparent",
+    width: "100%",
+    fontSize: ".9rem",
+  },
+  changeModalBtn: {
+    color: navstyles.btnAddPhoto.color,
+    background: "transparent",
+    ":hover": { color: "#000", background: "transparent" },
   },
 };

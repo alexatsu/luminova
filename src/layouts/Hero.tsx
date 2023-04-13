@@ -19,12 +19,16 @@ export default function Hero() {
 
   const width = useResizeWidth();
   const images: ImagesProps[] = dummyImgData;
-  useEffect(() => {
-    fetch(`${baseURL}/api/images`)
-      .then(response => response.json())
-      .then(data => setImg(data))
-      .catch(error => console.error(error));
-  }, []);
+  // useEffect(() => {
+  //   fetch(`${baseURL}/api/images`)
+  //     .then(response => {
+  //       setIsLoading(true);
+  //       return response.json();
+  //     })
+  //     .then(data => setImg(data))
+  //     .catch(error => console.error(error))
+  //     .finally(() => setIsLoading(false));
+  // }, []);
   console.log(img, "img");
 
   return (

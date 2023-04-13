@@ -37,4 +37,11 @@ export const navstyles = {
       fontSize: "10px",
     },
   },
+  authBtn: function () {
+    return {
+      ...this.btnAddPhoto,
+      fontSize: ".85rem",
+      fontWeight: "bold",
+    };
+  },
 };
