@@ -10,23 +10,22 @@ import {
   TextFieldProps,
   Typography,
 } from "@mui/material";
-import { FC, FormEventHandler, useCallback, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import {
   Control,
   Controller,
   FieldValues,
   RegisterOptions,
-  useForm,
   SubmitHandler,
+  useForm,
 } from "react-hook-form";
+import { useMutation } from "react-query";
+import { loginUserFn, signUpUserFn } from "../../service/user.service";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useToastStore } from "../../store/useToastStore";
 import { authModalStyles } from "../../styles/modal";
+import { AuthData, AuthResponse } from "../../types/User.types";
 import { ModalProps } from "./Modal.types";
-
-type AuthData = {
-  email: string;
-  password: string;
-  confirmation?: string;
-};
 
 type HookFormInputTextProps = {
   name: string;
@@ -39,9 +38,14 @@ type HookFormInputTextProps = {
   control: Control<any, any>;
 } & TextFieldProps;
 
+type useAuthLogicProps = {
+  onSuccess: () => void;
+};
+
 const VALID_EMAIL =
   /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 const VALID_PASS = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+
 const ERRORS = {
   PASS_NOT_VALID:
     "Must be at least 6 characters and include one number, one upper case, one lower case letter",
@@ -62,9 +66,54 @@ const HookFormInputText: FC<HookFormInputTextProps> = ({ rules, control, name, .
   );
 };
 
+const useAuthLogic = ({ onSuccess }: useAuthLogicProps) => {
+  const { setMessage } = useToastStore();
+  const { setUser } = useAuthStore();
+  const handleSuccess = (data: AuthResponse) => {
+    setUser(data.user);
+    localStorage.setItem("access_token", data.accessToken);
+    setMessage({ message: "Success!", severity: "success" });
+    onSuccess();
+  };
+
+  const handleError = useCallback((error: any) => {
+    if (error.response?.data?.message) {
+      setMessage({ message: error.response.data.message, severity: "error" });
+    } else {
+      setMessage({ message: "Something went wrong!", severity: "error" });
+    }
+  }, []);
+
+  const { mutate: loginUser, isLoading: isLogLoading } = useMutation(
+    (userData: AuthData) => loginUserFn(userData),
+    {
+      onSuccess: handleSuccess,
+
+      onError: handleError,
+    }
+  );
+  const { mutate: registerUser, isLoading: isRegLoading } = useMutation(
+    (userData: AuthData) => signUpUserFn(userData),
+    {
+      onSuccess: handleSuccess,
+      onError: handleError,
+    }
+  );
+
+  return {
+    registerUser,
+    loginUser,
+    isLogLoading,
+    isRegLoading,
+  };
+};
+
 export default function AuthModal({ handleClose, modalOpen }: ModalProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const { registerUser, loginUser, isLogLoading, isRegLoading } = useAuthLogic({
+    onSuccess: handleClose,
+  });
 
   const {
     control,
@@ -95,7 +144,7 @@ export default function AuthModal({ handleClose, modalOpen }: ModalProps) {
   };
 
   const handleSubmitForm: SubmitHandler<AuthData> = data => {
-    console.log(data);
+    isLogin ? loginUser(data) : registerUser(data);
   };
 
   return (
@@ -158,8 +207,13 @@ export default function AuthModal({ handleClose, modalOpen }: ModalProps) {
               />
             )}
           </Box>
-          <Button type="submit" disableRipple sx={authModalStyles.submitBtn}>
-            {isLogin ? "Sign In" : "Sign Up"}
+          <Button
+            type="submit"
+            disabled={isLogLoading || isRegLoading}
+            disableRipple
+            sx={authModalStyles.submitBtn}
+          >
+            {isRegLoading || isLogLoading ? "Submitting..." : isLogin ? "Sign In" : "Sign Up"}
           </Button>
         </form>
         <Box sx={authModalStyles.modalFooter}>
@@ -174,6 +228,7 @@ export default function AuthModal({ handleClose, modalOpen }: ModalProps) {
               >
                 {isLogin ? "Sign Up" : "Sign In"}
               </Button>
+
               {isLogin ? " for free" : " here"}
             </Typography>
           </Box>
