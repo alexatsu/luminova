@@ -19,11 +19,10 @@ export default function Hero() {
   const { query } = useImagesStore();
   const [img, setImg] = useState<null | ImageResources>();
   const [isLoading, setIsLoading] = useState(false);
-
   const [initialImages, setInitialImages] = useState(img?.resources);
-  const images: ImagesProps[] = dummyImgData;
+  // const images: ImagesProps[] = dummyImgData;
   useEffect(() => {
-    fetch(`${baseURL}/api/images`)
+    fetch(`https://unsplash-back.onrender.com/api/images`)
       .then(response => {
         setIsLoading(true);
         return response.json();
@@ -35,7 +34,7 @@ export default function Hero() {
   console.log(img, "img");
   useEffect(() => {
     const debouncedSearch = setTimeout(() => {
-      const filterImages = img!.resources.filter(({ public_id }) => {
+      const filterImages = img?.resources.filter(({ public_id }) => {
         const lowerCasedTitle = public_id.toLowerCase();
         const lowerCasedQuery = query.toLowerCase();
         return lowerCasedTitle.includes(lowerCasedQuery);

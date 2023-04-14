@@ -1,16 +1,16 @@
-export type IUser = {
+type TUser<T> = {
   email: string;
-  id: number;
+  id: T;
 };
-
-export type AuthResponse = {
+type AuthResponse = {
   refreshToken: string;
   accessToken: string;
-  user: IUser /* supposedly user data from the server */;
+  user: TUser<string> /* supposedly user data from the server */;
 };
 
-export type AuthData = {
+type AuthData = {
   email: string;
   password: string;
   confirmation?: string;
 };
+export type { TUser, AuthResponse, AuthData };

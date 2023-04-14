@@ -2,7 +2,7 @@ import { AlertColor } from "@mui/material";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
-interface ToastStore {
+type ToastStore = {
   message: string;
   severity: AlertColor;
   setMessage: (data: ToastData) => void;

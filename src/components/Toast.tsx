@@ -6,14 +6,11 @@ import { toastStyles } from "../styles/toast";
 export default function Toast() {
   const { setMessage, message, severity } = useToastStore();
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    timeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setMessage({ message: "", severity: "error" });
     }, 2000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [message]);
+    return () => clearTimeout(timeout);
+  }, [message, setMessage]);
 
   if (!message) return null;
 
