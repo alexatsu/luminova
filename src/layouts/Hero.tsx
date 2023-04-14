@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import useResizeWidth from "../hooks/useResizeWidth";
 import { Container, ImageList, ImageListItem, Typography } from "@mui/material";
 import { imagesStyles } from "../styles/imageCard";
+import { dummyImgData } from "./dummyData";
+import ImageSkeleton from "../components/ImageSkeleton";
 import { useImagesStore } from "../store/useImagesStore";
 
 const baseURL = "http://localhost:8080";
@@ -16,13 +18,19 @@ export default function Hero() {
   const width = useResizeWidth();
   const { query } = useImagesStore();
   const [img, setImg] = useState<null | ImageResources>();
-  const [initialImages, setInitialImages] = useState(img?.resources);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const [initialImages, setInitialImages] = useState(img?.resources);
+  const images: ImagesProps[] = dummyImgData;
   useEffect(() => {
     fetch(`${baseURL}/api/images`)
-      .then((response) => response.json())
-      .then((data) => setImg(data))
-      .catch((error) => console.error(error));
+      .then(response => {
+        setIsLoading(true);
+        return response.json();
+      })
+      .then(data => setImg(data))
+      .catch(error => console.error(error))
+      .finally(() => setIsLoading(false));
   }, []);
   console.log(img, "img");
   useEffect(() => {
