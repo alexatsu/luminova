@@ -22,6 +22,7 @@ export default function Hero() {
   const [initialImages, setInitialImages] = useState(img?.resources);
   // const images: ImagesProps[] = dummyImgData;
   useEffect(() => {
+    // fetch(`http://localhost:8080/api/images`)
     fetch(`https://unsplash-back.onrender.com/api/images`)
       .then(response => {
         setIsLoading(true);

@@ -68,7 +68,7 @@ const AuthBtn: FC<BtnAddPhotoProps> = ({ handleOpen }) => {
       }
     },
   });
-  const handleAuth: MouseEventHandler<HTMLButtonElement> = e => {
+  const handleAuth: MouseEventHandler<HTMLButtonElement> = (e) => {
     data?.email?.length ? logout() : handleOpen(e);
   };
 
@@ -88,7 +88,7 @@ export default function Navbar() {
   } = useModal();
 
   const { searchQuery } = useImagesStore();
-  const handleSearch: HandleSearchProps = event => searchQuery(event.target.value);
+  const handleSearch: HandleSearchProps = (event) => searchQuery(event.target.value);
   return (
     <header>
       <Box
