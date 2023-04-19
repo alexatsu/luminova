@@ -4,7 +4,7 @@ import { useImagesStore } from "../../store/useImagesStore";
 import { useEffect, useState } from "react";
 import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 import { ModalProps } from "./Modal.types";
-const baseURL = "http://localhost:8080";
+const baseURL = "https://unsplash-back.onrender.com";
 
 type InputsProps = {
   imageData: {
@@ -38,7 +38,6 @@ const Inputs = ({ imageData, setImageData }: InputsProps) => (
 );
 
 export default function ModalCard({ modalOpen, handleClose }: ModalProps) {
-  // const { addImage } = useImagesStore();
   const [loading, setLoading] = useState(false);
   const [doneLoading, setDoneLoading] = useState(false);
   const [imageData, setImageData] = useState({ title: "", url: "" });
