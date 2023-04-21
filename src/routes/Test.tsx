@@ -23,17 +23,21 @@ function App() {
       .then((res) => {
         setLoginData(res.data);
         console.log(res.data, "res.data");
+        localStorage.setItem("token", res.data.accessToken);
       })
       .catch((error) => setLoginData(error.message));
   }
 
   async function logout() {
-    await axios
-      .delete(url, {
-        withCredentials: true,
-      })
-      .then((res) => setLogoutData(res.data))
-      .catch((error) => setLogoutData(error.message));
+    const clearToken = localStorage.removeItem("token");
+    fetch("http://localhost:8080/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${clearToken}`,
+      },
+    });
+    console.log("logout");
   }
   async function Login(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -53,9 +57,9 @@ function App() {
       credentials: "include",
       body: JSON.stringify({ email, password }),
     }).then((res) => {
-      res.json().then(({ token }) => {
-        console.log(token, "data");
-        localStorage.setItem("token", token);
+      res.json().then(({ accessToken }) => {
+        console.log(accessToken, "data");
+        localStorage.setItem("token", accessToken);
       });
     });
   }
@@ -63,7 +67,6 @@ function App() {
     const token = localStorage.getItem("token");
     await fetch("http://localhost:8080/protected", {
       method: "GET",
-      mode: "cors",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -75,6 +78,17 @@ function App() {
       });
     });
   }
+  const test = () => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:8080/refresh", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+    })
+  };
   return (
     <div className="App">
       <div className="wrapper">
@@ -103,6 +117,9 @@ function App() {
       </div>
       <div>
         <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={test}>test</button>
       </div>
       <div className="wrapper">
         <h2>Logout</h2>
