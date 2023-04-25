@@ -87,7 +87,11 @@ function App() {
         Authorization: `Bearer ${token}`,
       },
       credentials: "include",
-    })
+    }).then((res) => {
+      res.json().then((data) => {
+        console.log(data, "refresh");
+      });
+    });
   };
   return (
     <div className="App">
