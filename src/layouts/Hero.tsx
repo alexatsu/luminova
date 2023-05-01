@@ -20,17 +20,22 @@ export default function Hero() {
   const [img, setImg] = useState<null | ImageResources>();
   const [isLoading, setIsLoading] = useState(false);
   const [initialImages, setInitialImages] = useState(img?.resources);
-  // const images: ImagesProps[] = dummyImgData;
+  const images: ImagesProps[] = dummyImgData;
+
   useEffect(() => {
     // fetch(`http://localhost:8080/api/images`)
-    fetch(`https://unsplash-back.onrender.com/api/images`)
+    fetch(`https://long-lime-caridea-slip.cyclic.app/api/images`)
       .then(response => {
         setIsLoading(true);
         return response.json();
       })
-      .then(data => setImg(data))
+      .then(data => {
+        console.log(data);
+        setImg(data);
+      })
       .catch(error => console.error(error))
       .finally(() => setIsLoading(false));
+      
   }, []);
   console.log(img, "img");
   useEffect(() => {

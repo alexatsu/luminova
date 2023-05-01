@@ -25,9 +25,8 @@ function App() {
         console.log(res.data, "res.data");
         localStorage.setItem("token", res.data.accessToken);
       })
-      .catch((error) => setLoginData(error.message));
+      .catch((error) => console.log(error.response.data));
   }
-
   async function logout() {
     const clearToken = localStorage.removeItem("token");
     fetch("http://localhost:8080/logout", {
@@ -78,7 +77,7 @@ function App() {
       });
     });
   }
-  const test = () => {
+  const refresh = () => {
     const token = localStorage.getItem("token");
     fetch("http://localhost:8080/refresh", {
       method: "POST",
@@ -123,7 +122,7 @@ function App() {
         <button onClick={protectedAccess}>Protected</button>
       </div>
       <div>
-        <button onClick={test}>test</button>
+        <button onClick={refresh}>test</button>
       </div>
       <div className="wrapper">
         <h2>Logout</h2>

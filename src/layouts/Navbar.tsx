@@ -38,6 +38,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ event }) => (
     variant="standard"
   />
 );
+
 const Logo = () => (
   <Typography sx={navstyles.logo} component={"h1"} fontWeight={"bold"} variant="h6">
     Unsplash

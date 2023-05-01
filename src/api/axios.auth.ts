@@ -15,6 +15,7 @@ export const authApi = axios.create({
   baseURL: APP_URL,
 });
 
+
 authApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("access_token")}`;
   return config;
