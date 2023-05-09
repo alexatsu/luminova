@@ -1,9 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+import { ProgressBar } from "@/components/ProgressBar";
 // import "./test.css";
 const url = `http://localhost:8080/api/session`;
-const urlregister = `http://localhost:8080/register`;
-const urllogin = `http://localhost:8080/login`;
+const urlregister = `http://localhost:8080/auth/register`;
+const urllogin = `http://localhost:8080/auth/login`;
 function App() {
   const [loginData, setLoginData] = useState();
   const [logoutData, setLogoutData] = useState();
@@ -29,7 +30,7 @@ function App() {
   }
   async function logout() {
     const clearToken = localStorage.removeItem("token");
-    fetch("http://localhost:8080/logout", {
+    fetch("http://localhost:8080/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +65,7 @@ function App() {
   }
   async function protectedAccess() {
     const token = localStorage.getItem("token");
-    await fetch("http://localhost:8080/protected", {
+    await fetch("http://localhost:8080/auth/protected", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +80,7 @@ function App() {
   }
   const refresh = () => {
     const token = localStorage.getItem("token");
-    fetch("http://localhost:8080/refresh", {
+    fetch("http://localhost:8080/auth/refresh", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -129,6 +130,217 @@ function App() {
         <button onClick={logout}>Logout</button>
         <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
       </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={register}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div className="data">{JSON.stringify(loginData)}</div>
+      </div>
+
+      <div>
+        <form onSubmit={Login}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div>
+        <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={refresh}>test</button>
+      </div>
+      <div className="wrapper">
+        <h2>Logout</h2>
+        <button onClick={logout}>Logout</button>
+        <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
+      </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={register}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div className="data">{JSON.stringify(loginData)}</div>
+      </div>
+
+      <div>
+        <form onSubmit={Login}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div>
+        <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={refresh}>test</button>
+      </div>
+      <div className="wrapper">
+        <h2>Logout</h2>
+        <button onClick={logout}>Logout</button>
+        <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
+      </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={register}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div className="data">{JSON.stringify(loginData)}</div>
+      </div>
+
+      <div>
+        <form onSubmit={Login}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div>
+        <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={refresh}>test</button>
+      </div>
+      <div className="wrapper">
+        <h2>Logout</h2>
+        <button onClick={logout}>Logout</button>
+        <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
+      </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={register}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div className="data">{JSON.stringify(loginData)}</div>
+      </div>
+
+      <div>
+        <form onSubmit={Login}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div>
+        <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={refresh}>test</button>
+      </div>
+      <div className="wrapper">
+        <h2>Logout</h2>
+        <button onClick={logout}>Logout</button>
+        <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
+      </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={register}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div className="data">{JSON.stringify(loginData)}</div>
+      </div>
+
+      <div>
+        <form onSubmit={Login}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div>
+        <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={refresh}>test</button>
+      </div>
+      <div className="wrapper">
+        <h2>Logout</h2>
+        <button onClick={logout}>Logout</button>
+        <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
+      </div>
+      <div className="wrapper">
+        <h2>Login</h2>
+        <form onSubmit={register}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Register</button>
+        </form>
+
+        <div className="data">{JSON.stringify(loginData)}</div>
+      </div>
+
+      <div>
+        <form onSubmit={Login}>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" placeholder="jane.doe@example.com" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password" placeholder="******" />
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+      <div>
+        <button onClick={protectedAccess}>Protected</button>
+      </div>
+      <div>
+        <button onClick={refresh}>test</button>
+      </div>
+      <div className="wrapper">
+        <h2>Logout</h2>
+        <button onClick={logout}>Logout</button>
+        <div className="data">{JSON.stringify(logoutData, null, 4)}</div>
+      </div>
+      <ProgressBar />
     </div>
   );
 }

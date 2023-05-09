@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-// import ImageCard from "../components/ImageCard";
-import useResizeWidth from "../hooks/useResizeWidth";
-import { Container, ImageList, ImageListItem, Typography } from "@mui/material";
-import { imagesStyles } from "../styles/imageCard";
-import { dummyImgData } from "./dummyData";
-import ImageSkeleton from "../components/ImageSkeleton";
-import { useImagesStore } from "../store/useImagesStore";
 
-const baseURL = "http://localhost:8080";
+import { Container, ImageList, ImageListItem, Typography } from "@mui/material";
+import { imagesStyles } from "@/styles/imageCard";
+import { dummyImgData } from "@/utils/dummyData";
+import { useImagesStore } from "@/store/useImagesStore";
+import { endpoints } from "@/utils";
+import { useResizeWidth } from "@/hooks";
+
 type ImagesProps = {
   public_id: string;
   url: string;
   filename: string;
 };
 type ImageResources = { resources: ImagesProps[] };
+
 export default function Hero() {
   const width = useResizeWidth();
   const { query } = useImagesStore();
@@ -24,18 +24,17 @@ export default function Hero() {
 
   useEffect(() => {
     // fetch(`http://localhost:8080/api/images`)
-    fetch(`https://long-lime-caridea-slip.cyclic.app/api/images`)
-      .then(response => {
+    fetch(endpoints.images.getImages)
+      .then((response) => {
         setIsLoading(true);
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         console.log(data);
         setImg(data);
       })
-      .catch(error => console.error(error))
+      .catch((error) => console.error(error))
       .finally(() => setIsLoading(false));
-      
   }, []);
   console.log(img, "img");
   useEffect(() => {
@@ -50,6 +49,8 @@ export default function Hero() {
     return () => clearTimeout(debouncedSearch);
   }, [img, query]);
 
+
+  //TODO: REMOVE CONTAINER FROM MUI (TAKES 1 MORE SECOND TO LOAD)
   return (
     <Container sx={{ marginTop: "100px" }}>
       <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
@@ -69,6 +70,6 @@ export default function Hero() {
           ))}
         </>
       </ImageList>
-    </Container>
+ </Container>
   );
 }

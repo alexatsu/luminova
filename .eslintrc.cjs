@@ -12,6 +12,7 @@ module.exports = {
     "plugin:react/jsx-runtime",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
+    "react-app",
   ],
   overrides: [],
   parser: "@typescript-eslint/parser",
@@ -27,6 +28,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
+    "@typescript-eslint/no-non-null-assertion": "off",
   },
   settings: {
     react: {
