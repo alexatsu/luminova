@@ -7,7 +7,7 @@ const FooterContainer = ({ children }: { children: React.ReactNode }) => (
     <Box style={{ display: "flex", alignItems: "center" }}>{children}</Box>
   </footer>
 );
-export default function Footer() {
+export function Footer() {
   return (
     <FooterContainer>
       <Link href="https://github.com/AlexanderKudr" target={"_blank"} sx={footerStyles.link}>

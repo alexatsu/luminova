@@ -16,8 +16,9 @@ export const imagesStyles = {
     color: "transparent",
     zIndex: "1",
     bottom: "10px",
-    left: "7px",
     transition: "all 0.15s linear",
     padding: "0 5px",
+    wordBreak: "break-word",
+    margin: '5px'
   },
 };

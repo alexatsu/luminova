@@ -1,16 +1,18 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { modalStyles } from "@/styles/modal";
-import { ModaCardProps } from "@/types/components";
-import { useUploadImage } from "@/hooks/useUploadImage";
-import { SetImageValuesProps } from "@/utils/functions";
+import { ModaCardProps } from "@/types";
+import { useUploadImage } from "@/hooks";
+import { SetImageValuesProps } from "@/types";
 import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 
+
+//TODO this component is temporally used for testing
 export function ModalCard({ modalOpen, handleClose }: ModaCardProps) {
   const { imageData, setImageData, addImageHandler, loading, doneLoading } = useUploadImage();
   const { url, title } = imageData;
   const { container, closeIcon } = modalStyles;
   const isAddButtonDisabled = title === "" || url === "";
-  
+
   const setImageValues: SetImageValuesProps = (event) => {
     const { name, value } = event.target;
     setImageData((prevImageData) => ({ ...prevImageData, [name]: value }));

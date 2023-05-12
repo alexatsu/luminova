@@ -1,15 +1,12 @@
 import { immer } from "zustand/middleware/immer";
 import { create } from "zustand";
-import { images } from "../assets/images";
 
-type ImagesStoreProps = {
-  img: typeof images;
-  query: string; //move it into separate store
+type SearchImagesProps = {
+  query: string;
   searchQuery: (query: string) => void;
 };
-export const useImagesStore = create<ImagesStoreProps>()(
+export const useSearchImagesStore = create<SearchImagesProps>()(
   immer((set) => ({
-    img: images,
     query: "",
 
     searchQuery: (query) => {
