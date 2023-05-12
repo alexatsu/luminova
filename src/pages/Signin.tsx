@@ -18,7 +18,6 @@ const useStyles = createStyles((theme) => ({
     backgroundImage:
       "url(https://images.unsplash.com/photo-1484242857719-4b9144542727?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1280&q=80)",
   },
-
   form: {
     borderRight: `${rem(1)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3]
@@ -26,10 +25,6 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     minWidth: "50%",
     paddingTop: rem(80),
-
-    [theme.fn.smallerThan("sm")]: {
-      maxWidth: "100%",
-    },
   },
 
   title: {
@@ -58,32 +53,46 @@ const useStyles = createStyles((theme) => ({
     },
     transition: "color 0.15s ease",
   },
+  input: {
+    width: "80%",
+    margin: "auto",
+  },
 }));
 
 export function Signin() {
   const { classes } = useStyles();
+  const { form, title, text, link, wrapper, input } = classes;
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%", height: "100%" }}>
-      <Paper className={classes.form} radius={0} p={30}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
+      <Paper className={form} radius={0} p={30}>
+        <Title order={2} className={title} ta="center" mt="md" mb={50}>
           Welcome back to Unsplash!
         </Title>
-
-        <TextInput label="Email address" placeholder="hello@gmail.com" size="md" />
-        <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" />
-        <Checkbox label="Keep me logged in" mt="xl" size="md" />
-        <Button fullWidth mt="xl" size="md">
+        <TextInput
+          className={input}
+          label="Email address"
+          placeholder="hello@gmail.com"
+          size="md"
+        />
+        <PasswordInput
+          className={input}
+          label="Password"
+          placeholder="Your password"
+          mt="md"
+          size="md"
+        />
+        <Checkbox className={input} label="Keep me logged in" mt="xl" size="md" />
+        <Button className={input} fullWidth mt="xl" size="md">
           Login
         </Button>
-
-        <div className={classes.text}>
+        <div className={text}>
           <span>Don&apos;t have an account? </span>
-          <Link className={classes.link} to="/signup" onClick={(event) => event.preventDefault()}>
+          <Link className={link} to="/signup">
             Signup
           </Link>
         </div>
       </Paper>
-      <div className={classes.wrapper}></div>
+      <div className={wrapper}></div>
     </div>
   );
 }

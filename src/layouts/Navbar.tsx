@@ -6,7 +6,8 @@ import { navstyles } from "@/styles/navbar";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
 import { Logo, ProgressBar, ModalCard } from "@/components";
-import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
+import { Box, TextField, InputAdornment, IconButton, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
@@ -34,11 +35,16 @@ export function Navbar() {
             variant="standard"
           />
         </Box>
-        <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add">
-          <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
-            <CloudDownloadIcon />
-          </IconButton>
-        </Tooltip>
+        <Box>
+          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add">
+            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
+              <CloudDownloadIcon />
+            </IconButton>
+          </Tooltip>
+          <Link to="/signin">
+            <Button sx={{ color: "black" }}>Login</Button>
+          </Link>
+        </Box>
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
       <ProgressBar />

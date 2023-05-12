@@ -4,7 +4,7 @@ export function Home() {
   return (
     <div
       style={{
-        height: "100%",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",

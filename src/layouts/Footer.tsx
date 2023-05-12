@@ -10,10 +10,7 @@ const FooterContainer = ({ children }: { children: React.ReactNode }) => (
 export function Footer() {
   return (
     <FooterContainer>
-      <Link href="https://github.com/AlexanderKudr" target={"_blank"} sx={footerStyles.link}>
-        <GitHubIcon />
-      </Link>
-      <Typography sx={{ marginLeft: "5px", marginTop: "-3px" }}>Developed by Alex</Typography>
+      <Typography sx={{ marginLeft: "5px", marginTop: "-3px" }}>Great Unsplash</Typography>
     </FooterContainer>
   );
 }
