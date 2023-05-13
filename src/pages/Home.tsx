@@ -1,6 +1,6 @@
 import { Navbar, Hero, Footer } from "@/layouts";
 
-export function Home() {
+const Container = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{
@@ -10,9 +10,16 @@ export function Home() {
         justifyContent: "space-between",
       }}
     >
+      {children}
+    </div>
+  );
+};
+export function Home() {
+  return (
+    <Container>
       <Navbar />
       <Hero />
       <Footer />
-    </div>
+    </Container>
   );
 }

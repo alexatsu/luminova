@@ -1,6 +1,5 @@
-import GitHubIcon from "@mui/icons-material/GitHub";
 import { footerStyles } from "@/styles/footer";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 const FooterContainer = ({ children }: { children: React.ReactNode }) => (
   <footer style={footerStyles.container}>

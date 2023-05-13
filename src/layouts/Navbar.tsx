@@ -41,7 +41,7 @@ export function Navbar() {
               <CloudDownloadIcon />
             </IconButton>
           </Tooltip>
-          <Link to="/signin">
+          <Link to="/login">
             <Button sx={{ color: "black" }}>Login</Button>
           </Link>
         </Box>

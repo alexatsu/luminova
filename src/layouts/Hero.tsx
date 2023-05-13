@@ -44,5 +44,5 @@ export function Hero() {
     </ImageList>
   );
 
-  return <Box>{isLoading ? <Loader /> : <Images />}</Box>;
+  return <Box sx={{margin: "auto"}}>{isLoading ? <Loader /> : <Images />}</Box>;
 }

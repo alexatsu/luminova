@@ -1,13 +1,6 @@
-import {
-  Paper,
-  createStyles,
-  TextInput,
-  PasswordInput,
-  Checkbox,
-  Button,
-  Title,
-  rem,
-} from "@mantine/core";
+import { reuseFetch } from "@/services/fetch";
+import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -56,42 +49,66 @@ const useStyles = createStyles((theme) => ({
   input: {
     width: "80%",
     margin: "auto",
+    marginTop: "1rem",
+  },
+  paragraph: {
+    marginTop: "1rem",
+    fontSize: "0.8rem",
+    color: "grey",
+    textAlign: "center",
   },
 }));
 
-export function Signin() {
+export function Join() {
+  const { register } = reuseFetch();
+  const [userData, setUserData] = useState({ email: "", password: "" });
   const { classes } = useStyles();
-  const { form, title, text, link, wrapper, input } = classes;
+  const { form, title, text, link, wrapper, input, paragraph } = classes;
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%", height: "100%" }}>
-      <Paper className={form} radius={0} p={30}>
+      <form
+        className={form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          register(userData);
+        }}
+      >
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
-          Welcome back to Unsplash!
+          Join Unsplash
         </Title>
+        <TextInput className={input} label="Username" placeholder="John Doe" size="md" />
         <TextInput
           className={input}
           label="Email address"
           placeholder="hello@gmail.com"
           size="md"
+          onChange={(e) => setUserData((prevData) => ({ ...prevData, email: e.target.value }))}
+          value={userData.email}
         />
         <PasswordInput
           className={input}
           label="Password"
           placeholder="Your password"
-          mt="md"
           size="md"
+          onChange={(e) => setUserData((prevData) => ({ ...prevData, password: e.target.value }))}
+          value={userData.password}
         />
-        <Checkbox className={input} label="Keep me logged in" mt="xl" size="md" />
-        <Button className={input} fullWidth mt="xl" size="md">
-          Login
+
+        <Button className={input} fullWidth mt="xl" size="md" type="submit">
+          Join
         </Button>
         <div className={text}>
-          <span>Don&apos;t have an account? </span>
-          <Link className={link} to="/signup">
-            Signup
+          <span>Already have an account?</span>
+          <Link className={link} to="/login">
+            Login
           </Link>
         </div>
-      </Paper>
+        <Text className={paragraph}>
+          By joining, you agree to the{" "}
+          <span style={{ textDecoration: "underline", cursor: "pointer" }}>Terms</span> and{" "}
+          <span style={{ textDecoration: "underline", cursor: "pointer" }}>Privacy Policy</span>.
+        </Text>
+      </form>
       <div className={wrapper}></div>
     </div>
   );

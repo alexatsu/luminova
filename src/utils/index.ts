@@ -1,3 +1,3 @@
-import { endpoints } from "./urls";
+import { endpoints, authEndpoints, baseURL } from "./urls";
 
-export { endpoints };
+export { endpoints, authEndpoints, baseURL };

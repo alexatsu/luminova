@@ -1,5 +1,6 @@
 import { Home } from "./Home";
-import { Signin } from "./Signin";
-import { Signup } from "./Signup";
+import { Login } from "./Login";
+import { Join } from "./Join";
+import {Error} from "./Error"
 
-export { Home, Signin, Signup };
+export { Home, Login, Join, Error };
