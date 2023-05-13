@@ -8,7 +8,6 @@ type SearchImagesProps = {
 export const useSearchImagesStore = create<SearchImagesProps>()(
   immer((set) => ({
     query: "",
-
     searchQuery: (query) => {
       set((state) => {
         state.query = query;

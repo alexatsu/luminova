@@ -8,8 +8,8 @@ import { Box, ImageList, ImageListItem, Typography } from "@mui/material";
 
 export function Hero() {
   const width = useResizeWidth();
-  const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
   const { query } = useSearchImagesStore();
+  const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
   const [initialImages, setInitialImages] = useState(data?.resources);
 
   useEffect(() => {
