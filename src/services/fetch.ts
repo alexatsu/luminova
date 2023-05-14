@@ -8,7 +8,6 @@ export function reuseFetch() {
       .post(authEndpoints.register, { email, password }, { withCredentials: true })
       .then((res) => {
         console.log(res.data, "res.data");
-        localStorage.setItem("token", res.data.accessToken);
       })
       .catch((error) => console.log(error));
   };
@@ -41,6 +40,7 @@ export function reuseFetch() {
       });
     });
   };
+
   const protectedAccess = async () => {
     const token = localStorage.getItem("token");
     await fetch(authEndpoints.protect, {
@@ -56,6 +56,7 @@ export function reuseFetch() {
       });
     });
   };
+  
   const refresh = () => {
     const token = localStorage.getItem("token");
     fetch(authEndpoints.refresh, {

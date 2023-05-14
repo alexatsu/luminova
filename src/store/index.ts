@@ -1,3 +1,4 @@
+import { useUserStore } from '@/store/useUserStore';
 import { useSearchImagesStore } from '@/store/useSearchImagesStore';
 
-export { useSearchImagesStore }
+export { useSearchImagesStore, useUserStore }

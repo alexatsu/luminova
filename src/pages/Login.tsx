@@ -1,4 +1,5 @@
 import { reuseFetch } from "@/services/fetch";
+import { authEndpoints } from "@/utils";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -55,7 +56,23 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles();
-  const { Login } = reuseFetch();
+
+  const Login = async (data: { email: string; password: string }) => {
+    const { email, password } = data;
+    await fetch(authEndpoints.login, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    }).then((res) =>
+      res.json().then(({ accessToken }) => {
+        console.log(accessToken, "data");
+        localStorage.setItem("accessToken", accessToken);
+      })
+    );
+  };
   const [userData, setUserData] = useState({ email: "", password: "" });
   const { form, title, text, link, wrapper, input } = classes;
   return (
@@ -98,6 +115,7 @@ export function Login() {
           </Link>
         </div>
       </form>
+      <div onClick={() => console.log(localStorage.getItem("accessToken"))}>check token</div>
       <div className={wrapper}></div>
     </div>
   );

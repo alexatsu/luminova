@@ -1,10 +1,13 @@
 import { reuseFetch } from "@/services/fetch";
+import { authEndpoints } from "@/utils";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
+import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
-  wrapper: {
+  container: { display: "flex", justifyContent: "center", width: "100%", height: "100%" },
+  image: {
     minWidth: "50%",
     minHeight: "100%",
     backgroundSize: "cover",
@@ -60,12 +63,22 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function Join() {
-  const { register } = reuseFetch();
+
+  const register = async (data: { email: string; password: string }) => {
+    const { email, password } = data;
+    await axios
+      .post(authEndpoints.register, { email, password })
+      .then((res) => {
+        console.log(res.data, "res.data");
+        localStorage.setItem("accessToken", res.data.accessToken);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
   const [userData, setUserData] = useState({ email: "", password: "" });
   const { classes } = useStyles();
-  const { form, title, text, link, wrapper, input, paragraph } = classes;
+  const { form, title, text, link, image, input, paragraph, container } = classes;
   return (
-    <div style={{ display: "flex", justifyContent: "center", width: "100%", height: "100%" }}>
+    <div className={container}>
       <form
         className={form}
         onSubmit={(e) => {
@@ -109,7 +122,8 @@ export function Join() {
           <span style={{ textDecoration: "underline", cursor: "pointer" }}>Privacy Policy</span>.
         </Text>
       </form>
-      <div className={wrapper}></div>
+      <div onClick={() => console.log(localStorage.getItem("accessToken"))}>check token</div>
+      <div className={image}></div>
     </div>
   );
 }

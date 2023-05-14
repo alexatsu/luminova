@@ -9,8 +9,8 @@ const endpoints = {
   },
 };
 
-// const authURL = "http://localhost:8080/auth";
-const authURL = "http://kotatsu.fun:8080/auth";
+const authURL = "http://localhost:8080/auth";
+// const authURL = "http://kotatsu.fun:8080/auth";
 
 const authEndpoints = {
   login: `${authURL}/login`,

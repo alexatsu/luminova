@@ -5,15 +5,14 @@
 - Add tooltip to "Add photo" button (done)
 - Add progress bar (done)
 - Fix footer bug when filtering images, when backend is ready (done)
+- Add Signup and Signin pages (done)
 
-- Finish refactoring
-- Add Signup and Signin pages
-- Test JWT auth
+- Test JWT auth (register, login, protected, refresh, logout)
+- Add to favorites
 - Add validation to signing
 - Add skeleton when images are loading, when backend is ready
+- Finish refactoring
 
-- (optional) auth
-- (optional) add to favorites
 - (optional) ai image generator
 - (optional) Add photo from a local machine
 - (optional) Add proper validation
