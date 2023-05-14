@@ -9,16 +9,21 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
 import { Logo, ProgressBar, ModalCard } from "@/components";
 import { Link } from "react-router-dom";
-import { memo, useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
+
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const { searchQuery } = useSearchImagesStore();
 
-  const User = memo(() => {
+  const User = () => {
     const token = localStorage.getItem("accessToken");
     return token ? (
-      <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Account details">
+      <Tooltip
+        placement={"bottom"}
+        TransitionComponent={Fade}
+        title="Account details"
+        enterDelay={400}
+      >
         <IconButton sx={navstyles.btnAddPhoto}>
           <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
         </IconButton>
@@ -28,8 +33,7 @@ export function Navbar() {
         <Button sx={{ color: "black" }}>Login</Button>
       </Link>
     );
-  });
-  User.displayName = "User";
+  };
   return (
     <nav>
       <Box
@@ -53,7 +57,7 @@ export function Navbar() {
           />
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add">
+          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add" enterDelay={400}>
             <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
               <CloudDownloadIcon />
             </IconButton>
