@@ -42,21 +42,21 @@ export function reuseFetch() {
   };
 
   const protectedAccess = async () => {
-    const token = localStorage.getItem("token");
-    await fetch(authEndpoints.protect, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      credentials: "include",
-    }).then((res) => {
-      res.json().then((data) => {
-        console.log(data, "protected");
+    const token = localStorage.getItem("accessToken");
+    try {
+      const response = await fetch(authEndpoints.protect, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
-    });
+      console.log(response, "protected");
+    } catch (error) {
+      console.log(error);
+    }
   };
-  
+
   const refresh = () => {
     const token = localStorage.getItem("token");
     fetch(authEndpoints.refresh, {

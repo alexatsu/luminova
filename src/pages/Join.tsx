@@ -67,7 +67,7 @@ export function Join() {
   const register = async (data: { email: string; password: string }) => {
     const { email, password } = data;
     await axios
-      .post(authEndpoints.register, { email, password })
+      .post(authEndpoints.register, { email, password }, { withCredentials: true })
       .then((res) => {
         console.log(res.data, "res.data");
         localStorage.setItem("accessToken", res.data.accessToken);
@@ -122,7 +122,6 @@ export function Join() {
           <span style={{ textDecoration: "underline", cursor: "pointer" }}>Privacy Policy</span>.
         </Text>
       </form>
-      <div onClick={() => console.log(localStorage.getItem("accessToken"))}>check token</div>
       <div className={image}></div>
     </div>
   );

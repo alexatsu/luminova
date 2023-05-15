@@ -1,6 +1,7 @@
 import {  createBrowserRouter } from "react-router-dom";
 import Test from "./Test";
 import { Home, Login, Join, Error } from "@/pages";
+import { Favorites } from "@/pages/Favorites";
 
 export const routes = createBrowserRouter([
   {
@@ -20,4 +21,8 @@ export const routes = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
+  {
+    path: "favorites",
+    element: <Favorites/>
+  }
 ]);
