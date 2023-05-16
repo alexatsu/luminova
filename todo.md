@@ -12,6 +12,7 @@
 - Add validation to signing
 - Add skeleton when images are loading, when backend is ready
 - Finish refactoring
+- Drop Mantine or Mui
 
 - (optional) ai image generator
 - (optional) Add photo from a local machine

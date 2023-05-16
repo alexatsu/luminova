@@ -3,9 +3,10 @@ type ImagesProps = {
   public_id: string;
   url: string;
   filename: string;
+  active: boolean;
 };
 type ImageResources = { resources: ImagesProps[] };
-
+export type { ImageResources, ImagesProps };
 export const useFetchImageData = (url: string) => {
   const [data, setData] = useState<ImageResources>();
   const [isLoading, setIsLoading] = useState(false);
