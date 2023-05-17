@@ -20,7 +20,7 @@ export default function Hero() {
   const [img, setImg] = useState<null | ImageResources>();
   const [isLoading, setIsLoading] = useState(false);
   const [initialImages, setInitialImages] = useState(img?.resources);
-  // const images: ImagesProps[] = dummyImgData;
+  const images: ImagesProps[] = dummyImgData;
   useEffect(() => {
     fetch(`https://unsplash-back.onrender.com/api/images`)
       .then(response => {
@@ -48,7 +48,7 @@ export default function Hero() {
     <Container sx={{ marginTop: "100px" }}>
       <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
         <>
-          {initialImages?.map(({ public_id, url, filename }) => (
+          {images?.map(({ public_id, url, filename }) => (
             <ImageListItem key={public_id} sx={imagesStyles.container}>
               <img
                 src={url}
