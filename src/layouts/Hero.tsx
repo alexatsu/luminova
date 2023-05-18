@@ -3,7 +3,7 @@ import { endpoints } from "@/utils";
 import { imagesStyles } from "@/styles/imageCard";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
 import { useResizeWidth, useFetchImageData } from "@/hooks";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Box, ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/material";
 import { Button, Sx } from "@mantine/core";
 import { AiFillHeart } from "react-icons/ai";
@@ -21,6 +21,7 @@ export function Hero() {
     container: SxProps<Theme>;
     title: SxProps<Theme>;
   };
+
   const addImagesToFavorites = (id: ImagesProps["public_id"]) => {
     setInitialImages((prevImages) =>
       prevImages!.map((image) =>
@@ -40,7 +41,7 @@ export function Hero() {
     }, 500);
     return () => clearTimeout(debouncedSearch);
   }, [data, query]);
-
+  console.log(data)
   const Images = () => (
     <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
       <>
@@ -49,7 +50,7 @@ export function Hero() {
             <img
               src={url}
               alt={filename}
-              loading={"eager"}
+              loading={"lazy"}
               style={{
                 width: "100%",
                 height: "100%",

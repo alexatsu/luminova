@@ -4,7 +4,7 @@ import "@/styles/components/progressBar.css";
 export const ProgressBar = () => {
   const progressBar = () => {
     const pixelsFromTop = window.scrollY;
-    const documentHeight = document.body.clientHeight;
+    const documentHeight = document.body.scrollHeight;
     const windowHeight = window.innerHeight;
     const difference = documentHeight - windowHeight;
     const percentage = (100 * pixelsFromTop) / difference;

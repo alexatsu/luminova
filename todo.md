@@ -13,6 +13,7 @@
 - Add skeleton when images are loading, when backend is ready
 - Finish refactoring
 - Drop Mantine or Mui
+- Switch to scss for scalability
 
 - (optional) ai image generator
 - (optional) Add photo from a local machine
