@@ -4,11 +4,17 @@
 - Add validation when adding new photos, simple is enough (done)
 - Add tooltip to "Add photo" button (done)
 - Add progress bar (done)
-- Add skeleton when images are loading, when backend is ready
-- Fix footer bug when filtering images, when backend is ready 
+- Fix footer bug when filtering images, when backend is ready (done)
+- Add Signup and Signin pages (done)
 
-- (optional) auth
-- (optional) add to favorites
+- Test JWT auth (register, login, protected, refresh, logout)
+- Add to favorites
+- Add validation to signing
+- Add skeleton when images are loading, when backend is ready
+- Finish refactoring
+- Drop Mantine or Mui
+- Switch to scss for scalability
+
 - (optional) ai image generator
 - (optional) Add photo from a local machine
 - (optional) Add proper validation

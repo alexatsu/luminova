@@ -1,26 +1,17 @@
-import App from "./App";
+import "./styles/reset.css";
+import "./styles/main.scss"
 import React from "react";
 import ReactDOM from "react-dom/client";
-import CssBaseline from "@mui/material/CssBaseline";
-import "./styles/reset.css";
-import { QueryClient, QueryClientProvider } from "react-query";
-import AuthProvider from "./provider/AuthProvider";
+import { routes } from "./routes";
+import { RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 1000,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <CssBaseline />
-        <App />
-      </AuthProvider>
+      <RouterProvider router={routes} />
     </QueryClientProvider>
   </React.StrictMode>
 );

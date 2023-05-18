@@ -1,23 +1,46 @@
 export const imagesStyles = {
   container: {
     position: "relative",
-    transition: "all 0.15s ease-in-out",
-    opacity: 0.97,
-
-    ":hover": { transform: "scale(0.99)", opacity: 1 },
-    ":hover .MuiTypography-root": {
-      color: "#ededed",
-      backgroundColor: "#141414",
+    "& img": {
+      transition: "all 0.15s ease-in-out",
     },
-    ":hover .delete": { opacity: 1 },
+    "&:hover img": {
+      filter: ({ active }: { active: boolean }) => (active ? "brightness(90%)" : "none"), // apply filter based on active state
+      transition: "all 0.15s ease-in-out",
+    },
+    "& button": {
+      opacity: 0,
+    },
+    "&:hover button": {
+      opacity: 1,
+    },
   },
+  buttonHeart: {
+    backgroundColor: "#d9d8d8",
+    "&:hover": { backgroundColor: "#f2f2f2" },
+    "& svg": { fill: "grey", transition: "all 0.15s ease" },
+    "&:hover svg": { fill: "black" },
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+  }, //TODO switch to sass
+  buttonHeartActive: {
+    backgroundColor: "rgb(231, 76, 76)",
+    "&:hover": { backgroundColor: "rgb(200, 65, 65)" },
+    "& svg": { fill: "#d9d8d8" },
+    position: "absolute",
+    right: "10px",
+    top: "10px",
+  },
+
   title: {
     position: "absolute",
     color: "transparent",
     zIndex: "1",
     bottom: "10px",
-    left: "7px",
     transition: "all 0.15s linear",
     padding: "0 5px",
+    wordBreak: "break-word",
+    margin: "5px",
   },
 };

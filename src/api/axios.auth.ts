@@ -1,5 +1,4 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { AuthResponse } from "../types/User.types";
 
 export const APP_URL = "http://localhost:3000";
 
@@ -15,6 +14,7 @@ export const authApi = axios.create({
   baseURL: APP_URL,
 });
 
+
 authApi.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   config.headers.Authorization = `Bearer ${localStorage.getItem("access_token")}`;
   return config;
@@ -29,7 +29,7 @@ authApi.interceptors.response.use(
     if (error.response.status === 401 && error.config && !error.config._isRetry) {
       try {
         origRequest._isRetry = true;
-        const res = await axios.get<AuthResponse>(`${APP_URL}${AUTH_ENDPOINTS.REFRESH}`, {
+        const res = await axios.get(`${APP_URL}${AUTH_ENDPOINTS.REFRESH}`, {
           withCredentials: true,
         });
         localStorage.setItem("access_token", res.data.accessToken);

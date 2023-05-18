@@ -1,110 +1,109 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
-import Button from "@mui/material/Button";
-import useModal from "../hooks/useModal";
-import ModalCard from "../components/modals/ModalCard";
 import SearchIcon from "@mui/icons-material/Search";
+import { Box, TextField, InputAdornment, IconButton, Button } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import { navstyles } from "../styles/navbar";
-import { useImagesStore } from "../store/useImagesStore";
-import { MouseEventHandler, ChangeEventHandler, ChangeEvent, FC } from "react";
-import { Box, Typography, TextField, InputAdornment, IconButton } from "@mui/material";
-import { ProgressBar } from "../components/ProgressBar";
-import AuthModal from "../components/modals/AuthModal";
-import { useAuthStore } from "../store/useAuthStore";
-import { logoutUserFn } from "../service/user.service";
-import { useMutation } from "react-query";
-import Toast from "../components/Toast";
-import { useToastStore } from "../store/useToastStore";
 
-type SearchInputProps = {
-  event: (event: ChangeEvent<HTMLInputElement>) => void;
-};
-type HandleSearchProps = ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-type BtnAddPhotoProps = { handleOpen: MouseEventHandler<HTMLButtonElement> };
+import { Menu } from "@mantine/core";
+import { useModal } from "@/hooks";
+import { navstyles } from "@/styles/navbar";
+import { useSearchImagesStore } from "@/store/useSearchImagesStore";
+import { Logo, ProgressBar, ModalCard } from "@/components";
+import { Link } from "react-router-dom";
+import { BiUserCircle } from "react-icons/bi";
+import { authEndpoints } from "@/utils";
+import { useState } from "react";
 
-const SearchInput: React.FC<SearchInputProps> = ({ event }) => (
-  <TextField
-    placeholder="Search photos"
-    sx={navstyles.searchInput}
-    onChange={event}
-    InputProps={{
-      startAdornment: (
-        <InputAdornment position="start">
-          <SearchIcon />
-        </InputAdornment>
-      ),
-    }}
-    variant="standard"
-  />
-);
-const Logo = () => (
-  <Typography sx={navstyles.logo} component={"h1"} fontWeight={"bold"} variant="h6">
-    Unsplash
-  </Typography>
-);
-const BtnAddPhoto = ({ handleOpen }: BtnAddPhotoProps) => (
-  <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add">
-    <IconButton children={<CloudDownloadIcon />} sx={navstyles.btnAddPhoto} onClick={handleOpen} />
-  </Tooltip>
-);
 
-const AuthBtn: FC<BtnAddPhotoProps> = ({ handleOpen }) => {
-  /* checking by email is temporary */
-  const { data, setUser } = useAuthStore();
-  const { setMessage } = useToastStore();
+export function Navbar() {
+  const { modalOpen, handleOpen, handleClose } = useModal();
+  const { searchQuery } = useSearchImagesStore();
+  const [token, setToken] = useState(localStorage.getItem("accessToken"));
 
-  const { mutate: logout } = useMutation(() => logoutUserFn(), {
-    onSuccess: () => {
-      delete localStorage["access_token"];
-      setMessage({ message: "Logged out successfully!", severity: "success" });
-      setUser({ email: "", id: 0 });
-    },
-    onError: (error: any) => {
-      if (error.response?.data?.message) {
-        setMessage({ message: error.response?.data?.message, severity: "error" });
-      } else {
-        setMessage({ message: "Something went wrong!", severity: "error" });
-      }
-    },
-  });
-  const handleAuth: MouseEventHandler<HTMLButtonElement> = e => {
-    data?.email?.length ? logout() : handleOpen(e);
+  const logoutUser = async (token: string | null) => {
+    try {
+      const response = await fetch(authEndpoints.logout, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      console.log(data, "logout");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setToken(null);
+      localStorage.removeItem("accessToken");
+    }
+  };
+
+  const User = () => {
+    return token ? (
+      <Menu shadow="md" width={200}>
+        <Menu.Target>
+          <Tooltip
+            placement={"bottom"}
+            TransitionComponent={Fade}
+            title="Account details"
+            enterDelay={400}
+          >
+            <IconButton sx={navstyles.btnAddPhoto}>
+              <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
+            </IconButton>
+          </Tooltip>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item>View Profile</Menu.Item>
+          <Menu.Item>Stats</Menu.Item>
+          <Menu.Item>Account settings</Menu.Item>
+          <Menu.Divider />
+          <Menu.Item onClick={() => logoutUser(token)}>Logout</Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    ) : (
+      <Link to="/login">
+        <Button sx={{ color: "black" }}>Login</Button>
+      </Link>
+    );
   };
 
   return (
-    <Button disableRipple sx={navstyles.authBtn()} onClick={handleAuth}>
-      {data?.email?.length ? "Logout" : "Login"}
-    </Button>
-  );
-};
-
-export default function Navbar() {
-  const { modalOpen, handleOpen, handleClose } = useModal();
-  const {
-    modalOpen: authOpen,
-    handleOpen: handleAuthOpen,
-    handleClose: handleAuthClose,
-  } = useModal();
-
-  const { searchQuery } = useImagesStore();
-  const handleSearch: HandleSearchProps = event => searchQuery(event.target.value);
-  return (
-    <header>
+    <nav>
       <Box
         sx={navstyles.container}
         className="mui-fixed" /*don't touch class name, it fixes mui modal (reference FAQ section)*/
       >
         <Box sx={{ display: "flex", alignItems: "space-between" }}>
           <Logo />
-          <SearchInput event={handleSearch} />
+          <TextField
+            placeholder="Search photos"
+            sx={navstyles.searchInput}
+            onChange={(event) => searchQuery(event.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            variant="standard"
+          />
         </Box>
-        <BtnAddPhoto handleOpen={handleOpen} />
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add" enterDelay={400}>
+            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
+              <CloudDownloadIcon />
+            </IconButton>
+          </Tooltip>
+          <User />
+        </Box>
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
-        <AuthBtn handleOpen={handleAuthOpen} />
-        <AuthModal handleClose={handleAuthClose} modalOpen={authOpen} />
       </Box>
       <ProgressBar />
-    </header>
+    </nav>
   );
 }

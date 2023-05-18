@@ -1,40 +1,38 @@
-import { useEffect, useState } from "react";
-// import ImageCard from "../components/ImageCard";
-import useResizeWidth from "../hooks/useResizeWidth";
-import { Container, ImageList, ImageListItem, Typography } from "@mui/material";
-import { imagesStyles } from "../styles/imageCard";
-import { dummyImgData } from "./dummyData";
-import ImageSkeleton from "../components/ImageSkeleton";
-import { useImagesStore } from "../store/useImagesStore";
+import { Loader } from "@/components/Loader";
+import { endpoints } from "@/utils";
+import { imagesStyles } from "@/styles/imageCard";
+import { useSearchImagesStore } from "@/store/useSearchImagesStore";
+import { useResizeWidth, useFetchImageData } from "@/hooks";
+import {  useEffect, useState } from "react";
+import { Box, ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/material";
+import { Button, Sx } from "@mantine/core";
+import { AiFillHeart } from "react-icons/ai";
+import { ImagesProps } from "@/hooks/useFetchImageData";
 
-const baseURL = "http://localhost:8080";
-type ImagesProps = {
-  public_id: string;
-  url: string;
-  filename: string;
-};
-type ImageResources = { resources: ImagesProps[] };
-export default function Hero() {
+export function Hero() {
   const width = useResizeWidth();
-  const { query } = useImagesStore();
-  const [img, setImg] = useState<null | ImageResources>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [initialImages, setInitialImages] = useState(img?.resources);
-  const images: ImagesProps[] = dummyImgData;
-  useEffect(() => {
-    fetch(`https://unsplash-back.onrender.com/api/images`)
-      .then(response => {
-        setIsLoading(true);
-        return response.json();
-      })
-      .then(data => setImg(data))
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false));
-  }, []);
-  console.log(img, "img");
+  const { query } = useSearchImagesStore();
+  const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
+  const [initialImages, setInitialImages] = useState(data?.resources);
+
+  const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
+    buttonHeart: Sx;
+    buttonHeartActive: Sx;
+    container: SxProps<Theme>;
+    title: SxProps<Theme>;
+  };
+
+  const addImagesToFavorites = (id: ImagesProps["public_id"]) => {
+    setInitialImages((prevImages) =>
+      prevImages!.map((image) =>
+        image.public_id === id ? { ...image, active: !image.active } : image
+      )
+    );
+  };
+
   useEffect(() => {
     const debouncedSearch = setTimeout(() => {
-      const filterImages = img?.resources.filter(({ public_id }) => {
+      const filterImages = data?.resources.filter(({ public_id }) => {
         const lowerCasedTitle = public_id.toLowerCase();
         const lowerCasedQuery = query.toLowerCase();
         return lowerCasedTitle.includes(lowerCasedQuery);
@@ -42,27 +40,37 @@ export default function Hero() {
       setInitialImages(filterImages);
     }, 500);
     return () => clearTimeout(debouncedSearch);
-  }, [img, query]);
-
-  return (
-    <Container sx={{ marginTop: "100px" }}>
-      <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
-        <>
-          {images?.map(({ public_id, url, filename }) => (
-            <ImageListItem key={public_id} sx={imagesStyles.container}>
-              <img
-                src={url}
-                alt={filename}
-                loading={"lazy"}
-                style={{ width: "100%", height: "100%" }}
-              />
-              <Typography sx={imagesStyles.title} variant={"h5"}>
-                {filename}
-              </Typography>
-            </ImageListItem>
-          ))}
-        </>
-      </ImageList>
-    </Container>
+  }, [data, query]);
+  console.log(data)
+  const Images = () => (
+    <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
+      <>
+        {initialImages?.map(({ public_id, url, filename, active }) => (
+          <ImageListItem key={public_id} sx={container}>
+            <img
+              src={url}
+              alt={filename}
+              loading={"lazy"}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "8px",
+              }}
+            />
+            <Button
+              sx={active ? buttonHeartActive : buttonHeart}
+              onClick={() => addImagesToFavorites(public_id)}
+            >
+              <AiFillHeart size={16} />
+            </Button>
+            <Typography sx={title} variant={"h5"}>
+              {public_id}
+            </Typography>
+          </ImageListItem>
+        ))}
+      </>
+    </ImageList>
   );
+
+  return <Box sx={{ margin: "auto" }}>{isLoading ? <Loader /> : <Images />}</Box>;
 }
