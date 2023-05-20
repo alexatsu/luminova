@@ -1,6 +1,6 @@
-const baseURL = "http://localhost:8080";
+// const baseURL = "http://localhost:8080";
 // const baseURL = "https://long-lime-caridea-slip.cyclic.app";
-// const baseURL = "http://kotatsu.fun:8000/api";
+const baseURL = "http://kotatsu.fun:8000/api";
 const images = "/images";
 
 const endpoints = {
