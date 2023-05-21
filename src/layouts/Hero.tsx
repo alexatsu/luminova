@@ -3,7 +3,7 @@ import { endpoints } from "@/utils";
 import { imagesStyles } from "@/styles/imageCard";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
 import { useResizeWidth, useFetchImageData } from "@/hooks";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/material";
 import { Button, Sx } from "@mantine/core";
 import { AiFillHeart } from "react-icons/ai";
@@ -14,7 +14,7 @@ export function Hero() {
   const { query } = useSearchImagesStore();
   const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
   const [initialImages, setInitialImages] = useState(data?.resources);
-
+  
   const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
     buttonHeart: Sx;
     buttonHeartActive: Sx;
@@ -41,7 +41,8 @@ export function Hero() {
     }, 500);
     return () => clearTimeout(debouncedSearch);
   }, [data, query]);
-  console.log(data)
+  console.log(data);
+
   const Images = () => (
     <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
       <>
@@ -63,8 +64,8 @@ export function Hero() {
             >
               <AiFillHeart size={16} />
             </Button>
-            <Typography sx={title} variant={"h5"}>
-              {public_id}
+            <Typography sx={title} variant={"h5"} className="title">
+              {filename}
             </Typography>
           </ImageListItem>
         ))}

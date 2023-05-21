@@ -1,5 +1,5 @@
 import "./styles/reset.css";
-import "./styles/main.scss"
+import "./styles/main.scss";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { routes } from "./routes";
