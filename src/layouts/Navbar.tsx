@@ -8,7 +8,7 @@ import { Menu } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
-import { Logo, ProgressBar, ModalCard } from "@/components";
+import { Logo, AssistNav, ProgressBar, ModalCard } from "@/components";
 import { Link } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { authEndpoints } from "@/utils";
@@ -103,6 +103,9 @@ export function Navbar() {
         </Box>
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
+
+      <AssistNav />
+
       <ProgressBar />
     </nav>
   );

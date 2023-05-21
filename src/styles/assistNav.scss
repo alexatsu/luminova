@@ -1,0 +1,156 @@
+* {
+  text-decoration: none;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: #717171;
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.assist-nav {
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  left: 0;
+  padding: 0px 20px 5px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  width: 100%;
+
+  .main-category {
+    margin-right: 20px;
+
+    ul {
+      li {
+        a {
+          &:hover {
+            color: #161616;
+          }
+        }
+      }
+    }
+  }
+
+  .line {
+    display: block;
+    border: 1px solid #b7b7b7;
+    min-height: 40px;
+  }
+
+  .other-categories {
+    width: 95%;
+    padding-left: 20px;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      overflow-x: none;
+
+      li {
+        margin-right: 30px;
+        display: inline-block;
+
+        a {
+          white-space: nowrap;
+
+          &:hover {
+            color: #161616;
+          }
+        }
+
+        &:last-child {
+          margin-right: 0px;
+        }
+      }
+
+      &::-webkit-scrollbar {
+        height: 7px;
+      }
+
+      &::-webkit-scrollbar-track {
+        border-radius: 50px;
+        background: #e5e5e5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 50px;
+        background: #3c3c3c;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        border-radius: 50px;
+        background: #202020;
+      }
+    }
+
+    &:hover {
+      ul {
+        white-space: nowrap;
+        overflow: hidden;
+        overflow-x: scroll;
+        padding-bottom: 14px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .assist-nav {
+    .other-categories {
+      padding-right: 15px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .assist-nav {
+    padding: 0px 40px 5px 40px;
+
+    .other-categories {
+      padding-right: 25px;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .assist-nav {
+    padding: 0px 40px 5px 40px;
+
+    .line {
+      display: none;
+    }
+
+    .other-categories {
+      width: 95%;
+      padding-right: 45px;
+
+      ul {
+        padding-bottom: 20px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .assist-nav {
+    padding: 0px 20px 5px 20px;
+
+    .other-categories {
+      width: 95%;
+      padding-right: 60px;
+    }
+  }
+}
