@@ -14,15 +14,18 @@ export const imagesStyles = {
     "&:hover button": {
       opacity: 1,
     },
+    "&:hover .title": {
+      opacity: 1,
+    },
   },
   buttonHeart: {
     backgroundColor: "#d9d8d8",
     "&:hover": { backgroundColor: "#f2f2f2" },
-    "& svg": { fill: "grey", transition: "all 0.15s ease" },
-    "&:hover svg": { fill: "black" },
+    "& svg": { fill: "grey"},
     position: "absolute",
     right: "10px",
     top: "10px",
+    transition: "all 0.15s linear",
   }, //TODO switch to sass
   buttonHeartActive: {
     backgroundColor: "rgb(231, 76, 76)",
@@ -35,7 +38,9 @@ export const imagesStyles = {
 
   title: {
     position: "absolute",
-    color: "transparent",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    opacity: 0,
+    color: "white",
     zIndex: "1",
     bottom: "10px",
     transition: "all 0.15s linear",
