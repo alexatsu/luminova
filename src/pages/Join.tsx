@@ -63,18 +63,17 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function Join() {
-
-  const register = async (data: { email: string; password: string }) => {
-    const { email, password } = data;
+  const register = async (data: { email: string; password: string; name: string }) => {
+    const { email, password, name } = data;
     await axios
-      .post(authEndpoints.register, { email, password }, { withCredentials: true })
+      .post(authEndpoints.register, { email, password, name }, { withCredentials: true })
       .then((res) => {
         console.log(res.data, "res.data");
         localStorage.setItem("accessToken", res.data.accessToken);
       })
       .catch((error) => console.log(error.response.data));
   };
-  const [userData, setUserData] = useState({ email: "", password: "" });
+  const [userData, setUserData] = useState({ email: "", password: "", name: "" });
   const { classes } = useStyles();
   const { form, title, text, link, image, input, paragraph, container } = classes;
   return (
@@ -89,7 +88,13 @@ export function Join() {
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
           Join Unsplash
         </Title>
-        <TextInput className={input} label="Username" placeholder="John Doe" size="md" />
+        <TextInput
+          className={input}
+          label="Username"
+          placeholder="John Doe"
+          size="md"
+          onChange={(e) => setUserData((prevData) => ({ ...prevData, name: e.target.value }))}
+        />
         <TextInput
           className={input}
           label="Email address"

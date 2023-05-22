@@ -8,13 +8,15 @@ import { Box, ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/
 import { Button, Sx } from "@mantine/core";
 import { AiFillHeart } from "react-icons/ai";
 import { ImagesProps } from "@/hooks/useFetchImageData";
+import { useQuery } from "@tanstack/react-query";
+import { useUserDataStore } from "@/store";
 
 export function Hero() {
   const width = useResizeWidth();
   const { query } = useSearchImagesStore();
-  const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
-  const [initialImages, setInitialImages] = useState(data?.resources);
-  
+  // const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
+  // const [initialImages, setInitialImages] = useState(data?.resources);
+
   const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
     buttonHeart: Sx;
     buttonHeartActive: Sx;
@@ -22,56 +24,83 @@ export function Hero() {
     title: SxProps<Theme>;
   };
 
-  const addImagesToFavorites = (id: ImagesProps["public_id"]) => {
-    setInitialImages((prevImages) =>
-      prevImages!.map((image) =>
-        image.public_id === id ? { ...image, active: !image.active } : image
-      )
-    );
+  const token = localStorage.getItem("accessToken");
+  const getImages = async (token: string) => {
+    const { getImages, getImagesForUser } = endpoints.images;
+    if (!token === null) {
+      const response = await fetch(getImages);
+      return await response.json();
+    }
+    const response = await fetch(getImagesForUser, {
+      method: "POST",
+      headers: {
+        contentType: "application/json",        
+      },
+      body: JSON.stringify({ token: token }),
+    });
+    console.log(JSON.stringify({ token: token }));
+    return await response.json();
   };
 
-  useEffect(() => {
-    const debouncedSearch = setTimeout(() => {
-      const filterImages = data?.resources.filter(({ public_id }) => {
-        const lowerCasedTitle = public_id.toLowerCase();
-        const lowerCasedQuery = query.toLowerCase();
-        return lowerCasedTitle.includes(lowerCasedQuery);
-      });
-      setInitialImages(filterImages);
-    }, 500);
-    return () => clearTimeout(debouncedSearch);
-  }, [data, query]);
-  console.log(data);
+  const { data: imageData } = useQuery({
+    queryKey: ["images", token],
+    queryFn: () => getImages(token as string),
+  });
 
-  const Images = () => (
-    <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
-      <>
-        {initialImages?.map(({ public_id, url, filename, active }) => (
-          <ImageListItem key={public_id} sx={container}>
-            <img
-              src={url}
-              alt={filename}
-              loading={"lazy"}
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "8px",
-              }}
-            />
-            <Button
-              sx={active ? buttonHeartActive : buttonHeart}
-              onClick={() => addImagesToFavorites(public_id)}
-            >
-              <AiFillHeart size={16} />
-            </Button>
-            <Typography sx={title} variant={"h5"} className="title">
-              {filename}
-            </Typography>
-          </ImageListItem>
-        ))}
-      </>
-    </ImageList>
-  );
-
-  return <Box sx={{ margin: "auto" }}>{isLoading ? <Loader /> : <Images />}</Box>;
+  // useEffect(() => {
+  //   const debouncedSearch = setTimeout(() => {
+  //     const filterImages = data?.resources.filter(({ public_id }) => {
+  //       const lowerCasedTitle = public_id.toLowerCase();
+  //       const lowerCasedQuery = query.toLowerCase();
+  //       return lowerCasedTitle.includes(lowerCasedQuery);
+  //     });
+  //     setInitialImages(filterImages);
+  //   }, 500);
+  //   return () => clearTimeout(debouncedSearch);
+  // }, [data, query]);
+  console.log(imageData, "imageData");
+  console.log(token, "accessToken");
+  const getPublicId = (id: ImagesProps["public_id"]) => {
+    console.log(id, "public_id");
+  };
+  // const Images = () => (
+  //   <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
+  //     <>
+  //       {imageData?.resources.map(({ public_id, url, filename, favorite }) => (
+  //         <ImageListItem key={public_id} sx={container}>
+  //           <img
+  //             src={url}
+  //             alt={filename}
+  //             loading={"lazy"}
+  //             style={{
+  //               width: "100%",
+  //               height: "100%",
+  //               borderRadius: "8px",
+  //             }}
+  //           />
+  //           <Button
+  //             sx={favorite ? buttonHeartActive : buttonHeart}
+  //             onClick={() => addImagesToFavorites(public_id)}
+  //           >
+  //             <AiFillHeart size={16} />
+  //           </Button>
+  //           <Typography
+  //             sx={title}
+  //             variant={"h5"}
+  //             className="title"
+  //             onClick={() => getPublicId(public_id)}
+  //           >
+  //             {filename}
+  //           </Typography>
+  //         </ImageListItem>
+  //       ))}
+  //     </>
+  //   </ImageList>
+  // );
+  // return (
+  //   <>
+  //     <Images />
+  //   </>
+  // );
+  // return <Box sx={{ margin: "auto" }}>{isLoading ? <Loader /> : <Images />}</Box>;
 }

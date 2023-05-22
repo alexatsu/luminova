@@ -7,6 +7,7 @@
 - Fix footer bug when filtering images, when backend is ready (done)
 - Add Signup and Signin pages (done)
 
+- Fix menu dropdown zIndex
 - Test JWT auth (register, login, protected, refresh, logout)
 - Add to favorites
 - Add validation to signing

@@ -4,6 +4,7 @@ import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 const useStyles = createStyles((theme) => ({
   wrapper: {
     minWidth: "50%",
@@ -70,6 +71,7 @@ export function Login() {
         body: JSON.stringify({ email, password }),
       });
       const result = await response.json();
+      console.log(result);
       localStorage.setItem("accessToken", result.accessToken);
       navigate("/");
     } catch (error) {

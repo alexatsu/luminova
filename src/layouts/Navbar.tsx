@@ -14,7 +14,6 @@ import { BiUserCircle } from "react-icons/bi";
 import { authEndpoints } from "@/utils";
 import { useState } from "react";
 
-
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const { searchQuery } = useSearchImagesStore();
