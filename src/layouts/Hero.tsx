@@ -1,5 +1,5 @@
 import { Loader } from "@/components/Loader";
-import { endpoints } from "@/utils";
+import { authEndpoints, endpoints } from "@/utils";
 import { imagesStyles } from "@/styles/imageCard";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
 import { useResizeWidth, useFetchImageData } from "@/hooks";
@@ -25,27 +25,40 @@ export function Hero() {
   };
 
   const token = localStorage.getItem("accessToken");
+
   const getImages = async (token: string) => {
     const { getImages, getImagesForUser } = endpoints.images;
-    if (!token === null) {
-      const response = await fetch(getImages);
-      return await response.json();
+    if (!token) {
+      const fetchForAnyone = await fetch(getImages);
+      return await fetchForAnyone.json();
     }
-    const response = await fetch(getImagesForUser, {
+    const fetchForUser = await fetch(getImagesForUser, {
       method: "POST",
-      headers: {
-        contentType: "application/json",        
-      },
-      body: JSON.stringify({ token: token }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accessToken: token }),
     });
-    console.log(JSON.stringify({ token: token }));
-    return await response.json();
+
+    return await fetchForUser.json();
   };
 
   const { data: imageData } = useQuery({
     queryKey: ["images", token],
     queryFn: () => getImages(token as string),
   });
+
+  const addToFavorites = async (accessToken: string, public_id: string): Promise<void> => {
+    const response = await fetch(endpoints.images.addToFavorites, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ public_id: public_id, accessToken: accessToken }),
+    });
+    const data = await response.json();
+    console.log(data, "data");
+    return data;
+  };
 
   // useEffect(() => {
   //   const debouncedSearch = setTimeout(() => {
@@ -60,47 +73,45 @@ export function Hero() {
   // }, [data, query]);
   console.log(imageData, "imageData");
   console.log(token, "accessToken");
-  const getPublicId = (id: ImagesProps["public_id"]) => {
-    console.log(id, "public_id");
-  };
-  // const Images = () => (
-  //   <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
-  //     <>
-  //       {imageData?.resources.map(({ public_id, url, filename, favorite }) => (
-  //         <ImageListItem key={public_id} sx={container}>
-  //           <img
-  //             src={url}
-  //             alt={filename}
-  //             loading={"lazy"}
-  //             style={{
-  //               width: "100%",
-  //               height: "100%",
-  //               borderRadius: "8px",
-  //             }}
-  //           />
-  //           <Button
-  //             sx={favorite ? buttonHeartActive : buttonHeart}
-  //             onClick={() => addImagesToFavorites(public_id)}
-  //           >
-  //             <AiFillHeart size={16} />
-  //           </Button>
-  //           <Typography
-  //             sx={title}
-  //             variant={"h5"}
-  //             className="title"
-  //             onClick={() => getPublicId(public_id)}
-  //           >
-  //             {filename}
-  //           </Typography>
-  //         </ImageListItem>
-  //       ))}
-  //     </>
-  //   </ImageList>
-  // );
-  // return (
-  //   <>
-  //     <Images />
-  //   </>
-  // );
+  const getPublicId = (id: ImagesProps["public_id"]) => console.log(id, "public_id");
+  const Images = () => (
+    <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
+      <>
+        {imageData?.resources.map(({ public_id, url, filename, favorite }) => (
+          <ImageListItem key={public_id} sx={container}>
+            <img
+              src={url}
+              alt={filename}
+              loading={"lazy"}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "8px",
+              }}
+            />
+            <Button
+              sx={favorite ? buttonHeartActive : buttonHeart}
+              onClick={() => addToFavorites(token!, public_id)}
+            >
+              <AiFillHeart size={16} />
+            </Button>
+            <Typography
+              sx={title}
+              variant={"h5"}
+              className="title"
+              onClick={() => getPublicId(public_id)}
+            >
+              {filename}
+            </Typography>
+          </ImageListItem>
+        ))}
+      </>
+    </ImageList>
+  );
+  return (
+    <>
+      <Images />
+    </>
+  );
   // return <Box sx={{ margin: "auto" }}>{isLoading ? <Loader /> : <Images />}</Box>;
 }
