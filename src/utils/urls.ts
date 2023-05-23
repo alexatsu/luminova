@@ -7,9 +7,9 @@ const endpoints = {
   images: {
     getImages: `${baseURL}${images}/all`,
     // getImagesForUser: `${baseURL}/api/images/user_favorites`,
+    // addToFavorites: `${baseURL}/api/images/update_favorite`,
     getImagesForUser: `http://localhost:8080/images/allforuser`,
     addToFavorites: `http://localhost:8080/images/favorites`,
-    // addToFavorites: `${baseURL}/api/images/update_favorite`,
     addImage: `${baseURL}${images}/upload`,
     searchImages: `${baseURL}${images}/search`,
   },

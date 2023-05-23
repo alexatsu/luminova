@@ -10,10 +10,12 @@ import { AiFillHeart } from "react-icons/ai";
 import { ImagesProps } from "@/hooks/useFetchImageData";
 import { useQuery } from "@tanstack/react-query";
 import { useUserDataStore } from "@/store";
+import { useNavigate } from "react-router-dom";
 
 export function Hero() {
   const width = useResizeWidth();
   const { query } = useSearchImagesStore();
+  const navigate = useNavigate();
   // const { data, isLoading } = useFetchImageData(endpoints.images.getImages);
   // const [initialImages, setInitialImages] = useState(data?.resources);
 
@@ -47,6 +49,9 @@ export function Hero() {
   });
 
   const addToFavorites = async (accessToken: string, public_id: string): Promise<void> => {
+    if (!accessToken) {
+      navigate("/login");
+    }
     const response = await fetch(endpoints.images.addToFavorites, {
       method: "POST",
       headers: {
@@ -55,7 +60,12 @@ export function Hero() {
       },
       body: JSON.stringify({ public_id: public_id, accessToken: accessToken }),
     });
+
     const data = await response.json();
+    if (data.error === "Refresh token missing") {
+      localStorage.removeItem("accessToken");
+      navigate("/login");
+    }
     console.log(data, "data");
     return data;
   };
