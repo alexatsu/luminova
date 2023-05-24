@@ -1,6 +1,6 @@
-const baseURL = "http://localhost:8080";
+// const baseURL = "http://localhost:8080";
 // const baseURL = "https://long-lime-caridea-slip.cyclic.app";
-// const baseURL = "http://kotatsu.fun:8000";
+const baseURL = "http://kotatsu.fun:8080";
 const images = "/images";
 
 const endpoints = {
@@ -8,15 +8,15 @@ const endpoints = {
     getImages: `${baseURL}${images}/all`,
     // getImagesForUser: `${baseURL}/api/images/user_favorites`,
     // addToFavorites: `${baseURL}/api/images/update_favorite`,
-    getImagesForUser: `http://localhost:8080/images/allforuser`,
-    addToFavorites: `http://localhost:8080/images/favorites`,
+    getImagesForUser: `${baseURL}${images}/allforuser`,
+    addToFavorites: `${baseURL}${images}/favorites`,
     addImage: `${baseURL}${images}/upload`,
     searchImages: `${baseURL}${images}/search`,
   },
 };
 
-const authURL = "http://localhost:8080/auth";
-// const authURL = "http://kotatsu.fun:8080/auth";
+// const authURL = "http://localhost:8080/auth";
+const authURL = "http://kotatsu.fun:8080/auth";
 
 const authEndpoints = {
   login: `${authURL}/login`,
