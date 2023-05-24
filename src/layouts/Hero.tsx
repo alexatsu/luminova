@@ -68,8 +68,11 @@ export function Hero() {
     }
 
     if (data.error === "Access token expired") {
-      const response = await fetch(refresh);
-      const refreshData = await response.json();
+      const refResponse = await fetch(refresh, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const refreshData = await refResponse.json();
 
       if (refreshData.error === "Refresh token missing") {
         localStorage.removeItem("accessToken");
