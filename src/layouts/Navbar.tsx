@@ -9,15 +9,15 @@ import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { useSearchImagesStore } from "@/store/useSearchImagesStore";
 import { Logo, AssistNav, ProgressBar, ModalCard } from "@/components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { authEndpoints } from "@/utils";
-import { useState } from "react";
 
 export function Navbar() {
+  const navigate = useNavigate();
   const { modalOpen, handleOpen, handleClose } = useModal();
   const { searchQuery } = useSearchImagesStore();
-  const [token, setToken] = useState(localStorage.getItem("accessToken"));
+  const token = localStorage.getItem("accessToken");
 
   const logoutUser = async (token: string | null) => {
     try {
@@ -35,39 +35,43 @@ export function Navbar() {
     } catch (error) {
       console.log(error);
     } finally {
-      setToken(null);
+      navigate("/login");
       localStorage.removeItem("accessToken");
     }
   };
 
-  const User = () => {
-    return token ? (
-      <Menu shadow="md" width={200}>
-        <Menu.Target>
-          <Tooltip
-            placement={"bottom"}
-            TransitionComponent={Fade}
-            title="Account details"
-            enterDelay={400}
-          >
-            <IconButton sx={navstyles.btnAddPhoto}>
-              <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
-            </IconButton>
-          </Tooltip>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Item>View Profile</Menu.Item>
-          <Menu.Item>Stats</Menu.Item>
-          <Menu.Item>Account settings</Menu.Item>
-          <Menu.Divider />
-          <Menu.Item onClick={() => logoutUser(token)}>Logout</Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
-    ) : (
-      <Link to="/login">
-        <Button sx={{ color: "black" }}>Login</Button>
-      </Link>
-    );
+  const User = ({ token }: { token: string }) => {
+    if (token) {
+      return (
+        <Menu shadow="md" width={200}>
+          <Menu.Target>
+            <Tooltip
+              placement={"bottom"}
+              TransitionComponent={Fade}
+              title="Account details"
+              enterDelay={400}
+            >
+              <IconButton sx={navstyles.btnAddPhoto}>
+                <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
+              </IconButton>
+            </Tooltip>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item>View Profile</Menu.Item>
+            <Menu.Item>Stats</Menu.Item>
+            <Menu.Item>Account settings</Menu.Item>
+            <Menu.Divider />
+            <Menu.Item onClick={() => logoutUser(token)}>Logout</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      );
+    } else {
+      return (
+        <Link to="/login">
+          <Button sx={{ color: "black" }}>Login</Button>
+        </Link>
+      );
+    }
   };
 
   return (
@@ -98,7 +102,7 @@ export function Navbar() {
               <CloudDownloadIcon />
             </IconButton>
           </Tooltip>
-          <User />
+          <User token={token!} />
         </Box>
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>

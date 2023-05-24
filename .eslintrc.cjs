@@ -26,9 +26,9 @@ module.exports = {
   plugins: ["react", "@typescript-eslint", "react-hooks", "jsx-a11y", "@tanstack/query"],
   rules: {
     "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
-    "@typescript-eslint/no-non-null-assertion": "off",
     "@tanstack/query/exhaustive-deps": "error",
     "@tanstack/query/prefer-query-object-syntax": "error",
   },

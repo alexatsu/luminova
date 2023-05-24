@@ -49,10 +49,10 @@ export function Hero() {
   });
 
   const addToFavorites = async (accessToken: string, public_id: string): Promise<void> => {
-    if (!accessToken) {
-      navigate("/login");
-    }
-    const response = await fetch(endpoints.images.addToFavorites, {
+    const { refresh } = authEndpoints;
+    const { addToFavorites } = endpoints.images;
+
+    const response = await fetch(addToFavorites, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,13 +60,34 @@ export function Hero() {
       },
       body: JSON.stringify({ public_id: public_id, accessToken: accessToken }),
     });
-
     const data = await response.json();
-    if (data.error === "Refresh token missing") {
+    console.log(data, "data");
+
+    if (!accessToken) {
+      navigate("/login");
+    }
+
+    if (data.error === "Access token expired") {
+      const response = await fetch(refresh);
+      const refreshData = await response.json();
+
+      if (refreshData.error === "Refresh token missing") {
+        localStorage.removeItem("accessToken");
+        navigate("/login");
+      }
+
+      const accessToken = refreshData.accessToken;
+      localStorage.setItem("accessToken", accessToken);
+    }
+    if (
+      data.error === "Access token missing" ||
+      data.error === "Unauthorized" ||
+      data.error === "Invalid Access Token"
+    ) {
       localStorage.removeItem("accessToken");
       navigate("/login");
     }
-    console.log(data, "data");
+
     return data;
   };
 
