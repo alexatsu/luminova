@@ -51,7 +51,7 @@ export function Hero() {
   const addToFavorites = async (accessToken: string, public_id: string): Promise<void> => {
     const { refresh } = authEndpoints;
     const { addToFavorites } = endpoints.images;
-
+//TODO: refactor this into composables + update token to accept through headers
     const response = await fetch(addToFavorites, {
       method: "POST",
       headers: {
@@ -63,10 +63,6 @@ export function Hero() {
     const data = await response.json();
     console.log(data, "data");
 
-    if (!accessToken) {
-      navigate("/login");
-    }
-
     if (data.error === "Access token expired") {
       const refResponse = await fetch(refresh, {
         method: "POST",
@@ -75,8 +71,9 @@ export function Hero() {
       const refreshData = await refResponse.json();
 
       if (refreshData.error === "Refresh token missing") {
-        localStorage.removeItem("accessToken");
         navigate("/login");
+        localStorage.removeItem("accessToken");
+        return;
       }
 
       const accessToken = refreshData.accessToken;
@@ -87,8 +84,8 @@ export function Hero() {
       data.error === "Unauthorized" ||
       data.error === "Invalid Access Token"
     ) {
-      localStorage.removeItem("accessToken");
       navigate("/login");
+      localStorage.removeItem("accessToken");
     }
 
     return data;
