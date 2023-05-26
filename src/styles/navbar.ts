@@ -1,6 +1,6 @@
 export const navstyles = {
   container: {
-    zIndex: "1",
+    zIndex: "2",
     top: 0,
     position: "fixed",
     display: "flex",
@@ -9,7 +9,6 @@ export const navstyles = {
     padding: "10px 20px",
     width: "100%",
     height: "50px",
-    boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.25)",
     backgroundColor: "#ffffff",
   },
   logo: {

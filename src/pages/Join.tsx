@@ -1,9 +1,8 @@
-import { reuseFetch } from "@/services/fetch";
 import { authEndpoints } from "@/utils";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
   container: { display: "flex", justifyContent: "center", width: "100%", height: "100%" },
@@ -30,7 +29,7 @@ const useStyles = createStyles((theme) => ({
   text: {
     display: "flex",
     justifyContent: "center",
-    alignContent: "center",
+    alignItems: "center",
     marginTop: "1rem",
     gap: "0.5rem",
     fontSize: "1rem",
@@ -38,6 +37,7 @@ const useStyles = createStyles((theme) => ({
       "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
   },
   link: {
+    marginTop: "-3px",
     color: "#228be6",
     textDecoration: "none",
     fontSize: "1rem",
@@ -63,6 +63,22 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function Join() {
+  const { classes } = useStyles();
+  const { form, title, text, link, image, input, paragraph, container } = classes;
+
+  const userForm = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+      name: "",
+    },
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      password: (value) => (value.length >= 6 ? null : "Password must be at least 6 characters"),
+      name: (value) => (value.length >= 3 ? null : "Name must be at least 3 characters"),
+    },
+  });
+
   const register = async (data: { email: string; password: string; name: string }) => {
     const { email, password, name } = data;
     await axios
@@ -73,18 +89,10 @@ export function Join() {
       })
       .catch((error) => console.log(error.response.data));
   };
-  const [userData, setUserData] = useState({ email: "", password: "", name: "" });
-  const { classes } = useStyles();
-  const { form, title, text, link, image, input, paragraph, container } = classes;
+
   return (
     <div className={container}>
-      <form
-        className={form}
-        onSubmit={(e) => {
-          e.preventDefault();
-          register(userData);
-        }}
-      >
+      <form className={form} onSubmit={userForm.onSubmit((formValues) => register(formValues))}>
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
           Join Unsplash
         </Title>
@@ -93,23 +101,24 @@ export function Join() {
           label="Username"
           placeholder="John Doe"
           size="md"
-          onChange={(e) => setUserData((prevData) => ({ ...prevData, name: e.target.value }))}
+          name="name"
+          {...userForm.getInputProps("name")}
         />
         <TextInput
           className={input}
           label="Email address"
           placeholder="hello@gmail.com"
           size="md"
-          onChange={(e) => setUserData((prevData) => ({ ...prevData, email: e.target.value }))}
-          value={userData.email}
+          name="email"
+          {...userForm.getInputProps("email")}
         />
         <PasswordInput
           className={input}
           label="Password"
           placeholder="Your password"
           size="md"
-          onChange={(e) => setUserData((prevData) => ({ ...prevData, password: e.target.value }))}
-          value={userData.password}
+          name="password"
+          {...userForm.getInputProps("password")}
         />
 
         <Button className={input} fullWidth mt="xl" size="md" type="submit">

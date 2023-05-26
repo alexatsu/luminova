@@ -37,6 +37,7 @@ const useStyles = createStyles((theme) => ({
       "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
   },
   link: {
+    marginTop:"-3px",
     color: "#228be6",
     textDecoration: "none",
     fontSize: "1rem",
