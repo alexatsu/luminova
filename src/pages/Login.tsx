@@ -1,6 +1,7 @@
 // import { reuseFetch } from "@/services/fetch";
 import { authEndpoints } from "@/utils";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -36,8 +37,17 @@ const useStyles = createStyles((theme) => ({
     fontFamily:
       "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
   },
+  errorText: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "red",
+    fontSize: "1rem",
+    fontFamily:
+      "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
+  },
   link: {
-    marginTop:"-3px",
+    marginTop: "-3px",
     color: "#228be6",
     textDecoration: "none",
     fontSize: "1rem",
@@ -59,7 +69,17 @@ const useStyles = createStyles((theme) => ({
 export function Login() {
   const { classes } = useStyles();
   const navigate = useNavigate();
-  const Login = async (data: { email: string; password: string }) => {
+  const [error, setError] = useState("");
+  const { form, title, text, link, wrapper, input, errorText } = classes;
+
+  const userForm = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const login = async (data: { email: string; password: string }) => {
     const { email, password } = data;
     try {
       const response = await fetch(authEndpoints.login, {
@@ -72,24 +92,24 @@ export function Login() {
         body: JSON.stringify({ email, password }),
       });
       const result = await response.json();
+
       console.log(result);
+      if (result.error === "Invalid email or password") {
+        setError(result.error);
+        return;
+      }
+
       localStorage.setItem("accessToken", result.accessToken);
       navigate("/");
+
     } catch (error) {
       console.log(error);
     }
   };
-  const [userData, setUserData] = useState({ email: "", password: "" });
-  const { form, title, text, link, wrapper, input } = classes;
+
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%", height: "100%" }}>
-      <form
-        className={form}
-        onSubmit={(e) => {
-          e.preventDefault();
-          Login(userData);
-        }}
-      >
+      <form className={form} onSubmit={userForm.onSubmit((formValues) => login(formValues))}>
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
           Login
         </Title>
@@ -99,18 +119,18 @@ export function Login() {
           label="Email address"
           placeholder="hello@gmail.com"
           size="md"
-          onChange={(e) => setUserData((prevData) => ({ ...prevData, email: e.target.value }))}
-          value={userData.email}
+          name="email"
+          {...userForm.getInputProps("email")}
         />
         <PasswordInput
           className={input}
           label="Password"
           placeholder="Your password"
           size="md"
-          onChange={(e) => setUserData((prevData) => ({ ...prevData, password: e.target.value }))}
-          value={userData.password}
+          name="password"
+          {...userForm.getInputProps("password")}
         />
-
+        {error && <Text className={errorText}>{error}</Text>}
         <Button className={input} fullWidth mt="xl" size="md" type="submit">
           Login
         </Button>

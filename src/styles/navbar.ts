@@ -16,6 +16,7 @@ export const navstyles = {
     "@media (max-width: 568px)": {
       display: "none",
     },
+    pointerEvents: "none",
   },
   searchInput: {
     ":hover": { border: "transparent" },

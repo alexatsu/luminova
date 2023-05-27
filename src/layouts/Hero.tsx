@@ -7,10 +7,11 @@ import { useEffect, useState } from "react";
 import { Box, ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/material";
 import { Button, Sx } from "@mantine/core";
 import { AiFillHeart } from "react-icons/ai";
-import { ImagesProps } from "@/hooks/useFetchImageData";
-import { useQuery } from "@tanstack/react-query";
+import { ImageResources, ImagesProps } from "@/hooks/useFetchImageData";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useUserDataStore } from "@/store";
 import { useNavigate } from "react-router-dom";
+import { queryClient } from "@/main";
 
 export function Hero() {
   const width = useResizeWidth();
@@ -43,7 +44,7 @@ export function Hero() {
     return await fetchForUser.json();
   };
 
-  const { data: imageData } = useQuery({
+  const { data: imageData } = useQuery<ImageResources>({
     queryKey: ["images", token],
     queryFn: () => getImages(token as string),
   });
@@ -51,7 +52,7 @@ export function Hero() {
   const addToFavorites = async (accessToken: string, public_id: string): Promise<void> => {
     const { refresh } = authEndpoints;
     const { addToFavorites } = endpoints.images;
-//TODO: refactor this into composables + update token to accept through headers
+    //TODO: refactor this into composables + update token to accept through headers
     const response = await fetch(addToFavorites, {
       method: "POST",
       headers: {
@@ -91,6 +92,38 @@ export function Hero() {
     return data;
   };
 
+  const { mutate } = useMutation({
+    mutationFn: (payload: { accessToken: string; public_id: string }) => {
+      const { accessToken, public_id } = payload;
+      return addToFavorites(accessToken, public_id);
+    },
+    onMutate: async (payload: { accessToken: string; public_id: string }) => {
+      const { accessToken, public_id } = payload;
+      await queryClient.cancelQueries({ queryKey: ["images"] });
+      const previousQuery = queryClient.getQueryData(["images"]);
+      queryClient.setQueryData(["images", accessToken], (old?: ImageResources) => {
+        return {
+          ...old,
+          resources: old!.resources.map((image) => {
+            if (image.public_id === public_id) {
+              return { ...image, favorite: !image.favorite };
+            }
+            return image;
+          }),
+        };
+      });
+      return { previousQuery };
+    },
+    onSuccess: () => {
+      console.log("success");
+      queryClient.invalidateQueries({ queryKey: ["images"] });
+    },
+    onError: (err, payload, context) => {
+      queryClient.setQueryData(["todos"], context!.previousQuery);
+      console.log(err, "error");
+    },
+  });
+
   // useEffect(() => {
   //   const debouncedSearch = setTimeout(() => {
   //     const filterImages = data?.resources.filter(({ public_id }) => {
@@ -122,7 +155,7 @@ export function Hero() {
             />
             <Button
               sx={favorite ? buttonHeartActive : buttonHeart}
-              onClick={() => addToFavorites(token!, public_id)}
+              onClick={() => mutate({ accessToken: token!, public_id })}
             >
               <AiFillHeart size={16} />
             </Button>

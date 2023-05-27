@@ -25,4 +25,5 @@ const authEndpoints = {
   protect: `${authURL}/protected`,
   refresh: `${authURL}/refresh`,
 };
+
 export { baseURL, endpoints, authEndpoints };

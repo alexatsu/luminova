@@ -8,9 +8,9 @@ export const imagesStyles = {
       filter: ({ active }: { active: boolean }) => (active ? "brightness(90%)" : "none"), // apply filter based on active state
       transition: "all 0.15s ease-in-out",
     },
-    "& button": {
-      opacity: 0,
-    },
+    // "& button": {
+      // opacity: 0,
+    // },
     "&:hover button": {
       opacity: 1,
     },
@@ -25,7 +25,6 @@ export const imagesStyles = {
     position: "absolute",
     right: "10px",
     top: "10px",
-    transition: "all 0.15s linear",
   }, //TODO switch to sass
   buttonHeartActive: {
     backgroundColor: "rgb(231, 76, 76)",

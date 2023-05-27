@@ -3,7 +3,7 @@ type ImagesProps = {
   public_id: string;
   url: string;
   filename: string;
-  active: boolean;
+  favorite: boolean;
 };
 type ImageResources = { resources: ImagesProps[] };
 export type { ImageResources, ImagesProps };

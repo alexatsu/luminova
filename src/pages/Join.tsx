@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
-//TODO: add error handling if user already exists
+
 const useStyles = createStyles((theme) => ({
   container: { display: "flex", justifyContent: "center", width: "100%", height: "100%" },
   image: {
@@ -100,14 +100,17 @@ export function Join() {
         },
         body: JSON.stringify({ email, password, name }),
       });
+
       const data = await response.json();
 
-      if (data.error === "User with this email/name already exists") {
+      if (data.error) {
         setError(data.error);
         return;
       }
+
       localStorage.setItem("accessToken", data.accessToken);
       navigate("/");
+
       console.log(data, "data");
     } catch (error) {
       console.log(error, "error register");
@@ -128,6 +131,9 @@ export function Join() {
           name="name"
           {...userForm.getInputProps("name")}
         />
+        {error === "User with this name already exists" && (
+          <Text className={errorText}>{error}</Text>
+        )}
         <TextInput
           className={input}
           label="Email address"
@@ -136,7 +142,9 @@ export function Join() {
           name="email"
           {...userForm.getInputProps("email")}
         />
-        {error && <Text className={errorText}>{error}</Text>}
+        {error === "User with this email already exists" && (
+          <Text className={errorText}>{error}</Text>
+        )}
         <PasswordInput
           className={input}
           label="Password"
@@ -151,7 +159,9 @@ export function Join() {
         </Button>
         <div className={text}>
           <span>Already have an account?</span>
-          <div className={link}>Login</div>
+          <Link className={link} to="/login">
+            Login
+          </Link>
         </div>
         <Text className={paragraph}>
           By joining, you agree to the{" "}
