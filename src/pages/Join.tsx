@@ -1,9 +1,9 @@
 import { authEndpoints } from "@/utils";
-import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
-
+import { useState } from "react";
+import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
+//TODO: add error handling if user already exists
 const useStyles = createStyles((theme) => ({
   container: { display: "flex", justifyContent: "center", width: "100%", height: "100%" },
   image: {
@@ -36,6 +36,15 @@ const useStyles = createStyles((theme) => ({
     fontFamily:
       "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
   },
+  errorText: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "red",
+    fontSize: "1rem",
+    fontFamily:
+      "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
+  },
   link: {
     marginTop: "-3px",
     color: "#228be6",
@@ -64,7 +73,9 @@ const useStyles = createStyles((theme) => ({
 
 export function Join() {
   const { classes } = useStyles();
-  const { form, title, text, link, image, input, paragraph, container } = classes;
+  const { form, title, text, link, image, input, paragraph, container, errorText } = classes;
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const userForm = useForm({
     initialValues: {
@@ -79,22 +90,35 @@ export function Join() {
     },
   });
 
-  const register = async (data: { email: string; password: string; name: string }) => {
-    const { email, password, name } = data;
-    await axios
-      .post(authEndpoints.register, { email, password, name }, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data, "res.data");
-        localStorage.setItem("accessToken", res.data.accessToken);
-      })
-      .catch((error) => console.log(error.response.data));
+  const register = async (payload: { email: string; password: string; name: string }) => {
+    const { email, password, name } = payload;
+    try {
+      const response = await fetch(authEndpoints.register, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password, name }),
+      });
+      const data = await response.json();
+
+      if (data.error === "User with this email/name already exists") {
+        setError(data.error);
+        return;
+      }
+      localStorage.setItem("accessToken", data.accessToken);
+      navigate("/");
+      console.log(data, "data");
+    } catch (error) {
+      console.log(error, "error register");
+    }
   };
 
   return (
     <div className={container}>
       <form className={form} onSubmit={userForm.onSubmit((formValues) => register(formValues))}>
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
-          Join Unsplash
+          Join Luminova
         </Title>
         <TextInput
           className={input}
@@ -112,6 +136,7 @@ export function Join() {
           name="email"
           {...userForm.getInputProps("email")}
         />
+        {error && <Text className={errorText}>{error}</Text>}
         <PasswordInput
           className={input}
           label="Password"
@@ -126,9 +151,7 @@ export function Join() {
         </Button>
         <div className={text}>
           <span>Already have an account?</span>
-          <Link className={link} to="/login">
-            Login
-          </Link>
+          <div className={link}>Login</div>
         </div>
         <Text className={paragraph}>
           By joining, you agree to the{" "}

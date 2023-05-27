@@ -40,40 +40,6 @@ export function Navbar() {
     }
   };
 
-  const User = ({ token }: { token: string }) => {
-    if (token) {
-      return (
-        <Menu shadow="md" width={200}>
-          <Menu.Target>
-            <Tooltip
-              placement={"bottom"}
-              TransitionComponent={Fade}
-              title="Account details"
-              enterDelay={400}
-            >
-              <IconButton sx={navstyles.btnAddPhoto}>
-                <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
-              </IconButton>
-            </Tooltip>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item>View Profile</Menu.Item>
-            <Menu.Item>Stats</Menu.Item>
-            <Menu.Item>Account settings</Menu.Item>
-            <Menu.Divider />
-            <Menu.Item onClick={() => logoutUser(token)}>Logout</Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-      );
-    } else {
-      return (
-        <Link to="/login">
-          <Button sx={{ color: "black" }}>Login</Button>
-        </Link>
-      );
-    }
-  };
-
   return (
     <nav>
       <Box
@@ -96,14 +62,16 @@ export function Navbar() {
             variant="standard"
           />
         </Box>
+
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add" enterDelay={400}>
             <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
               <CloudDownloadIcon />
             </IconButton>
           </Tooltip>
-          <User token={token!} />
+          <UserMenu token={token!} logoutUser={logoutUser} />
         </Box>
+
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
 
@@ -113,3 +81,41 @@ export function Navbar() {
     </nav>
   );
 }
+
+type UserMenuProps = {
+  token: string | null;
+  logoutUser: (token: string) => void;
+};
+const UserMenu = ({ token, logoutUser }: UserMenuProps) => {
+  if (token) {
+    return (
+      <Menu shadow="md" width={200}>
+        <Menu.Target>
+          <Tooltip
+            placement={"bottom"}
+            TransitionComponent={Fade}
+            title="Account details"
+            enterDelay={400}
+          >
+            <IconButton sx={navstyles.btnAddPhoto}>
+              <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
+            </IconButton>
+          </Tooltip>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Item>View Profile</Menu.Item>
+          <Menu.Item>Stats</Menu.Item>
+          <Menu.Item>Account settings</Menu.Item>
+          <Menu.Divider />
+          <Menu.Item onClick={() => logoutUser(token)}>Logout</Menu.Item>
+        </Menu.Dropdown>
+      </Menu>
+    );
+  } else {
+    return (
+      <Link to="/login">
+        <Button sx={{ color: "black" }}>Login</Button>
+      </Link>
+    );
+  }
+};
