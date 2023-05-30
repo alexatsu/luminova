@@ -1,13 +1,25 @@
-import {  createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Test from "./Test";
 import { Home, Login, Join, Error } from "@/pages";
-import { Favorites } from "@/pages/Favorites";
+import { Favorites } from "@/pages";
+import { Category } from "@/pages";
+import { Root } from "@/pages/Root";
 
 export const routes = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <Root />,
     errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "categories/:category",
+        element: <Category />,
+      },
+    ],
   },
   {
     path: "test",
@@ -23,6 +35,6 @@ export const routes = createBrowserRouter([
   },
   {
     path: "favorites",
-    element: <Favorites/>
-  }
+    element: <Favorites />,
+  },
 ]);

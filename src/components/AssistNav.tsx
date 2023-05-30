@@ -1,73 +1,54 @@
+import { Link } from "react-router-dom";
 import "../styles/assistNav.scss";
 
 function AssistNav() {
-  const categories = [
+  const paths = [
     {
-      title: "Greener Cities",
+      "name": "Animals",
+      "path": "animals"
     },
     {
-      title: "Wallpapers",
+      "name": "Anime",
+      "path": "anime"
     },
     {
-      title: "3D Renders",
+      "name": "Architecture and Interiors",
+      "path": "architecture-and-interiors"
     },
     {
-      title: "Nature",
+      "name": "Arts and Culture",
+      "path": "arts-and-culture"
     },
     {
-      title: "Travel",
+      "name": "Fashion and Beauty",
+      "path": "fashion-and-beauty"
     },
     {
-      title: "Architecture & Interiors",
+      "name": "Food and Drink",
+      "path": "food-and-drink"
     },
     {
-      title: "Street Photography",
+      "name": "Greener Cities",
+      "path": "greener-cities"
     },
     {
-      title: "Textures & Patterns",
+      "name": "Health and Wellness",
+      "path": "health-and-wellness"
     },
     {
-      title: "Film",
+      "name": "Travel",
+      "path": "travel"
     },
     {
-      title: "Experimental",
-    },
-    {
-      title: "Animals",
-    },
-    {
-      title: "Fashion & Beauty",
-    },
-    {
-      title: "Business & Work",
-    },
-    {
-      title: "Food & Drink",
-    },
-    {
-      title: "People",
-    },
-    {
-      title: "Spirituality",
-    },
-    {
-      title: "Athletics",
-    },
-    {
-      title: "Health & Wellness",
-    },
-    {
-      title: "Current Events",
-    },
-    {
-      title: "Arts & Culture",
-    },
-  ];
+      "name": "Wallpapers",
+      "path": "wallpapers"
+    }
+  ]
 
-  const categoriesList = categories.map((category) => {
+  const categoriesList = paths.map(({ name, path }) => {
     return (
-      <li key={category.title}>
-        <a href="0">{category.title}</a>
+      <li key={name}>
+        <Link to={`/categories/${path}`}>{name}</Link>
       </li>
     );
   });

@@ -6,6 +6,8 @@ const images = "/images";
 const endpoints = {
   images: {
     getImages: `${baseURL}${images}/all`,
+    getImagesFromCategories: `${baseURL}${images}/categories`,
+    getImagesFromCategoriesForUser: `${baseURL}${images}/categories/user`,
     // getImagesForUser: `${baseURL}/api/images/user_favorites`,
     // addToFavorites: `${baseURL}/api/images/update_favorite`,
     getImagesForUser: `${baseURL}${images}/allforuser`,

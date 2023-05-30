@@ -47,7 +47,9 @@ export function Navbar() {
         className="mui-fixed" /*don't touch class name, it fixes mui modal (reference FAQ section)*/
       >
         <Box sx={{ display: "flex", alignItems: "space-between" }}>
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
           <TextField
             placeholder="Search photos"
             sx={navstyles.searchInput}

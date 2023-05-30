@@ -1,14 +1,4 @@
-import {
-  createStyles,
-  Image,
-  Container,
-  Title,
-  Text,
-  Button,
-  SimpleGrid,
-  rem,
-} from "@mantine/core";
-import image from "./image.svg";
+import { createStyles, Container, Title, Text, Button, SimpleGrid, rem } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({

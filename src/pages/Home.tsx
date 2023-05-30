@@ -1,4 +1,4 @@
-import { Navbar, Hero, Footer } from "@/layouts";
+import { Hero, Footer } from "@/layouts";
 
 const Container = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -17,7 +17,6 @@ const Container = ({ children }: { children: React.ReactNode }) => {
 export function Home() {
   return (
     <Container>
-      <Navbar />
       <Hero />
       <Footer />
     </Container>
