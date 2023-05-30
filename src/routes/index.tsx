@@ -4,6 +4,7 @@ import { Home, Login, Join, Error } from "@/pages";
 import { Favorites } from "@/pages";
 import { Category } from "@/pages";
 import { Root } from "@/pages/Root";
+import Blog from "@/pages/Blog/Blog";
 
 export const routes = createBrowserRouter([
   {
@@ -37,4 +38,8 @@ export const routes = createBrowserRouter([
     path: "favorites",
     element: <Favorites />,
   },
+  {
+    path: "blog",
+    element: <Blog/>
+  }
 ]);
