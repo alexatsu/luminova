@@ -1,0 +1,12 @@
+.burger {
+    display: block;
+    padding: 0.65rem;
+    .burgerLine {
+        background-color: #333;
+        border-radius: 10px;
+        margin-bottom: 4px;
+        display: block;
+        height: 4px;
+        width: 30px;
+    }
+}
