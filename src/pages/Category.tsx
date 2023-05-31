@@ -36,7 +36,11 @@ export function Category() {
     const fetchForUser = await fetch(getImagesFromCategoriesForUser, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ accessToken: token }),
+      body: JSON.stringify({
+        "token": token,
+        "next_cursor": "",
+        "category": category
+      }),
     });
 
     return await fetchForUser.json();
