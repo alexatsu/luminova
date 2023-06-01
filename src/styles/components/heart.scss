@@ -1,7 +1,8 @@
 .heart-icon {
   color: rgb(31, 31, 31);
   transition: 0.15s all ease-in-out;
+
   &:hover {
-    color: rgb(200, 65, 65)
+    color: rgb(200, 65, 65);
   }
 }
