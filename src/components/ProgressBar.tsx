@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import "@/styles/components/progressBar.css";
 
 export const ProgressBar = () => {
   const progressBar = () => {

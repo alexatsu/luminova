@@ -1,9 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import Test from "./Test";
-import { Home, Login, Join, Error } from "@/pages";
-import { Favorites } from "@/pages";
-import { Category } from "@/pages";
-import { Root } from "@/pages/Root";
+import { Home, Login, Join, Favorites, Category, Root } from "@/pages/Core";
+import { Error } from "@/pages";
 import Blog from "@/pages/Blog/Blog";
 
 export const routes = createBrowserRouter([
@@ -23,10 +20,6 @@ export const routes = createBrowserRouter([
     ],
   },
   {
-    path: "test",
-    element: <Test />,
-  },
-  {
     path: "join",
     element: <Join />,
   },
@@ -40,6 +33,6 @@ export const routes = createBrowserRouter([
   },
   {
     path: "blog",
-    element: <Blog/>
-  }
+    element: <Blog />,
+  },
 ]);

@@ -1,4 +1,4 @@
-import { Hero, Footer } from "@/layouts";
+import { Hero, Footer } from "@/pages/Core/layouts";
 
 const Container = ({ children }: { children: React.ReactNode }) => {
   return (

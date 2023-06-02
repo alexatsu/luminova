@@ -16,6 +16,8 @@ export const imagesStyles = {
     },
   },
   buttonHeart: {
+    maxHeight: "100%",
+    height: "2.25rem",
     backgroundColor: "#d9d8d8",
     "&:hover": { backgroundColor: "#f2f2f2" },
     "& svg": { fill: "grey"},

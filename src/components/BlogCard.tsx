@@ -1,6 +1,5 @@
-import '@styles/components/BlogCard.scss';
 
-interface IBlogCardProps {
+type IBlogCardProps = {
     category: string;
     title: string;
     author: string;

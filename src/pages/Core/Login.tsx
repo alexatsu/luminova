@@ -73,10 +73,7 @@ export function Login() {
   const { form, title, text, link, wrapper, input, errorText } = classes;
 
   const userForm = useForm({
-    initialValues: {
-      email: "",
-      password: "",
-    },
+    initialValues: { email: "", password: "" },
   });
 
   const login = async (data: { email: string; password: string }) => {
@@ -101,7 +98,6 @@ export function Login() {
 
       localStorage.setItem("accessToken", result.accessToken);
       navigate("/");
-
     } catch (error) {
       console.log(error);
     }

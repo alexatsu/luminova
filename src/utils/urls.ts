@@ -6,8 +6,8 @@ const images = "/images";
 const endpoints = {
   images: {
     getImages: `${baseURL}${images}/all`,
-    getImagesFromCategories: `http://kotatsu.fun:8000/api/categories/all-images`,
-    getImagesFromCategoriesForUser: `http://kotatsu.fun:8000/api/categories/all-favorites`,
+    categoriesImages: `http://kotatsu.fun:8000/api/categories/all-images`,
+    categoriesUserImages: `http://kotatsu.fun:8000/api/categories/all-favorites`,
     // getImagesForUser: `${baseURL}/api/images/user_favorites`,
     // addToFavorites: `${baseURL}/api/images/update_favorite`,
     getImagesForUser: `${baseURL}${images}/allforuser`,

@@ -1,50 +1,18 @@
-import { ImageResources } from "@/hooks/useFetchImageData";
+import { Loader } from "@/components/Loader";
+import { authEndpoints, endpoints } from "@/utils";
 import { imagesStyles } from "@/styles/imageCard";
-import { endpoints, authEndpoints } from "@/utils";
-import { Sx } from "@mantine/core";
-import { ImageList, ImageListItem, Button, Typography, SxProps, Theme } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AiFillHeart } from "react-icons/ai";
-import { useParams, useNavigate } from "react-router-dom";
 import { useResizeWidth } from "@/hooks";
+import { Box, ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/material";
+import { Button, Sx } from "@mantine/core";
+import { AiFillHeart } from "react-icons/ai";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { queryClient } from "@/main";
+import { ImageResources, ImagesProps } from "@/types";
 
-export function Category() {
-  const navigate = useNavigate();
+export function Hero() {
   const width = useResizeWidth();
-  const token = localStorage.getItem("accessToken");
-  const { category } = useParams();
-  console.log(category);
-
-  const { data: imageData } = useQuery<ImageResources>({
-    queryKey: ["images", token, category],
-    queryFn: () => getImages(token!, category!),
-  });
-  console.log(imageData);
-
-  const getImages = async (token: string, category: string) => {
-    //TODO: Update to user Categories
-    const { getImagesFromCategories, getImagesFromCategoriesForUser } = endpoints.images;
-    if (!token) {
-      const fetchForAnyone = await fetch(getImagesFromCategories, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ folder: category, next_cursor: "" }),
-      });
-      return await fetchForAnyone.json();
-    }
-    const fetchForUser = await fetch(getImagesFromCategoriesForUser, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        "token": token,
-        "next_cursor": "",
-        "category": category
-      }),
-    });
-
-    return await fetchForUser.json();
-  };
+  const navigate = useNavigate();
 
   const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
     buttonHeart: Sx;
@@ -52,6 +20,28 @@ export function Category() {
     container: SxProps<Theme>;
     title: SxProps<Theme>;
   };
+
+  const token = localStorage.getItem("accessToken");
+
+  const getImages = async (token: string) => {
+    const { getImages, getImagesForUser } = endpoints.images;
+    if (!token) {
+      const fetchForAnyone = await fetch(getImages);
+      return await fetchForAnyone.json();
+    }
+    const fetchForUser = await fetch(getImagesForUser, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accessToken: token }),
+    });
+
+    return await fetchForUser.json();
+  };
+
+  const { data: imageData, isLoading } = useQuery<ImageResources>({
+    queryKey: ["images", token],
+    queryFn: () => getImages(token as string),
+  });
 
   const addToFavorites = async (accessToken: string, public_id: string): Promise<void> => {
     const { refresh } = authEndpoints;
@@ -101,12 +91,9 @@ export function Category() {
       const { accessToken, public_id } = payload;
       return addToFavorites(accessToken, public_id);
     },
-
     onMutate: async (payload: { accessToken: string; public_id: string }) => {
       const { accessToken, public_id } = payload;
-
       await queryClient.cancelQueries({ queryKey: ["images"] });
-
       const previousQuery = queryClient.getQueryData(["images"]);
       queryClient.setQueryData(["images", accessToken], (old?: ImageResources) => {
         return {
@@ -121,40 +108,37 @@ export function Category() {
       });
       return { previousQuery };
     },
-
     onSuccess: () => {
       console.log("success");
       queryClient.invalidateQueries({ queryKey: ["images"] });
     },
-
     onError: (err, payload, context) => {
       queryClient.setQueryData(["todos"], context!.previousQuery);
       console.log(err, "error");
     },
   });
 
+  console.log(imageData, "imageData");
+  console.log(token, "accessToken");
+  const getPublicId = (id: ImagesProps["public_id"]) => console.log(id, "public_id");
   const Images = () => (
-    <ImageList variant="masonry" cols={width > 568 ? 3 : 1} gap={8}>
+    <ImageList variant="standard" cols={width > 568 ? 3 : 1} gap={8}>
       <>
         {imageData?.resources.map(({ public_id, url, filename, favorite }) => (
           <ImageListItem key={public_id} sx={container}>
-            <img
-              src={url}
-              alt={filename}
-              loading={"lazy"}
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "8px",
-              }}
-            />
+            <img src={url} alt={filename} loading={"lazy"} style={{ borderRadius: "8px" }} />
             <Button
               sx={favorite ? buttonHeartActive : buttonHeart}
               onClick={() => mutate({ accessToken: token!, public_id })}
             >
               <AiFillHeart size={16} />
             </Button>
-            <Typography sx={title} variant={"h5"} className="title">
+            <Typography
+              sx={title}
+              variant={"h5"}
+              className="title"
+              onClick={() => getPublicId(public_id)}
+            >
               {filename}
             </Typography>
           </ImageListItem>
@@ -162,9 +146,5 @@ export function Category() {
       </>
     </ImageList>
   );
-  return (
-    <>
-      <Images />
-    </>
-  );
+  return <Box>{isLoading ? <Loader/> : <Images />}</Box>;
 }

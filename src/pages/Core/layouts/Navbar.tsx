@@ -7,16 +7,15 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { Menu } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
-import { useSearchImagesStore } from "@/store/useSearchImagesStore";
-import { Logo, AssistNav, ProgressBar, ModalCard } from "@/components";
+import { Logo, ProgressBar, ModalCard } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { authEndpoints } from "@/utils";
+import { AssistNav } from "../components";
 
 export function Navbar() {
   const navigate = useNavigate();
   const { modalOpen, handleOpen, handleClose } = useModal();
-  const { searchQuery } = useSearchImagesStore();
   const token = localStorage.getItem("accessToken");
 
   const logoutUser = async (token: string | null) => {
@@ -53,7 +52,6 @@ export function Navbar() {
           <TextField
             placeholder="Search photos"
             sx={navstyles.searchInput}
-            onChange={(event) => searchQuery(event.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

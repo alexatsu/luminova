@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "@/layouts";
+import { Navbar } from "@/pages/Core/layouts";
+
 export function Root() {
   return (
     <>

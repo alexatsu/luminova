@@ -5,7 +5,6 @@ import { useUploadImage } from "@/hooks";
 import { SetImageValuesProps } from "@/types";
 import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 
-
 //TODO this component is temporally used for testing
 export function ModalCard({ modalOpen, handleClose }: ModaCardProps) {
   const { imageData, setImageData, addImageHandler, loading, doneLoading } = useUploadImage();
