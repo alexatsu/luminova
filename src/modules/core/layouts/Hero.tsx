@@ -10,18 +10,19 @@ import { useNavigate } from "react-router-dom";
 import { queryClient } from "@/main";
 import { ImageResources, ImagesProps } from "@/types";
 
+const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
+  buttonHeart: Sx;
+  buttonHeartActive: Sx;
+  container: SxProps<Theme>;
+  title: SxProps<Theme>;
+};
+
 export function Hero() {
   const width = useResizeWidth();
   const navigate = useNavigate();
-
-  const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
-    buttonHeart: Sx;
-    buttonHeartActive: Sx;
-    container: SxProps<Theme>;
-    title: SxProps<Theme>;
-  };
-
   const token = localStorage.getItem("accessToken");
+
+
 
   const getImages = async (token: string) => {
     const { getImages, getImagesForUser } = endpoints.images;

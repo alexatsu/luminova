@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Home, Login, Join, Favorites, Category, Root } from "@/pages/Core";
+import Blog from "@/modules/blog/Blog";
+import { Root } from "@/modules/core/layouts";
 import { Error } from "@/pages";
-import Blog from "@/pages/Blog/Blog";
+import { Home, Login, Join, Category } from "@/modules/core/pages";
 
 export const routes = createBrowserRouter([
   {
@@ -27,10 +28,7 @@ export const routes = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
-  {
-    path: "favorites",
-    element: <Favorites />,
-  },
+
   {
     path: "blog",
     element: <Blog />,
