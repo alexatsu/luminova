@@ -2,7 +2,7 @@ export const navstyles = {
   container: {
     zIndex: "2",
     top: 0,
-    position: "fixed",
+    position: "sticky",
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",

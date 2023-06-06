@@ -6,17 +6,16 @@
 - Add progress bar (done)
 - Fix footer bug when filtering images, when backend is ready (done)
 - Add Signup and Signin pages (done)
+- Fix menu dropdown zIndex (done)
+- Test JWT auth (register, login, protected, refresh, logout) (done)
+- Add to favorites(done)
+- Add validation to signing(done)
 
-- Fix menu dropdown zIndex
-- Test JWT auth (register, login, protected, refresh, logout)
-- Add to favorites
-- Add validation to signing
-- Add skeleton when images are loading, when backend is ready
 - Finish refactoring
 - Drop Mantine or Mui
+- Add skeleton when images are loading, when backend is ready
 - Switch to scss for scalability
 
 - (optional) ai image generator
 - (optional) Add photo from a local machine
-- (optional) Add proper validation
 

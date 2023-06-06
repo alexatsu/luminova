@@ -5,12 +5,15 @@ const images = "/images";
 
 const endpoints = {
   images: {
-    getImages: `${baseURL}${images}/all`,
+    // imagesForNonUser: `http://localhost:8080/images/all`,
+    // imagesForUser: `http://localhost:8080/images/allforuser`,
+    imagesForNonUser: `${baseURL}${images}/all`,
+    imagesForUser: `${baseURL}${images}/allforuser`,
+    
     categoriesImages: `http://kotatsu.fun:8000/api/categories/all-images`,
     categoriesUserImages: `http://kotatsu.fun:8000/api/categories/all-favorites`,
     // getImagesForUser: `${baseURL}/api/images/user_favorites`,
     // addToFavorites: `${baseURL}/api/images/update_favorite`,
-    getImagesForUser: `${baseURL}${images}/allforuser`,
     addToFavorites: `${baseURL}${images}/favorites`,
     addImage: `${baseURL}${images}/upload`,
     searchImages: `${baseURL}${images}/search`,

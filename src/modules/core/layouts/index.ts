@@ -1,6 +1,5 @@
-import { Hero } from "./Hero";
+import { ImagesBlock } from "./ImagesBlock";
 import { Root } from "./Root";
 import { Footer } from "./Footer";
-import { Navbar } from "./Navbar";
 
-export { Navbar, Footer, Hero, Root };
+export { Footer, ImagesBlock, Root };

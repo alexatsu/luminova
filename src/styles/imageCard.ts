@@ -26,6 +26,7 @@ export const imagesStyles = {
     top: "10px",
   }, //TODO switch to sass
   buttonHeartActive: {
+    height: "2.25rem",
     backgroundColor: "rgb(231, 76, 76)",
     "&:hover": { backgroundColor: "rgb(200, 65, 65)" },
     "& svg": { fill: "#d9d8d8" },

@@ -1,8 +1,8 @@
-import { authEndpoints } from "@/utils";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
+import { authHandler } from "@/services";
 
 const useStyles = createStyles((theme) => ({
   container: { display: "flex", justifyContent: "center", width: "100%", height: "100%" },
@@ -74,15 +74,12 @@ const useStyles = createStyles((theme) => ({
 export function Join() {
   const { classes } = useStyles();
   const { form, title, text, link, image, input, paragraph, container, errorText } = classes;
-  const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { register } = authHandler();
 
+  const [error, setError] = useState("");
   const userForm = useForm({
-    initialValues: {
-      email: "",
-      password: "",
-      name: "",
-    },
+    initialValues: { email: "", password: "", name: "" },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
       password: (value) => (value.length >= 6 ? null : "Password must be at least 6 characters"),
@@ -90,36 +87,12 @@ export function Join() {
     },
   });
 
-  const register = async (payload: { email: string; password: string; name: string }) => {
-    const { email, password, name } = payload;
-    try {
-      const response = await fetch(authEndpoints.register, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password, name }),
-      });
-
-      const data = await response.json();
-
-      if (data.error) {
-        setError(data.error);
-        return;
-      }
-
-      localStorage.setItem("accessToken", data.accessToken);
-      navigate("/");
-
-      console.log(data, "data");
-    } catch (error) {
-      console.log(error, "error register");
-    }
-  };
-
   return (
     <div className={container}>
-      <form className={form} onSubmit={userForm.onSubmit((formValues) => register(formValues))}>
+      <form
+        className={form}
+        onSubmit={userForm.onSubmit((formValues) => register(formValues, navigate, setError))}
+      >
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
           Join Luminova
         </Title>

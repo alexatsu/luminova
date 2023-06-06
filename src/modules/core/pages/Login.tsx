@@ -1,10 +1,10 @@
 // import { reuseFetch } from "@/services/fetch";
-import { authEndpoints } from "@/utils";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { authHandler } from "@/services";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -68,44 +68,21 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const { classes } = useStyles();
-  const navigate = useNavigate();
-  const [error, setError] = useState("");
   const { form, title, text, link, wrapper, input, errorText } = classes;
+  const navigate = useNavigate();
 
+  const { login } = authHandler();
+  const [error, setError] = useState("");
   const userForm = useForm({
     initialValues: { email: "", password: "" },
   });
 
-  const login = async (data: { email: string; password: string }) => {
-    const { email, password } = data;
-    try {
-      const response = await fetch(authEndpoints.login, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-      });
-      const result = await response.json();
-
-      console.log(result);
-      if (result.error === "Invalid email or password") {
-        setError(result.error);
-        return;
-      }
-
-      localStorage.setItem("accessToken", result.accessToken);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%", height: "100%" }}>
-      <form className={form} onSubmit={userForm.onSubmit((formValues) => login(formValues))}>
+      <form
+        className={form}
+        onSubmit={userForm.onSubmit((formValues) => login(formValues, navigate, setError))}
+      >
         <Title order={2} className={title} ta="center" mt="md" mb={50}>
           Login
         </Title>
