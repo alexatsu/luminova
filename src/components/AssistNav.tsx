@@ -1,6 +1,5 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "@/styles/assistNav.scss";
-
 export function AssistNav() {
   const paths = [
     {
@@ -45,15 +44,20 @@ export function AssistNav() {
     },
   ];
 
+  const RenderNavlink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+    return (
+      <NavLink
+        to={to}
+        style={({ isActive }) => ({ borderBottom: isActive ? "2px solid grey" : "none" })}
+      >
+        {children}
+      </NavLink>
+    );
+  };
   const categoriesList = paths.map(({ name, path }) => {
     return (
       <li key={name}>
-        <NavLink
-          to={`/categories/${path}`}
-          style={({ isActive }) => ({ color: isActive ? "red" : "green" })}
-        >
-          {name}
-        </NavLink>
+        <RenderNavlink to={`categories/${path}`}>{name}</RenderNavlink>
       </li>
     );
   });
@@ -63,7 +67,7 @@ export function AssistNav() {
       <div className="main-category">
         <ul>
           <li>
-            <Link to="/">Editorial</Link>
+            <RenderNavlink to="/">Editorial</RenderNavlink>
           </li>
         </ul>
       </div>
