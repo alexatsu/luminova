@@ -74,34 +74,6 @@ a {
           margin-right: 0px;
         }
       }
-
-      &::-webkit-scrollbar {
-        height: 7px;
-      }
-
-      &::-webkit-scrollbar-track {
-        border-radius: 50px;
-        background: #e5e5e5;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border-radius: 50px;
-        background: #3c3c3c;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        border-radius: 50px;
-        background: #202020;
-      }
-    }
-
-    &:hover {
-      ul {
-        white-space: nowrap;
-        overflow: hidden;
-        overflow-x: scroll;
-        padding-bottom: 14px;
-      }
     }
   }
 }
