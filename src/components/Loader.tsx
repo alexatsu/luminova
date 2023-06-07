@@ -1,5 +1,5 @@
-import { PuffLoader } from "react-spinners";
+import { Logo } from "./Logo";
 
-export const Loader = () => {
-  return <PuffLoader style={{ position: "absolute", top: "40%", right: "50%" }} color="#36d7b7" />;
+export const Loader = ({ style }: { style?: React.CSSProperties }) => {
+  return <Logo className="animate-spin" style={style} />;
 };

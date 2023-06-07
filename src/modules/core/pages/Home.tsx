@@ -1,9 +1,10 @@
 import { useResizeWidth } from "@/hooks";
 import { ImagesBlock, Footer } from "../layouts";
-import { useImages } from "../hooks/useImages";
+import { useImages } from "../hooks";
 import { endpoints, handleFetch } from "@/utils";
 import { ImageResources } from "@/types";
 import { PageContainer } from "../components";
+import { Loader } from "@/components";
 
 export function Home() {
   const width = useResizeWidth();
@@ -26,7 +27,12 @@ export function Home() {
 
   return (
     <PageContainer>
-      <ImagesBlock width={width} images={images} />
+      
+      {images.isLoading ? (
+        <Loader style={{ margin: "auto" }} />
+      ) : (
+        <ImagesBlock width={width} images={images} />
+      )}
       <Footer />
     </PageContainer>
   );

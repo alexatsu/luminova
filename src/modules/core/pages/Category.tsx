@@ -1,9 +1,8 @@
 import { endpoints, handleFetch } from "@/utils";
-import { Box } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import { ImageResources } from "@/types";
 import { Loader } from "@/components";
-import { useImages } from "../hooks/useImages";
+import { useImages } from "../hooks";
 import { ImagesBlock, Footer } from "../layouts";
 import { useResizeWidth } from "@/hooks";
 import { PageContainer } from "../components";
@@ -39,7 +38,11 @@ export function Category() {
   return (
     <PageContainer>
       <div>lalalalala</div>
-      <Box>{images.isLoading ? <Loader /> : <ImagesBlock width={width} images={images} />}</Box>
+      {images.isLoading ? (
+        <Loader style={{ margin: "auto" }} />
+      ) : (
+        <ImagesBlock width={width} images={images} />
+      )}
       <Footer />
     </PageContainer>
   );

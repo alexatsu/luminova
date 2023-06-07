@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "@/styles/assistNav.scss";
 
 export function AssistNav() {
@@ -48,7 +48,12 @@ export function AssistNav() {
   const categoriesList = paths.map(({ name, path }) => {
     return (
       <li key={name}>
-        <Link to={`/categories/${path}`}>{name}</Link>
+        <NavLink
+          to={`/categories/${path}`}
+          style={({ isActive }) => ({ color: isActive ? "red" : "green" })}
+        >
+          {name}
+        </NavLink>
       </li>
     );
   });

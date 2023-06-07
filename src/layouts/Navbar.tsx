@@ -25,7 +25,7 @@ export function Navbar() {
         className="mui-fixed" /*don't touch class name, it fixes mui modal (reference FAQ section)*/
       >
         <Box sx={{ display: "flex", alignItems: "space-between" }}>
-          <Link to="/">
+          <Link to="/" style={{marginRight: "1rem",marginBottom: "-5px"}}>
             <Logo />
           </Link>
           <TextField
