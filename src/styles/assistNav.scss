@@ -74,6 +74,7 @@ a {
           margin-right: 10px;
         }
       }
+
       &::-webkit-scrollbar {
         height: 7px;
       }
@@ -93,6 +94,7 @@ a {
         background: #202020;
       }
     }
+
     &:hover {
       ul {
         white-space: nowrap;

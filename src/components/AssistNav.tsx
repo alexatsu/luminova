@@ -44,11 +44,20 @@ export function AssistNav() {
     },
   ];
 
-  const RenderNavlink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  const RenderNavlink = ({
+    to,
+    children,
+  }: {
+    to: string;
+    children: React.ReactNode;
+  }) => {
     return (
       <NavLink
         to={to}
-        style={({ isActive }) => ({ borderBottom: isActive ? "2px solid grey" : "none" })}
+        style={({ isActive }) => ({
+          borderBottom: isActive ? "2px solid #111" : "none",
+          color: isActive ? "#111" : "",
+        })}
       >
         {children}
       </NavLink>
