@@ -1,3 +1,3 @@
-import { PageContainer } from "./PageContainer";
+import { PageWrapper } from "./PageWrapper";
 
-export { PageContainer };
+export { PageWrapper };

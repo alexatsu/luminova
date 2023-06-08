@@ -5,7 +5,8 @@ import { Loader } from "@/components";
 import { useImages } from "../hooks";
 import { ImagesBlock, Footer, PagePreview } from "../layouts";
 import { useResizeWidth } from "@/hooks";
-import { PageContainer } from "../components";
+import { PageWrapper } from "../components";
+import { paths } from "@/utils";
 
 export function Category() {
   const width = useResizeWidth();
@@ -34,18 +35,21 @@ export function Category() {
 
   const queryKey = ["images", accessToken, category];
   const { data, isLoading, updateFavoriteImages } = useImages(queryKey, fetchCategoryImages);
+  const { page_preview, text_for_page_preview } = data || {};
+
+  const { name } = paths.find(({ path }) => path === category) || {};
 
   return (
-    <PageContainer>
+    <PageWrapper>
       {isLoading ? (
         <Loader style={{ margin: "auto" }} />
       ) : (
         <>
-          <PagePreview imgURL={data?.page_preview} />
+          <PagePreview imgURL={page_preview} title={name} description={text_for_page_preview} />
           <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
         </>
       )}
       <Footer />
-    </PageContainer>
+    </PageWrapper>
   );
 }

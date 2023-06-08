@@ -3,7 +3,7 @@ import { ImagesBlock, Footer, PagePreview } from "../layouts";
 import { useImages } from "../hooks";
 import { endpoints, handleFetch } from "@/utils";
 import { ImageResources } from "@/types";
-import { PageContainer } from "../components";
+import { PageWrapper } from "../components";
 import { Loader } from "@/components";
 import temporal from "./temporal.avif";
 
@@ -27,14 +27,19 @@ export function Home() {
   const { data, isLoading, updateFavoriteImages } = useImages(queryKey, fetchImages);
 
   return (
-    <PageContainer>
-      <PagePreview imgURL={temporal} />
+    <PageWrapper>
+      <PagePreview
+        imgURL={temporal}
+        title={"Luminova"}
+        description="The internet’s source for visuals.
+          Powered by creators everywhere."
+      />
       {isLoading ? (
         <Loader style={{ margin: "auto" }} />
       ) : (
         <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
       )}
       <Footer />
-    </PageContainer>
+    </PageWrapper>
   );
 }
