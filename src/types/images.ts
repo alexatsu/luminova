@@ -4,5 +4,5 @@ type ImagesProps = {
   filename: string;
   favorite: boolean;
 };
-type ImageResources = { resources: ImagesProps[] };
+type ImageResources = { resources: ImagesProps[]; page_preview: string };
 export type { ImageResources, ImagesProps };

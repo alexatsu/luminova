@@ -2,7 +2,8 @@ import { imagesStyles } from "@/styles/imageCard";
 import { ImageList, ImageListItem, SxProps, Theme, Typography } from "@mui/material";
 import { Button, Sx } from "@mantine/core";
 import { AiFillHeart } from "react-icons/ai";
-import { UseImagesReturn } from "../hooks/useImages";
+import { ImageResources, ImagesProps } from "@/types";
+import { UseMutateFunction } from "@tanstack/react-query";
 
 const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
   buttonHeart: Sx;
@@ -10,11 +11,20 @@ const { buttonHeart, buttonHeartActive, container, title } = imagesStyles as {
   container: SxProps<Theme>;
   title: SxProps<Theme>;
 };
-type ImagesBlockProps = { width: number; images: UseImagesReturn };
+type ImagesBlockProps = {
+  width: number;
+  data: ImageResources;
+  updateFavImages: UseMutateFunction<
+    ImagesProps[] | undefined,
+    unknown,
+    string,
+    {
+      previousQuery: unknown;
+    }
+  >;
+};
 
-export function ImagesBlock({ width, images }: ImagesBlockProps) {
-  const { data, updateFavoriteImages } = images;
-
+export function ImagesBlock({ width, data, updateFavImages}: ImagesBlockProps) {
   return (
     <>
       <ImageList variant="standard" cols={width > 568 ? 3 : 1} gap={8}>
@@ -24,7 +34,7 @@ export function ImagesBlock({ width, images }: ImagesBlockProps) {
               <img src={url} alt={filename} loading={"eager"} style={{ borderRadius: "8px" }} />
               <Button
                 sx={favorite ? buttonHeartActive : buttonHeart}
-                onClick={() => updateFavoriteImages(public_id)}
+                onClick={() => updateFavImages(public_id)}
               >
                 <AiFillHeart size={16} />
               </Button>

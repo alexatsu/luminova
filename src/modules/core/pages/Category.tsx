@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ImageResources } from "@/types";
 import { Loader } from "@/components";
 import { useImages } from "../hooks";
-import { ImagesBlock, Footer } from "../layouts";
+import { ImagesBlock, Footer, PagePreview } from "../layouts";
 import { useResizeWidth } from "@/hooks";
 import { PageContainer } from "../components";
 
@@ -33,15 +33,17 @@ export function Category() {
   };
 
   const queryKey = ["images", accessToken, category];
-  const images = useImages(queryKey, fetchCategoryImages);
+  const { data, isLoading, updateFavoriteImages } = useImages(queryKey, fetchCategoryImages);
 
   return (
     <PageContainer>
-      <div>lalalalala</div>
-      {images.isLoading ? (
+      {isLoading ? (
         <Loader style={{ margin: "auto" }} />
       ) : (
-        <ImagesBlock width={width} images={images} />
+        <>
+          <PagePreview imgURL={data?.page_preview} />
+          <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
+        </>
       )}
       <Footer />
     </PageContainer>
