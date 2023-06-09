@@ -1,9 +1,7 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
-import SearchIcon from "@mui/icons-material/Search";
-import { Box, TextField, InputAdornment, IconButton, Button } from "@mui/material";
+import { Box, IconButton, Button } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-
 import { Menu } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
@@ -11,6 +9,7 @@ import { Logo, ModalCard } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { authHandler } from "@/services";
+import { SearchInput } from "@/components/form";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -24,21 +23,21 @@ export function Navbar() {
         sx={navstyles.container}
         className="mui-fixed" /*don't touch class name, it fixes mui modal (reference FAQ section)*/
       >
-        <Box sx={{ display: "flex", alignItems: "space-between" }}>
-          <Link to="/" style={{marginRight: "1rem",marginBottom: "-5px"}}>
+        <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+          <Link to="/" style={{ marginRight: "1rem", marginBottom: "-5px" }}>
             <Logo />
           </Link>
-          <TextField
-            placeholder="Search photos"
-            sx={navstyles.searchInput}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+
+          <SearchInput
+            styles={{
+              flexGrow: 1,
+              marginBottom: "-5px",
+              "& .mantine-TextInput-input": {
+                borderRadius: "20px",
+                transition: "all 0.2s ease-in-out",
+              },
+              "& .mantine-TextInput-input:focus": { backgroundColor: "white" },
             }}
-            variant="standard"
           />
         </Box>
 

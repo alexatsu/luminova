@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
 
-export function PagePreview({
-  imgURL,
-  description,
-  title,
-}: {
+type PagePreviewProps = {
   imgURL: string | undefined;
   description?: string | undefined;
   title?: string | undefined;
-}) {
+};
+
+export function PagePreview({ imgURL, description, title }: PagePreviewProps) {
   return (
     <div style={{ display: "flex", position: "relative", marginBottom: "2rem", height: "600px" }}>
       <img
@@ -33,12 +31,14 @@ export function PagePreview({
             fontSize: "1.2rem",
             fontWeight: "semi-bold",
             wordBreak: "break-word",
-            minWidth: "30vw",
+            width: "40vw",
+            marginBottom: "1rem",
           }}
         >
           {description}
         </p>
       </div>
+
       <div
         style={{
           position: "absolute",

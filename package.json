@@ -10,6 +10,8 @@
     "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^16.0.5",
+    "@contentful/rich-text-types": "^16.2.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mantine/core": "^6.0.11",

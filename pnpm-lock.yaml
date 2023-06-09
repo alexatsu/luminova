@@ -1,6 +1,12 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@contentful/rich-text-html-renderer':
+    specifier: ^16.0.5
+    version: 16.0.5
+  '@contentful/rich-text-types':
+    specifier: ^16.2.0
+    version: 16.2.0
   '@emotion/react':
     specifier: ^11.11.0
     version: 11.11.0(@types/react@18.2.6)(react@18.2.0)
@@ -145,6 +151,14 @@ packages:
       '@babel/helper-string-parser': 7.21.5
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
+    dev: false
+
+  /@contentful/rich-text-html-renderer@16.0.5:
+    resolution: {integrity: sha512-iL5I6P2yUx7WsyBZLzbQxmEmL0V80baQv08RA1CqfLDt2OR2qU2h/Ii2NHQMl8xHQS07l27Y6jbbCACvVStCbw==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      '@contentful/rich-text-types': 16.2.0
+      escape-html: 1.0.3
     dev: false
 
   /@contentful/rich-text-types@16.2.0:
@@ -1793,6 +1807,10 @@ packages:
       '@esbuild/win32-ia32': 0.17.19
       '@esbuild/win32-x64': 0.17.19
     dev: true
+
+  /escape-html@1.0.3:
+    resolution: {integrity: sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==}
+    dev: false
 
   /escape-string-regexp@1.0.5:
     resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}

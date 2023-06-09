@@ -13,6 +13,7 @@ export const useImages = (queryKey: QueryKey, fetchImages: () => Promise<ImageRe
   const { data, isLoading } = useQuery<ImageResources>({
     queryKey: queryKey,
     queryFn: fetchImages,
+    refetchOnWindowFocus: false,
   });
 
   const { mutate: updateFavoriteImages } = useMutation({
