@@ -8,6 +8,7 @@ export function SearchInput({ styles }: { styles: Sx | (Sx | undefined)[] | unde
       placeholder="Search images"
       variant={"filled"}
       icon={<AiOutlineSearch size={20} cursor={"pointer"}/>}
+      
     />
   );
 }

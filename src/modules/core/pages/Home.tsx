@@ -28,16 +28,18 @@ export function Home() {
 
   return (
     <PageWrapper>
-      <PagePreview
-        imgURL={temporal}
-        title={"Luminova"}
-        description="The internet’s source for visuals.
-          Powered by creators everywhere."
-      />
       {isLoading ? (
         <Loader style={{ margin: "auto" }} />
       ) : (
-        <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
+        <>
+          <PagePreview
+            imgURL={temporal}
+            title={"Luminova"}
+            description="The internet’s source for visuals.
+          Powered by creators everywhere."
+          />
+          <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
+        </>
       )}
       <Footer />
     </PageWrapper>

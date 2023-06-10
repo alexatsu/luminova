@@ -31,32 +31,41 @@ const authHandler = () => {
   const register: RegisterProps = async (payload, navigate, setError) => {
     const { email, password, name } = payload;
     try {
-      const data = await handleFetch(authEndpoints.register, "POST", {}, { email, password, name });
-      if (data.error) {
-        setError(data.error);
+      const { error, accessToken } = await handleFetch(
+        authEndpoints.register,
+        "POST",
+        {},
+        { email, password, name }
+      );
+
+      if (error) {
+        setError(error);
         return;
       }
 
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("accessToken", accessToken);
       navigate("/");
-
-      console.log(data, "data");
     } catch (error) {
       console.log(error, "error register");
     }
   };
 
-  const login: LoginProps = async (data, navigate, setError) => {
-    const { email, password } = data;
+  const login: LoginProps = async (payload, navigate, setError) => {
+    const { email, password } = payload;
     try {
-      const data = await handleFetch(authEndpoints.login, "POST", {}, { email, password });
-      console.log(data);
-      if (data.error === "Invalid email or password") {
-        setError(data.error);
+      const { error, accessToken } = await handleFetch(
+        authEndpoints.login,
+        "POST",
+        {},
+        { email, password }
+      );
+
+      if (error === "Invalid email or password") {
+        setError(error);
         return;
       }
 
-      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("accessToken", accessToken);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -65,18 +74,17 @@ const authHandler = () => {
 
   const refreshAccessToken = async (navigate: NavigateFunction) => {
     const { refresh } = authEndpoints;
-    const refreshData = await handleFetch(refresh, "POST", {}, {});
-    const { error, accessToken } = refreshData as unknown as {
-      error: string;
-      accessToken: string;
-    };
+    const { error, accessToken } = await handleFetch(refresh, "POST", {}, {});
+
     if (error === "Refresh token missing") {
       navigate("/login");
       localStorage.removeItem("accessToken");
       return;
     }
+
     localStorage.setItem("accessToken", accessToken);
   };
+
   return {
     logoutUser,
     register,

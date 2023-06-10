@@ -1,12 +1,14 @@
+import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 type PagePreviewProps = {
   imgURL: string | undefined;
   description?: string | undefined;
   title?: string | undefined;
+  upload?: () => void;
 };
 
-export function PagePreview({ imgURL, description, title }: PagePreviewProps) {
+export function PagePreview({ imgURL, description, title, upload }: PagePreviewProps) {
   return (
     <div style={{ display: "flex", position: "relative", marginBottom: "2rem", height: "600px" }}>
       <img
@@ -17,7 +19,7 @@ export function PagePreview({ imgURL, description, title }: PagePreviewProps) {
       <div
         style={{
           position: "absolute",
-          top: "35%",
+          top: "25%",
           left: "0",
           color: "white",
           width: "100%",
@@ -37,6 +39,17 @@ export function PagePreview({ imgURL, description, title }: PagePreviewProps) {
         >
           {description}
         </p>
+        {title !== "Luminova" && (
+          <Button
+            onClick={() => console.log("clicked")}
+            variant="gradient"
+            gradient={{ from: "#ffa2c7", to: "#ffb79c", deg: 35 }}
+          >
+            <p style={{ color: "black", fontWeight: "lighter" }}>
+              Submit to <span style={{ fontWeight: "bold" }}>{title}</span>
+            </p>
+          </Button>
+        )}
       </div>
 
       <div

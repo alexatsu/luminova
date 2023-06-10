@@ -16,7 +16,9 @@ export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const accessToken = localStorage.getItem("accessToken");
   const { logoutUser } = authHandler();
-
+  // input:focus {
+  //   outline: none;
+  // }
   return (
     <nav>
       <Box
@@ -34,9 +36,14 @@ export function Navbar() {
               marginBottom: "-5px",
               "& .mantine-TextInput-input": {
                 borderRadius: "20px",
-                transition: "all 0.2s ease-in-out",
+                transition: "background-color 0.2s ease-in-out",
+                outline: "none",
+                border: "1px solid transparent",
+                "&:focus": {
+                  border: "1px solid grey",
+                  backgroundColor: "white",
+                },
               },
-              "& .mantine-TextInput-input:focus": { backgroundColor: "white" },
             }}
           />
         </Box>
