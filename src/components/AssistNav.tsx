@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import "@/styles/assistNav.scss";
 import { paths } from "@/utils";
-export function AssistNav() {
 
+export function AssistNav() {
   const RenderNavlink = ({ to, children }: { to: string; children: React.ReactNode }) => {
     return (
       <NavLink
@@ -16,6 +16,7 @@ export function AssistNav() {
       </NavLink>
     );
   };
+
   const categoriesList = paths.map(({ name, path }) => {
     return (
       <li key={name}>

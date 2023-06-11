@@ -12,7 +12,7 @@ const Blog = () => {
         date: 1234567890
     }
 
-    const [posts, setPosts] = useState<any[]>([
+    const [posts, setPosts] = useState([
         {
             category: "Category 1",
             title: "Title 1",

@@ -13,7 +13,7 @@ type RegisterProps = (
   setError: React.Dispatch<React.SetStateAction<string>>
 ) => void;
 
-const authHandler = () => {
+const reuseAuth = () => {
   const logoutUser = async (token: string | null, navigate: NavigateFunction) => {
     try {
       const response = await handleFetch(authEndpoints.logout, "POST", {
@@ -92,4 +92,4 @@ const authHandler = () => {
     refreshAccessToken,
   };
 };
-export { authHandler };
+export { reuseAuth };

@@ -6,7 +6,7 @@ export const navstyles = {
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
-    padding: "10px 20px",
+    padding: "10px 30px",
     width: "100%",
     height: "50px",
     backgroundColor: "#ffffff",

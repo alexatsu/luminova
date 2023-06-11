@@ -1,24 +1,22 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
-import { Box, IconButton, Button } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import { Menu } from "@mantine/core";
+import { Menu, Button } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { Logo, ModalCard } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
-import { authHandler } from "@/services";
+import { reuseAuth } from "@/services/auth";
 import { SearchInput } from "@/components/form";
 
 export function Navbar() {
   const navigate = useNavigate();
   const { modalOpen, handleOpen, handleClose } = useModal();
   const accessToken = localStorage.getItem("accessToken");
-  const { logoutUser } = authHandler();
-  // input:focus {
-  //   outline: none;
-  // }
+  const { logoutUser } = reuseAuth();
+
   return (
     <nav>
       <Box
@@ -47,14 +45,21 @@ export function Navbar() {
             }}
           />
         </Box>
-
+        <Link to="blog">
+          <Button
+            variant={"subtle"}
+            sx={{
+              color: "grey",
+              fontWeight: "normal",
+              marginBottom: "-5px",
+              transition: "color 0.2s ease-in-out",
+              "&.mantine-Button-root:hover": { backgroundColor: "white", color: "black" },
+            }}
+          >
+            Blog
+          </Button>
+        </Link>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add" enterDelay={400}>
-            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
-              <CloudDownloadIcon />
-            </IconButton>
-          </Tooltip>
-
           {accessToken ? (
             <Menu shadow="md" width={200}>
               <Menu.Target>
@@ -79,9 +84,25 @@ export function Navbar() {
             </Menu>
           ) : (
             <Link to="/login">
-              <Button sx={{ color: "black" }}>Login</Button>
+              <Button
+                variant={"subtle"}
+                sx={{
+                  color: "grey",
+                  fontWeight: "normal",
+                  marginBottom: "-5px",
+                  transition: "color 0.2s ease-in-out",
+                  "&.mantine-Button-root:hover": { backgroundColor: "white", color: "black" },
+                }}
+              >
+                Login
+              </Button>
             </Link>
           )}
+          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add" enterDelay={400}>
+            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
+              <CloudDownloadIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
 
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />

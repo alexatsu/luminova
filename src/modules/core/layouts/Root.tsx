@@ -4,11 +4,11 @@ import { AssistNav, ProgressBar } from "@/components";
 
 export function Root() {
   return (
-    <>
+    <div>
       <Navbar />
       <AssistNav />
       <Outlet />
       <ProgressBar />
-    </>
+    </div>
   );
 }
