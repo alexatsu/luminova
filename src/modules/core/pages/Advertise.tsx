@@ -5,6 +5,7 @@ import { DirectAdv } from "../components/advertise/direct-adv/DirectAdv";
 import { NativeAdv } from "../components/advertise/native-adv/NativeAdv";
 import { Audience } from "../components/advertise/audience/Audience";
 import { AdvContainer } from "../components/advertise/AdvContainer";
+import { ProgressBar } from "@/components";
 
 export const Advertise = () => {
   const dataBrands = [
@@ -111,6 +112,8 @@ export const Advertise = () => {
       <AdvContainer>
         <Audience dataAudienceItems={dataAudienceItems} />
       </AdvContainer>
+
+      <ProgressBar />
     </div>
   );
 };

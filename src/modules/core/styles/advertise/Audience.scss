@@ -29,7 +29,7 @@
   margin: 0 80px;
 }
 
-@media screen and (max-width: 1170px) {
+@media screen and (max-width: 1200px) {
   .email-block-content {
     margin-right: 50px;
   }
@@ -39,7 +39,7 @@
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .email-block {
     display: block;
     text-align: center;
@@ -52,7 +52,7 @@
   }
 
   .email-block-title {
-    font-size: 50px;
+    font-size: 40px;
   }
 
   .email-block-desc {
@@ -64,7 +64,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   .email-block {
     border-radius: 0px;
   }
@@ -74,12 +74,12 @@
   }
 }
 
-@media screen and (max-width: 427px) {
+@media screen and (max-width: 480px) {
   .email-block-descr {
     margin-top: 10px;
   }
 
   .email-block-title {
-    font-size: 20px;
+    font-size: 19px;
   }
 }
