@@ -50,7 +50,7 @@ export const Advertise = () => {
       url: "./img/direct-homepage.svg",
       title: "Homepage",
       descr: `Taking over the homepage increases your brand’s
-        relevance with the entirety of Unsplash’s audience.`,
+        relevance with the entirety of Luminova’s audience.`,
     },
     {
       url: "./img/direct-video.svg",
