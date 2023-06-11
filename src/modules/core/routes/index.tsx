@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import { Home, Category, Join, Login } from "../pages";
+import { Home, Category, Join, Login, Advertise } from "../pages";
 import { Root } from "../layouts";
 import { Error } from "../../../pages";
 
@@ -27,4 +27,8 @@ export const core: RouteObject[] = [
     path: "login",
     element: <Login />,
   },
+  {
+    path: "advertise",
+    element: <Advertise />,
+  }
 ];
