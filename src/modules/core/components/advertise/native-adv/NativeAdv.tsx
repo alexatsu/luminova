@@ -18,7 +18,7 @@ export const NativeAdv = () => {
           title={"Native advertising"}
           descr={`Generate brand lift unseen on any other platform.
           It works simply by sharing your brand’s beautiful
-          content on Unsplash in targeted search results. And in exchange,
+          content on Luminova in targeted search results. And in exchange,
           creators of the internet share your content with their audiences — in
           relevant trusted places.`}
         />
