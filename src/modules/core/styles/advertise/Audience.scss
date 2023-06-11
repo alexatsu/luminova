@@ -65,7 +65,21 @@
 }
 
 @media screen and (max-width: 600px) {
+  .email-block {
+    border-radius: 0px;
+  }
+
   .email-block-title {
     font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 427px) {
+  .email-block-descr {
+    margin-top: 10px;
+  }
+
+  .email-block-title {
+    font-size: 20px;
   }
 }
