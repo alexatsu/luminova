@@ -20,13 +20,15 @@ export const Btn = ({
   };
 
   return (
-    <button
-      className={styleCenter}
-      style={{
-        ...styleBtn,
-      }}
-    >
-      <div style={{ color: setColor() }}>{children}</div>
-    </button>
+    <div className="adv-btn">
+      <button
+        className={styleCenter}
+        style={{
+          ...styleBtn,
+        }}
+      >
+        <div style={{ color: setColor() }}>{children}</div>
+      </button>
+    </div>
   );
 };

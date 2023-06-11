@@ -6,7 +6,7 @@ import "../../../styles/advertise/Header.scss";
 export const Header = () => {
   return (
     <div
-      className="header"
+      className="adv-header"
       style={{
         display: "flex",
         flexWrap: "wrap",
@@ -15,7 +15,7 @@ export const Header = () => {
         padding: "10px 10px",
       }}
     >
-      <div className="header-info">
+      <div className="adv-header-info">
         <Description
           title={"Advertise on Luminova"}
           descr={"The world’s most popular creative platform."}
