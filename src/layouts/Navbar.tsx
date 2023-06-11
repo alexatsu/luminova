@@ -1,13 +1,12 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
-import SearchIcon from "@mui/icons-material/Search";
-import { Box, TextField, InputAdornment, IconButton} from "@mui/material";
+import { Box,IconButton, Button } from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import { Menu, Button } from "@mantine/core";
+import { Menu } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { Logo, ModalCard } from "@/components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { reuseAuth } from "@/services/auth";
 import { SearchInput } from "@/components/form";
@@ -17,7 +16,7 @@ export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const accessToken = localStorage.getItem("accessToken");
   const { logoutUser } = reuseAuth();
-
+  const location = useLocation();
   return (
     <nav>
       <Box
@@ -46,35 +45,35 @@ export function Navbar() {
             }}
           />
         </Box>
-        <Link to="blog">
+        <Link to="/blog">
           <Button
-            variant={"subtle"}
             sx={{
               color: "grey",
               fontWeight: "normal",
               marginBottom: "-5px",
               transition: "color 0.2s ease-in-out",
-              "&.mantine-Button-root:hover": { backgroundColor: "white", color: "black" },
+              textTransform: "none",
             }}
           >
             Blog
           </Button>
         </Link>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Link to="/advertise">
-            <Button sx={{ color: "black", textTransform: "none" }}>Advertise</Button>
-          </Link>
 
-          <Tooltip
-            placement={"bottom"}
-            TransitionComponent={Fade}
-            title="Add"
-            enterDelay={400}
-          >
-            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
-              <CloudDownloadIcon />
-            </IconButton>
-          </Tooltip>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {location.pathname !== "/advertise" && (
+            <Link to="advertise">
+              <Button
+                sx={{
+                  color: "grey",
+                  fontWeight: "normal",
+                  textTransform: "none",
+                  marginBottom: "-5px",
+                }}
+              >
+                Advertise
+              </Button>
+            </Link>
+          )}
 
           {accessToken ? (
             <Menu shadow="md" width={200}>
@@ -86,11 +85,7 @@ export function Navbar() {
                   enterDelay={400}
                 >
                   <IconButton sx={navstyles.btnAddPhoto}>
-                    <BiUserCircle
-                      size={"1.3rem"}
-                      color="grey"
-                      cursor={"pointer"}
-                    />
+                    <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
                   </IconButton>
                 </Tooltip>
               </Menu.Target>
@@ -99,20 +94,18 @@ export function Navbar() {
                 <Menu.Item>Stats</Menu.Item>
                 <Menu.Item>Account settings</Menu.Item>
                 <Menu.Divider />
-                <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>
-                  Logout
-                </Menu.Item>
+                <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           ) : (
             <Link to="/login">
               <Button
-                variant={"subtle"}
                 sx={{
                   color: "grey",
                   fontWeight: "normal",
                   marginBottom: "-5px",
                   transition: "color 0.2s ease-in-out",
+                  textTransform: "none",
                   "&.mantine-Button-root:hover": { backgroundColor: "white", color: "black" },
                 }}
               >
