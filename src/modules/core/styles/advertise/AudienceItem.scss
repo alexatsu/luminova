@@ -1,0 +1,36 @@
+.audience-item {
+  margin-top: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 380px;
+  height: 270px;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+p {
+  font-weight: bold;
+  font-size: 27px;
+}
+
+span {
+  font-size: 14px;
+}
+
+@media screen and (max-width: 1024px) {
+  .audience-item {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .audience-item {
+    min-width: 250px;
+  }
+
+  p {
+    font-size: 25px;
+  }
+}

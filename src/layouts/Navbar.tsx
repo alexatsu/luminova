@@ -1,6 +1,7 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
-import { Box, IconButton } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { Box, TextField, InputAdornment, IconButton} from "@mui/material";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import { Menu, Button } from "@mantine/core";
 import { useModal } from "@/hooks";
@@ -60,6 +61,21 @@ export function Navbar() {
           </Button>
         </Link>
         <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Link to="/advertise">
+            <Button sx={{ color: "black", textTransform: "none" }}>Advertise</Button>
+          </Link>
+
+          <Tooltip
+            placement={"bottom"}
+            TransitionComponent={Fade}
+            title="Add"
+            enterDelay={400}
+          >
+            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
+              <CloudDownloadIcon />
+            </IconButton>
+          </Tooltip>
+
           {accessToken ? (
             <Menu shadow="md" width={200}>
               <Menu.Target>
@@ -70,7 +86,11 @@ export function Navbar() {
                   enterDelay={400}
                 >
                   <IconButton sx={navstyles.btnAddPhoto}>
-                    <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
+                    <BiUserCircle
+                      size={"1.3rem"}
+                      color="grey"
+                      cursor={"pointer"}
+                    />
                   </IconButton>
                 </Tooltip>
               </Menu.Target>
@@ -79,7 +99,9 @@ export function Navbar() {
                 <Menu.Item>Stats</Menu.Item>
                 <Menu.Item>Account settings</Menu.Item>
                 <Menu.Divider />
-                <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
+                <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>
+                  Logout
+                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           ) : (

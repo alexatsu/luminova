@@ -1,0 +1,11 @@
+.adv-list-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 768px) {
+  .adv-list-items {
+    justify-content: center;
+  }
+}
