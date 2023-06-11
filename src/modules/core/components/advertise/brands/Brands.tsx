@@ -1,3 +1,5 @@
+import '../../../styles/advertise/Brands.scss';
+
 export const Brands = ({ dataBrands }: { dataBrands: any }) => {
   return (
     <div className="brands" style={{ marginTop: "30px" }}>

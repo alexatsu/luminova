@@ -19,13 +19,13 @@ span {
   font-size: 14px;
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1024px) {
   .audience-item {
-    width: 300px;
+    width: 280px;
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
   .audience-item {
     min-width: 250px;
   }

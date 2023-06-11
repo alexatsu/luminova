@@ -1,8 +1,10 @@
 import { Description } from "../../Description";
 
+import "../../../../styles/advertise/AdvItem.scss";
+
 export const AdvItem = ({ url, title, descr }: any) => {
   return (
-    <div className="adv-item" style={{ width: "300px", maxHeight: "100%" }}>
+    <div className="adv-item">
       <img
         src={url}
         alt={title}

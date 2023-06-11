@@ -1,0 +1,10 @@
+.adv-item {
+  width: 300px;
+  max-height: 100%;
+}
+
+@media screen and (max-width: 1024px) {
+  .adv-item {
+    width: 280px;
+  }
+}

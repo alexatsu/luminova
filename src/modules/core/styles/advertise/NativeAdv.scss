@@ -1,21 +1,3 @@
-.studio {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #F5F5F5;
-  margin: 100px auto;
-  padding: 40px 50px;
-  max-width: 100%;
-  border-radius: 5px;
-}
-
-@media screen and (max-width: 900px) {
-  .studio {
-    flex-direction: column-reverse;
-
-    .studio-info {
-      text-align: center;
-    }
 
     .studio-img {
       margin-bottom: 20px;
