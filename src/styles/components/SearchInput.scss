@@ -1,0 +1,16 @@
+.search {
+  &-navbar {
+    flex-grow: 1;
+    & .mantine-TextInput-input {
+      border-radius: 20px;
+      transition: background-color 0.2s ease-in-out;
+      outline: none;
+      border: 1px solid transparent;
+
+      &:focus {
+        border: 1px solid grey;
+        background-color: white;
+      }
+    }
+  }
+}

@@ -1,14 +1,13 @@
 import { Sx, TextInput } from "@mantine/core";
 import { AiOutlineSearch } from "react-icons/ai";
 
-export function SearchInput({ styles }: { styles: Sx | (Sx | undefined)[] | undefined }) {
+export function SearchInput({ className }: { className?: string }) {
   return (
     <TextInput
-      sx={styles}
+      className={className}
       placeholder="Search images"
       variant={"filled"}
-      icon={<AiOutlineSearch size={20} cursor={"pointer"}/>}
-      
+      icon={<AiOutlineSearch size={20} cursor={"pointer"} />}
     />
   );
 }
