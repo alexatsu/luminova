@@ -6,7 +6,7 @@ export const navstyles = {
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
-    padding: "10px 30px",
+    padding: "10px 15px",
     width: "100%",
     height: "50px",
     backgroundColor: "#ffffff",
@@ -26,16 +26,14 @@ export const navstyles = {
     alignSelf: "flex-end",
   },
   btnAddPhoto: {
-    backgroundColor: "white",
-    color: "#767676",
     ":hover": { backgroundColor: "white", color: "black" },
-    height: "30px",
-    fontSize: "12px",
-    alignSelf: "center",
-    transition: "all 0.15s ease-in-out",
-    "@media (max-width: 568px)": {
-      fontSize: "10px",
-    },
+    color: "grey",
+    marginBottom: "-5px",
+    transition: "color 0.2s ease-in-out",
+    textTransform: "none",
+    whiteSpace: "nowrap",
+    display: "inline-block",
+    boxSizing: "border-box",
+    padding: "10px 15px",
   },
-
 };

@@ -27,7 +27,7 @@ type ImagesBlockProps = {
 export function ImagesBlock({ width, data, updateFavImages}: ImagesBlockProps) {
   return (
     <>
-      <ImageList variant="standard" cols={width > 568 ? 3 : 1} gap={8}>
+      <ImageList variant={"masonry"} cols={width > 568 ? 3 : 1} gap={8}>
         <>
           {data?.resources.map(({ public_id, url, filename, favorite }) => (
             <ImageListItem key={public_id} sx={container}>

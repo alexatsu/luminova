@@ -1,7 +1,6 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
-import { Box,IconButton, Button } from "@mui/material";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import { Box, IconButton, Button } from "@mui/material";
 import { Menu } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
@@ -10,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
 import { reuseAuth } from "@/services/auth";
 import { SearchInput } from "@/components/form";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -17,12 +17,10 @@ export function Navbar() {
   const accessToken = localStorage.getItem("accessToken");
   const { logoutUser } = reuseAuth();
   const location = useLocation();
+
   return (
     <nav>
-      <Box
-        sx={navstyles.container}
-        className="mui-fixed" /*don't touch class name, it fixes mui modal (reference FAQ section)*/
-      >
+      <Box sx={navstyles.container}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
           <Link to="/" style={{ marginRight: "1rem", marginBottom: "-5px" }}>
             <Logo />
@@ -45,21 +43,22 @@ export function Navbar() {
             }}
           />
         </Box>
-        <Link to="/blog">
-          <Button
-            sx={{
-              color: "grey",
-              fontWeight: "normal",
-              marginBottom: "-5px",
-              transition: "color 0.2s ease-in-out",
-              textTransform: "none",
-            }}
-          >
-            Blog
-          </Button>
-        </Link>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
+          <Link to="/blog">
+            <Button
+              sx={{
+                color: "grey",
+                fontWeight: "normal",
+                marginBottom: "-5px",
+                transition: "color 0.2s ease-in-out",
+                textTransform: "none",
+              }}
+            >
+              Blog
+            </Button>
+          </Link>
+
           {location.pathname !== "/advertise" && (
             <Link to="advertise">
               <Button
@@ -74,7 +73,9 @@ export function Navbar() {
               </Button>
             </Link>
           )}
+        </Box>
 
+        <Box sx={{ "@media (max-width: 767px)": { display: "none" }, display: "flex" }}>
           {accessToken ? (
             <Menu shadow="md" width={200}>
               <Menu.Target>
@@ -113,12 +114,30 @@ export function Navbar() {
               </Button>
             </Link>
           )}
-          <Tooltip placement={"bottom"} TransitionComponent={Fade} title="Add" enterDelay={400}>
-            <IconButton sx={navstyles.btnAddPhoto} onClick={handleOpen}>
-              <CloudDownloadIcon />
-            </IconButton>
-          </Tooltip>
+          <Button
+            sx={{
+              color: "grey",
+              marginBottom: "-5px",
+              transition: "all 0.12s ease-in-out",
+              textTransform: "none",
+              border: "1px solid rgb(185, 184, 184)",
+              whiteSpace: "nowrap",
+              padding: "0.2rem 1.5rem",
+              ":hover": {
+                backgroundColor: "white",
+                color: "rgb(68, 68, 68)",
+                border: "1px solid rgb(68, 68, 68)",
+              },
+            }}
+            onClick={handleOpen}
+          >
+            Upload a photo
+          </Button>
         </Box>
+
+        <IconButton sx={{ marginBottom: "-5px" }}>
+          <GiHamburgerMenu />
+        </IconButton>
 
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
