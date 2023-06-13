@@ -24,10 +24,19 @@ type ImagesBlockProps = {
   >;
 };
 
-export function ImagesBlock({ width, data, updateFavImages}: ImagesBlockProps) {
+export function ImagesBlock({ width, data, updateFavImages }: ImagesBlockProps) {
   return (
     <>
-      <ImageList variant="standard" cols={width > 568 ? 3 : 1} gap={8}>
+      <ImageList
+        sx={{
+          padding: "0 25px",
+          "@media (max-width: 993px)": { padding: "0 15px" },
+          "@media (max-width: 768px)": { padding: "0" },
+        }}
+        variant={"masonry"}
+        cols={width > 993 ? 3 : width > 768 ? 2 : 1}
+        gap={16}
+      >
         <>
           {data?.resources.map(({ public_id, url, filename, favorite }) => (
             <ImageListItem key={public_id} sx={container}>

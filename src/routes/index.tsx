@@ -10,4 +10,3 @@ const blog: RouteObject[] = [
   },
 ];
 export const routes = createBrowserRouter([...core, ...blog, ...tos]);
-  
