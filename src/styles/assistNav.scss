@@ -60,7 +60,7 @@ a {
       overflow-x: none;
       touch-action: none;
       transition: all 0.2s ease-in-out;
-
+      transition-delay: 0.2s;
       li {
         margin-right: 30px;
         a {
@@ -100,7 +100,7 @@ a {
         transform: translateX(-120%);
         width: 50px;
         height: 5px;
-        bottom: 5px;
+        bottom: 2px;
         opacity: 0;
         transition: all 0.3s ease;
 
@@ -113,7 +113,7 @@ a {
         }
 
         .nav-progress-fill {
-          background-color: #d5d5d5;
+          background-color: #acacac;
           border-radius: 10px;
           width: 0%;
           height: 100%;

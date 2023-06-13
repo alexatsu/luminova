@@ -11,7 +11,7 @@ type PagePreviewProps = {
 export function PagePreview({ imgURL, description, title, upload }: PagePreviewProps) {
   return (
     <div className="page-preview-container">
-      <img src={imgURL} alt="giga" />
+      <img src={imgURL} alt="giga" style={{userSelect: "none"}} />
 
       <section className="main-text-section">
         <h1 className="text-header">{title}</h1>

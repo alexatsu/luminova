@@ -1,17 +1,10 @@
 import { useState, useRef } from "react";
-
 import { NavLink } from "react-router-dom";
 import "@/styles/assistNav.scss";
 import { paths } from "@/utils";
 
 export function AssistNav() {
-  const RenderNavlink = ({
-    to,
-    children,
-  }: {
-    to: string;
-    children: React.ReactNode;
-  }) => {
+  const RenderNavlink = ({ to, children }: { to: string; children: React.ReactNode }) => {
     return (
       <NavLink
         to={to}
@@ -34,26 +27,22 @@ export function AssistNav() {
   });
 
   const ref = useRef<HTMLUListElement>(null);
-
   const [dragging, setDragging] = useState(false);
 
-  const onDragging = (event: any) => {
+  const onDragging = (event: React.MouseEvent<HTMLUListElement>) => {
+    const { target, movementX } = event;
     if (!dragging || !event.target || !ref.current) return;
-
-    console.log("dragging");
-
-    event.target.scrollLeft -= event.movementX;
+    
+    const ulElement = target as HTMLUListElement;
+    ulElement.scrollLeft -= movementX;
 
     const width = ref.current.scrollWidth - ref.current.clientWidth;
+    const percentage = (100 * ulElement.scrollLeft) / width;
 
-    const percentage = (100 * event.target.scrollLeft) / width;
-
-    document.querySelector<HTMLElement>(
-      ".nav-progress-fill"
-    )!.style.width = `${percentage}%`;
+    document.querySelector<HTMLElement>(".nav-progress-fill")!.style.width = `${percentage}%`;
   };
 
-  const onSetDraggingTrue = (event: any) => {
+  const onSetDraggingTrue = (event: React.MouseEvent<HTMLUListElement>) => {
     if (event.target != ref.current) return;
     setDragging(true);
   };
@@ -73,13 +62,12 @@ export function AssistNav() {
       <div className="other-categories">
         <ul
           ref={ref}
-          onMouseMove={onDragging}
+          onMouseMove={(event) => onDragging(event)}
           onMouseDown={(event) => onSetDraggingTrue(event)}
           onMouseUp={() => setDragging(false)}
           onMouseLeave={() => setDragging(false)}
         >
           {categoriesList}
-
           <div className="nav-progress-bar">
             <div className="nav-progress-fill"></div>
           </div>
