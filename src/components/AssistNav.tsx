@@ -1,9 +1,17 @@
+import { useState, useRef } from "react";
+
 import { NavLink } from "react-router-dom";
 import "@/styles/assistNav.scss";
 import { paths } from "@/utils";
 
 export function AssistNav() {
-  const RenderNavlink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  const RenderNavlink = ({
+    to,
+    children,
+  }: {
+    to: string;
+    children: React.ReactNode;
+  }) => {
     return (
       <NavLink
         to={to}
@@ -25,6 +33,31 @@ export function AssistNav() {
     );
   });
 
+  const ref = useRef<HTMLUListElement>(null);
+
+  const [dragging, setDragging] = useState(false);
+
+  const onDragging = (event: any) => {
+    if (!dragging || !event.target || !ref.current) return;
+
+    console.log("dragging");
+
+    event.target.scrollLeft -= event.movementX;
+
+    const width = ref.current.scrollWidth - ref.current.clientWidth;
+
+    const percentage = (100 * event.target.scrollLeft) / width;
+
+    document.querySelector<HTMLElement>(
+      ".nav-progress-fill"
+    )!.style.width = `${percentage}%`;
+  };
+
+  const onSetDraggingTrue = (event: any) => {
+    if (event.target != ref.current) return;
+    setDragging(true);
+  };
+
   return (
     <div className="assist-nav">
       <div className="main-category">
@@ -38,7 +71,19 @@ export function AssistNav() {
       <div className="line"></div>
 
       <div className="other-categories">
-        <ul>{categoriesList}</ul>
+        <ul
+          ref={ref}
+          onMouseMove={onDragging}
+          onMouseDown={(event) => onSetDraggingTrue(event)}
+          onMouseUp={() => setDragging(false)}
+          onMouseLeave={() => setDragging(false)}
+        >
+          {categoriesList}
+
+          <div className="nav-progress-bar">
+            <div className="nav-progress-fill"></div>
+          </div>
+        </ul>
       </div>
     </div>
   );
