@@ -15,16 +15,11 @@ html,
 #root {
   width: 100%;
   height: 100%;
-  /* overflow: auto; */
+  font-size: 16px;
 }
 img,
 picture,
 svg {
   display: block;
   max-width: 100%;
-}
-:root {
-  --primary-text-color: #2d2d2d;
-  --primary-text-color-darker: #141414;
-  --primary-white-color: #ededed;
 }

@@ -28,12 +28,12 @@ export const navstyles = {
   btnAddPhoto: {
     ":hover": { backgroundColor: "white", color: "black" },
     color: "grey",
-    marginBottom: "-5px",
     transition: "color 0.2s ease-in-out",
     textTransform: "none",
     whiteSpace: "nowrap",
     display: "inline-block",
     boxSizing: "border-box",
-    padding: "10px 15px",
+    border: "1px solid #e0e0e0",
+    marginRight: "10px",
   },
 };

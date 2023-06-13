@@ -1,4 +1,4 @@
-import { Sx, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
 import { AiOutlineSearch } from "react-icons/ai";
 
 export function SearchInput({ className }: { className?: string }) {

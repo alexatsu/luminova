@@ -9,7 +9,7 @@ export function License() {
   return (
     <div>
       <h1>{renderField(content, "header")}</h1>
-      <div>{renderField(content, "luminovaCanBeUsedFreely")}</div>      
+      <div>{renderField(content, "luminovaCanBeUsedFreely")}</div>
     </div>
   );
 }

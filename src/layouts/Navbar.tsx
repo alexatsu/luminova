@@ -1,15 +1,15 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
-import { Menu } from "@mantine/core";
+import { List, Menu, Text } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { Logo, ModalCard } from "@/components";
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
-import { BiUserCircle } from "react-icons/bi";
 import { reuseAuth } from "@/services/auth";
 import { SearchInput } from "@/components/form";
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
+import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ export function Navbar() {
           <Link to="/" style={{ marginRight: "1rem", marginBottom: "-5px" }}>
             <Logo />
           </Link>
+
           <SearchInput className="search-navbar" />
         </Box>
 
@@ -42,11 +43,7 @@ export function Navbar() {
           <UploadButton handleOpen={handleOpen} />
         </Box>
 
-        {/* <Menu.Target>
-          <IconButton>
-            <Gigachamburger />
-          </IconButton>
-        </Menu.Target> */}
+        <HamburgerMenu />
 
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
@@ -106,7 +103,7 @@ function UserMenu({
           enterDelay={400}
         >
           <IconButton sx={navstyles.btnAddPhoto}>
-            <BiUserCircle size={"1.3rem"} color="grey" cursor={"pointer"} />
+            <AiOutlineUser size={20} color="grey" cursor={"pointer"} />
           </IconButton>
         </Tooltip>
       </Menu.Target>
@@ -148,7 +145,8 @@ function UploadButton({ handleOpen }: { handleOpen: () => void }) {
         textTransform: "none",
         border: "1px solid rgb(185, 184, 184)",
         whiteSpace: "nowrap",
-        padding: "0.2rem 1.5rem",
+        padding: "0 1.5rem",
+        marginRight: "5px",
         ":hover": {
           backgroundColor: "white",
           color: "rgb(68, 68, 68)",
@@ -159,5 +157,85 @@ function UploadButton({ handleOpen }: { handleOpen: () => void }) {
     >
       Upload a photo
     </Button>
+  );
+}
+
+function HamburgerMenu() {
+  const listData = {
+    company: {
+      header: "Company",
+      icon: <AiOutlineHome style={{ marginRight: "4px" }} />,
+      list: ["About", "History", "Join the team", "Press", "Contact us", "Help Center"],
+    },
+    terms: {
+      header: "Terms",
+      icon: <AiOutlineProfile style={{ marginRight: "4px" }} />,
+      list: ["License", "Terms & Conditions", "Privacy Policy", "Security"],
+    },
+    community: {
+      header: "Community",
+      icon: <AiOutlineTeam style={{ marginRight: "4px" }} />,
+      list: ["Become a Contributor", "Topics", "Collection", "Trends", "Luminova Awards", "Stats"],
+    },
+  };
+
+  const { company, terms, community } = listData;
+  
+  return (
+    <Menu position="bottom-end" shadow="md" width={600}>
+      <Menu.Target>
+        <IconButton>
+          <Gigachamburger />
+        </IconButton>
+      </Menu.Target>
+
+      <Menu.Dropdown
+        sx={{
+          "& > div": { width: "100%", display: "flex", justifyContent: "space-evenly" },
+          padding: "20px",
+        }}
+      >
+        {[company, terms, community].map(({ header, list, icon }) => (
+          <Box
+            key={header}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              flexBasis: "30%",
+            }}
+          >
+            <Box
+              sx={{ width: "100%", display: "flex", alignItems: "center", marginBottom: "10px" }}
+            >
+              {icon}
+              <Text size={16} style={{ fontWeight: "700" }}>
+                {header}
+              </Text>
+            </Box>
+
+            <List sx={{ width: "100%", paddingLeft: "20px" }}>
+              {list.map((text, index) => {
+                return (
+                  <List.Item
+                    key={index}
+                    sx={{
+                      marginBottom: "5px",
+                      transition: "all 0.12s ease-in-out",
+                      color: "#7a7a7a",
+                      "&:hover": { color: "#2e2e2e" },
+                    }}
+                  >
+                    <Text style={{ fontWeight: "500", cursor: "pointer" }} size={14}>
+                      {text}
+                    </Text>
+                  </List.Item>
+                );
+              })}
+            </List>
+          </Box>
+        ))}
+      </Menu.Dropdown>
+    </Menu>
   );
 }
