@@ -1,0 +1,23 @@
+.button {
+  &-nav-page.MuiButtonBase-root {
+    color: grey;
+    font-weight: normal;
+    transition: color 0.2s ease-in-out;
+    text-transform: none;
+  }
+
+  &-upload.MuiButtonBase-root {
+    color: grey;
+    transition: all 0.12s ease-in-out;
+    text-transform: none;
+    border: 1px solid rgb(185, 184, 184);
+    white-space: nowrap;
+    padding: 0 1.5rem;
+    margin-right: 5px;
+    &:hover {
+      background-color: white;
+      color: rgb(68, 68, 68);
+      border: 1px solid rgb(68, 68, 68);
+    }
+  }
+}

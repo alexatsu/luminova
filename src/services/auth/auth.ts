@@ -31,12 +31,12 @@ const reuseAuth = () => {
   const register: RegisterProps = async (payload, navigate, setError) => {
     const { email, password, name } = payload;
     try {
-      const { error, accessToken } = await handleFetch(
+      const { error, accessToken } = (await handleFetch(
         authEndpoints.register,
         "POST",
         {},
         { email, password, name }
-      );
+      )) as { error: string; accessToken: string };
 
       if (error) {
         setError(error);
@@ -53,12 +53,12 @@ const reuseAuth = () => {
   const login: LoginProps = async (payload, navigate, setError) => {
     const { email, password } = payload;
     try {
-      const { error, accessToken } = await handleFetch(
+      const { error, accessToken } = (await handleFetch(
         authEndpoints.login,
         "POST",
         {},
         { email, password }
-      );
+      )) as { error: string; accessToken: string };
 
       if (error === "Invalid email or password") {
         setError(error);
@@ -74,7 +74,10 @@ const reuseAuth = () => {
 
   const refreshAccessToken = async (navigate: NavigateFunction) => {
     const { refresh } = authEndpoints;
-    const { error, accessToken } = await handleFetch(refresh, "POST", {}, {});
+    const { error, accessToken } = (await handleFetch(refresh, "POST", {}, {})) as {
+      error: string;
+      accessToken: string;
+    };
 
     if (error === "Refresh token missing") {
       navigate("/login");

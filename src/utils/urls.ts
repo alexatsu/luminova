@@ -5,8 +5,8 @@ const images = "/images";
 
 const endpoints = {
   images: {
-    // imagesForNonUser: `http://localhost:8080/images/all`,
-    // imagesForUser: `http://localhost:8080/images/allforuser`,
+    // imagesForNonUser: `${baseURL}/images/all`,
+    // imagesForUser: `${baseURL}/images/allforuser`,
     imagesForNonUser: `${baseURL}${images}/all`,
     imagesForUser: `${baseURL}${images}/allforuser`,
     

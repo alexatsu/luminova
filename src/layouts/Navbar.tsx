@@ -30,15 +30,15 @@ export function Navbar() {
         </Box>
 
         <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
-          <BlogButton />
-          {pathname !== "/advertise" && <AdvertiseButton />}
+          {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
+          {pathname !== "/advertise" && <PageButton path="advertise" />}
         </Box>
 
         <Box sx={{ "@media (max-width: 767px)": { display: "none" }, display: "flex" }}>
           {accessToken ? (
             <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
           ) : (
-            <LoginButton />
+            <PageButton path="login" />
           )}
           <UploadButton handleOpen={handleOpen} />
         </Box>
@@ -51,36 +51,20 @@ export function Navbar() {
   );
 }
 
-function BlogButton() {
+function PageButton({ path }: { path: string }) {
+  const buttonText = path.charAt(0).toUpperCase() + path.slice(1);
   return (
-    <Link to="/blog">
-      <Button
-        sx={{
-          color: "grey",
-          fontWeight: "normal",
-          transition: "color 0.2s ease-in-out",
-          textTransform: "none",
-        }}
-      >
-        Blog
-      </Button>
+    <Link to={`/${path}`}>
+      <Button className="button-nav-page">{buttonText}</Button>
     </Link>
   );
 }
 
-function AdvertiseButton() {
+function UploadButton({ handleOpen }: { handleOpen: () => void }) {
   return (
-    <Link to="advertise">
-      <Button
-        sx={{
-          color: "grey",
-          fontWeight: "normal",
-          textTransform: "none",
-        }}
-      >
-        Advertise
-      </Button>
-    </Link>
+    <Button className="button-upload" onClick={handleOpen}>
+      Upload a photo
+    </Button>
   );
 }
 
@@ -118,48 +102,6 @@ function UserMenu({
   );
 }
 
-function LoginButton() {
-  return (
-    <Link to="/login">
-      <Button
-        sx={{
-          color: "grey",
-          fontWeight: "normal",
-          transition: "color 0.2s ease-in-out",
-          textTransform: "none",
-          "&.mantine-Button-root:hover": { backgroundColor: "white", color: "black" },
-        }}
-      >
-        Login
-      </Button>
-    </Link>
-  );
-}
-
-function UploadButton({ handleOpen }: { handleOpen: () => void }) {
-  return (
-    <Button
-      sx={{
-        color: "grey",
-        transition: "all 0.12s ease-in-out",
-        textTransform: "none",
-        border: "1px solid rgb(185, 184, 184)",
-        whiteSpace: "nowrap",
-        padding: "0 1.5rem",
-        marginRight: "5px",
-        ":hover": {
-          backgroundColor: "white",
-          color: "rgb(68, 68, 68)",
-          border: "1px solid rgb(68, 68, 68)",
-        },
-      }}
-      onClick={handleOpen}
-    >
-      Upload a photo
-    </Button>
-  );
-}
-
 function HamburgerMenu() {
   const listData = {
     company: {
@@ -180,7 +122,7 @@ function HamburgerMenu() {
   };
 
   const { company, terms, community } = listData;
-  
+
   return (
     <Menu position="bottom-end" shadow="md" width={600}>
       <Menu.Target>
@@ -191,8 +133,14 @@ function HamburgerMenu() {
 
       <Menu.Dropdown
         sx={{
-          "& > div": { width: "100%", display: "flex", justifyContent: "space-evenly" },
-          padding: "20px",
+          "& > div": {
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-evenly",
+            // TODO: continue here
+            "@media (max-width: 993px)": { flexDirection: "column", alignItems: "center" },
+            padding: "20px",
+          },
         }}
       >
         {[company, terms, community].map(({ header, list, icon }) => (
