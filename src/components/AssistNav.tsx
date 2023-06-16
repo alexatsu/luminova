@@ -1,10 +1,16 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { NavLink } from "react-router-dom";
 import "@/styles/assistNav.scss";
 import { paths } from "@/utils";
 
 export function AssistNav() {
-  const RenderNavlink = ({ to, children }: { to: string; children: React.ReactNode }) => {
+  const RenderNavlink = ({
+    to,
+    children,
+  }: {
+    to: string;
+    children: React.ReactNode;
+  }) => {
     return (
       <NavLink
         to={to}
@@ -27,25 +33,6 @@ export function AssistNav() {
   });
 
   const ref = useRef<HTMLUListElement>(null);
-  const [dragging, setDragging] = useState(false);
-
-  const onDragging = (event: React.MouseEvent<HTMLUListElement>) => {
-    const { target, movementX } = event;
-    if (!dragging || !event.target || !ref.current) return;
-    
-    const ulElement = target as HTMLUListElement;
-    ulElement.scrollLeft -= movementX;
-
-    const width = ref.current.scrollWidth - ref.current.clientWidth;
-    const percentage = (100 * ulElement.scrollLeft) / width;
-
-    document.querySelector<HTMLElement>(".nav-progress-fill")!.style.width = `${percentage}%`;
-  };
-
-  const onSetDraggingTrue = (event: React.MouseEvent<HTMLUListElement>) => {
-    if (event.target != ref.current) return;
-    setDragging(true);
-  };
 
   return (
     <div className="assist-nav">
@@ -60,18 +47,25 @@ export function AssistNav() {
       <div className="line"></div>
 
       <div className="other-categories">
-        <ul
-          ref={ref}
-          onMouseMove={(event) => onDragging(event)}
-          onMouseDown={(event) => onSetDraggingTrue(event)}
-          onMouseUp={() => setDragging(false)}
-          onMouseLeave={() => setDragging(false)}
+        <div
+          className="btn-left"
+          onClick={() => {
+            ref.current!.scrollLeft -= 150;
+          }}
         >
-          {categoriesList}
-          <div className="nav-progress-bar">
-            <div className="nav-progress-fill"></div>
-          </div>
-        </ul>
+          <img src="/img/arrow.png" alt="to Left" />
+        </div>
+
+        <div
+          className="btn-right"
+          onClick={() => {
+            ref.current!.scrollLeft += 150;
+          }}
+        >
+          <img src="/img/arrow.png" alt="to Right" />
+        </div>
+
+        <ul ref={ref}>{categoriesList}</ul>
       </div>
     </div>
   );
