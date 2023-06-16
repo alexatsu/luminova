@@ -53,16 +53,17 @@
     width: 100%;
 
     span {
-      color: hsl(0, 3%, 94%);
+      color: hsl(0, 0%, 67%);
+      font-size: 0.8rem;
 
       a {
-        color: white;
-        border-bottom: 1px solid white;
+        color: rgb(214, 214, 214);
+        border-bottom: 1px solid rgb(214, 214, 214);
         transition: 0.2s ease-in-out;
 
         &:hover {
-          color: rgb(230, 230, 230);
-          border-bottom: 1px solid rgb(230, 230, 230);
+          color: rgb(240, 240, 240);
+          border-bottom: 1px solid rgb(240, 240, 240);
         }
       }
     }
