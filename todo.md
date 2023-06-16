@@ -1,5 +1,4 @@
 - Functionality to add link to a photo (done)
-- Create filter functionality + debounce (done)
 - Add async imitation when adding photo after clicking upload button (done)
 - Add validation when adding new photos, simple is enough (done)
 - Add tooltip to "Add photo" button (done)
@@ -11,7 +10,7 @@
 - Add to favorites(done)
 - Add validation to signing(done)
 
-- Finish refactoring
+- Create search functionality + debounce 
 - Drop Mantine or Mui
 - Add skeleton when images are loading, when backend is ready
 - Switch to scss for scalability

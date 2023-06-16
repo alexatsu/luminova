@@ -16,16 +16,20 @@ export const imagesStyles = {
     },
   },
   buttonHeart: {
+    borderRadius: "5px",
+    width: "3rem",
     maxHeight: "100%",
     height: "2.25rem",
     backgroundColor: "#d9d8d8",
     "&:hover": { backgroundColor: "#f2f2f2" },
-    "& svg": { fill: "grey"},
+    "& svg": { fill: "grey" },
     position: "absolute",
     right: "10px",
     top: "10px",
   }, //TODO switch to sass
   buttonHeartActive: {
+    borderRadius: "5px",
+    width: "3rem",
     height: "2.25rem",
     backgroundColor: "rgb(231, 76, 76)",
     "&:hover": { backgroundColor: "rgb(200, 65, 65)" },
@@ -33,6 +37,18 @@ export const imagesStyles = {
     position: "absolute",
     right: "10px",
     top: "10px",
+  },
+  downloadButton: {
+    borderRadius: "5px",
+    height: "2.25rem",
+    width: "3rem",
+    position: "absolute",
+    right: "10px",
+    bottom: "20px",
+    backgroundColor: "#d9d8d8",
+    "&:hover": {
+      backgroundColor: "#f2f2f2",
+    },
   },
 
   title: {

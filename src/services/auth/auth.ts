@@ -29,6 +29,7 @@ const reuseAuth = () => {
   };
 
   const register: RegisterProps = async (payload, navigate, setError) => {
+    console.log(payload, "payload");
     const { email, password, name } = payload;
     try {
       const { error, accessToken } = (await handleFetch(
@@ -37,7 +38,7 @@ const reuseAuth = () => {
         {},
         { email, password, name }
       )) as { error: string; accessToken: string };
-
+        console.log(error)
       if (error) {
         setError(error);
         return;
@@ -52,6 +53,7 @@ const reuseAuth = () => {
 
   const login: LoginProps = async (payload, navigate, setError) => {
     const { email, password } = payload;
+    console.log("fired")
     try {
       const { error, accessToken } = (await handleFetch(
         authEndpoints.login,

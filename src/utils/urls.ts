@@ -1,34 +1,26 @@
 // const baseURL = "http://localhost:8080";
-// const baseURL = "https://long-lime-caridea-slip.cyclic.app";
-const baseURL = "http://kotatsu.fun:8080";
-const images = "/images";
+const baseURL = "https://long-lime-caridea-slip.cyclic.app";
+const images = `${baseURL}/images`;
 
 const endpoints = {
   images: {
-    // imagesForNonUser: `${baseURL}/images/all`,
-    // imagesForUser: `${baseURL}/images/allforuser`,
-    imagesForNonUser: `${baseURL}${images}/all`,
-    imagesForUser: `${baseURL}${images}/allforuser`,
-    
-    categoriesImages: `http://kotatsu.fun:8000/api/categories/all-images`,
-    categoriesUserImages: `http://kotatsu.fun:8000/api/categories/all-favorites`,
-    // getImagesForUser: `${baseURL}/api/images/user_favorites`,
-    // addToFavorites: `${baseURL}/api/images/update_favorite`,
-    addToFavorites: `${baseURL}${images}/favorites`,
-    addImage: `${baseURL}${images}/upload`,
-    searchImages: `${baseURL}${images}/search`,
+    imagesForNonUser: `${images}/all`,
+    imagesForUser: `${images}/allforuser`,
+    categoriesImages: `${images}/categories/all-images`,
+    categoriesUserImages: `${images}/categories/all-favorites`,
+    addToFavorites: `${images}/favorites`,
+    addImage: `${images}/upload`,
+    searchImages: `${images}/search`,
   },
 };
 
-// const authURL = "http://localhost:8080/auth";
-const authURL = "http://kotatsu.fun:8080/auth";
+const auth = `${baseURL}/auth`;
 
 const authEndpoints = {
-  login: `${authURL}/login`,
-  register: `${authURL}/register`,
-  logout: `${authURL}/logout`,
-  protect: `${authURL}/protected`,
-  refresh: `${authURL}/refresh`,
+  login: `${auth}/login`,
+  register: `${auth}/register`,
+  logout: `${auth}/logout`,
+  refresh: `${auth}/refresh`,
 };
 
 export { baseURL, endpoints, authEndpoints };

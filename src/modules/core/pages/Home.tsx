@@ -6,6 +6,7 @@ import { ImageResources } from "@/types";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
 import temporal from "./temporal.avif";
+import { downloadImage } from "../utils";
 
 export function Home() {
   const width = useResizeWidth();
@@ -38,7 +39,12 @@ export function Home() {
             description="The internet’s source for visuals.
           Powered by creators everywhere."
           />
-          <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
+          <ImagesBlock
+            width={width}
+            data={data!}
+            updateFavImages={updateFavoriteImages}
+            download={downloadImage}
+          />
         </>
       )}
       <Footer />

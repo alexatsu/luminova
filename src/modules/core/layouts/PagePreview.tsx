@@ -1,3 +1,4 @@
+import { SearchInput } from "@/components/form";
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 
@@ -11,13 +12,15 @@ type PagePreviewProps = {
 export function PagePreview({ imgURL, description, title, upload }: PagePreviewProps) {
   return (
     <div className="page-preview-container">
-      <img src={imgURL} alt="giga" style={{userSelect: "none"}} />
+      <img src={imgURL} alt="giga" style={{ userSelect: "none" }} loading={"eager"} />
 
       <section className="main-text-section">
         <h1 className="text-header">{title}</h1>
         <p className="text-description">{description}</p>
 
-        {title !== "Luminova" && (
+        {title === "Luminova" ? (
+          <SearchInput className="search-page-preview" />
+        ) : (
           <Button
             onClick={() => console.log("clicked")}
             variant="gradient"

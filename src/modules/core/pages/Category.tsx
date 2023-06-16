@@ -1,12 +1,12 @@
-import { endpoints, handleFetch } from "@/utils";
 import { useParams } from "react-router-dom";
 import { ImageResources } from "@/types";
-import { Loader } from "@/components";
-import { useImages } from "../hooks";
 import { ImagesBlock, Footer, PagePreview } from "../layouts";
+import { useImages } from "../hooks";
 import { useResizeWidth } from "@/hooks";
+import { Loader } from "@/components";
 import { PageWrapper } from "../components";
-import { paths } from "@/utils";
+import { endpoints, handleFetch, paths } from "@/utils";
+import { downloadImage } from "../utils";
 
 export function Category() {
   const width = useResizeWidth();
@@ -37,7 +37,7 @@ export function Category() {
   const { data, isLoading, updateFavoriteImages } = useImages(queryKey, fetchCategoryImages);
   const { page_preview, text_for_page_preview } = data || {};
 
-  const { name } = paths.find(({ path }) => path === category) || {};
+  const { name: title } = paths.find(({ path }) => path === category) || {};
 
   return (
     <PageWrapper>
@@ -45,8 +45,13 @@ export function Category() {
         <Loader style={{ margin: "auto" }} />
       ) : (
         <>
-          <PagePreview imgURL={page_preview} title={name} description={text_for_page_preview} />
-          <ImagesBlock width={width} data={data!} updateFavImages={updateFavoriteImages} />
+          <PagePreview imgURL={page_preview} title={title} description={text_for_page_preview} />
+          <ImagesBlock
+            width={width}
+            data={data!}
+            updateFavImages={updateFavoriteImages}
+            download={downloadImage}
+          />
         </>
       )}
       <Footer />
