@@ -5,7 +5,7 @@ import { endpoints, handleFetch } from "@/utils";
 import { ImageResources } from "@/types";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
-import temporal from "./temporal.avif";
+import temporal from "./temporal.webp";
 import { downloadImage } from "../utils";
 
 export function Home() {
