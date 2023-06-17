@@ -1,12 +1,12 @@
 import { useResizeWidth } from "@/hooks";
 import { ImagesBlock, Footer, PagePreview } from "../layouts";
-import { useImages } from "../hooks";
 import { endpoints, handleFetch } from "@/utils";
 import { ImageResources } from "@/types";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
-import temporal from "./temporal.webp";
+import { useImages } from "../hooks";
 import { downloadImage } from "../utils";
+import temporal from "./temporal.webp";
 
 export function Home() {
   const width = useResizeWidth();

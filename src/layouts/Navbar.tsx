@@ -162,7 +162,7 @@ function HamburgerMenu() {
               </Text>
             </Box>
 
-            <List sx={{ width: "100%", paddingLeft: "20px" }}>
+            <List sx={{ width: "100%", paddingLeft: "20px", listStyle: "none" }}>
               {list.map((text, index) => {
                 return (
                   <List.Item
