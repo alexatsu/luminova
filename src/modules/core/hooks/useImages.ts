@@ -1,18 +1,42 @@
-import { ImageResources, ImagesProps } from "@/types";
-import { QueryKey, useMutation, useQuery } from "@tanstack/react-query";
+import { ImageResources } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { endpoints, handleFetch } from "@/utils";
 import { queryClient } from "@/main";
 import { reuseAuth } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
 
-export const useImages = (queryKey: QueryKey, fetchImages: () => Promise<ImageResources>) => {
+export const useImages = (category: string | undefined) => {
   const navigate = useNavigate();
-  const accessToken = localStorage.getItem("accessToken");
   const { refreshAccessToken } = reuseAuth();
+
+  const accessToken = localStorage.getItem("accessToken");
+  const queryKey = ["images", category, endpoints.images, accessToken];
 
   const { data, isLoading } = useQuery<ImageResources>({
     queryKey: queryKey,
-    queryFn: fetchImages,
+
+    queryFn: async (): Promise<ImageResources> => {
+      const { forNonUser, forUser } = endpoints.images;
+
+      if (!accessToken) {
+        const fetchForAnyone = await handleFetch(
+          forNonUser,
+          "POST",
+          {},
+          { category: category, next_cursor: "" }
+        );
+        return fetchForAnyone;
+      }
+
+      const fetchForUser = await handleFetch(
+        forUser,
+        "POST",
+        {},
+        { accessToken: accessToken, category: category, next_cursor: "" }
+      );
+      return fetchForUser;
+    },
+
     refetchOnWindowFocus: false,
   });
 
@@ -20,7 +44,7 @@ export const useImages = (queryKey: QueryKey, fetchImages: () => Promise<ImageRe
     mutationFn: async (public_id: string) => {
       const { addToFavorites } = endpoints.images;
 
-      const data: ImagesProps[] = await handleFetch(
+      const data = await handleFetch(
         addToFavorites,
         "POST",
         { Authorization: `Bearer ${accessToken}` },
@@ -51,7 +75,7 @@ export const useImages = (queryKey: QueryKey, fetchImages: () => Promise<ImageRe
       const previousQuery = queryClient.getQueryData(queryKey);
 
       queryClient.setQueryData(queryKey, (old?: ImageResources) => {
-        const previousResources = old?.resources.map((image) => {
+        const previousResources = old?.images.resources.map((image) => {
           if (image.public_id === public_id) {
             return { ...image, favorite: !image.favorite };
           }

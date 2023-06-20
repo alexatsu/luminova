@@ -4,9 +4,16 @@ type ImagesProps = {
   filename: string;
   favorite: boolean;
 };
-type ImageResources = {
+type Resources = {
   resources: ImagesProps[];
-  page_preview: string;
+};
+type ImageResources = {
+  images: Resources;
+  pagePreview: PagePreview;
   text_for_page_preview: string;
 };
-export type { ImageResources, ImagesProps };
+type PagePreview = {
+  img: string;
+  description: string;
+};
+export type { ImageResources, Resources, ImagesProps };

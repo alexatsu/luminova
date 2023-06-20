@@ -1,13 +1,11 @@
-// const baseURL = "http://localhost:8080";
-const baseURL = "https://long-lime-caridea-slip.cyclic.app";
+const baseURL = "http://localhost:8080";
+// const baseURL = "https://long-lime-caridea-slip.cyclic.app";
 const images = `${baseURL}/images`;
 
 const endpoints = {
   images: {
-    imagesForNonUser: `${images}/all`,
-    imagesForUser: `${images}/allforuser`,
-    categoriesImages: `${images}/categories/all-images`,
-    categoriesUserImages: `${images}/categories/all-favorites`,
+    forNonUser: `${images}/fornonuser`,
+    forUser: `${images}/foruser`,
     addToFavorites: `${images}/favorites`,
     addImage: `${images}/upload`,
     searchImages: `${images}/search`,
