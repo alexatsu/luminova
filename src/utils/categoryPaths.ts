@@ -4,16 +4,16 @@ export const paths = [
     path: "animals",
   },
   {
-    name: "Anime",
-    path: "anime",
+    name: "Architecture",
+    path: "architecture",
   },
   {
-    name: "Architecture and Interiors",
-    path: "architecture-and-interiors",
+    name: "Arts",
+    path: "arts",
   },
   {
-    name: "Arts and Culture",
-    path: "arts-and-culture",
+    name: "Experimental",
+    path: "experimental",
   },
   {
     name: "Fashion and Beauty",
@@ -30,6 +30,10 @@ export const paths = [
   {
     name: "Health and Wellness",
     path: "health-and-wellness",
+  },
+  {
+    name: "People",
+    path: "people",
   },
   {
     name: "Travel",
