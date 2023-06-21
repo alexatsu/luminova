@@ -1,15 +1,26 @@
 import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
-import { List, Menu, Text } from "@mantine/core";
+import { List, Menu, Text, Accordion } from "@mantine/core";
 import { useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { Logo, ModalCard } from "@/components";
-import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavigateFunction,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
 import { SearchInput } from "@/components/form";
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
-import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineProfile,
+  AiOutlineTeam,
+  AiOutlineUser,
+} from "react-icons/ai";
+import { useCallback, useEffect, useState } from "react";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -29,21 +40,41 @@ export function Navbar() {
           <SearchInput className="search-navbar" />
         </Box>
 
-        <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
-          {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
+        <Box
+          sx={{
+            "@media (max-width: 993px)": { display: "none" },
+            display: "flex",
+          }}
+        >
+          {accessToken ? (
+            <PageButton path="blog" />
+          ) : (
+            <PageButton path="discover" />
+          )}
           {pathname !== "/advertise" && <PageButton path="advertise" />}
         </Box>
 
-        <Box sx={{ "@media (max-width: 767px)": { display: "none" }, display: "flex" }}>
+        <Box
+          sx={{
+            "@media (max-width: 993px)": { display: "none" },
+            display: "flex",
+          }}
+        >
           {accessToken ? (
-            <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
+            <UserMenu
+              logoutUser={logoutUser}
+              accessToken={accessToken}
+              navigate={navigate}
+            />
           ) : (
             <PageButton path="login" />
           )}
           <UploadButton handleOpen={handleOpen} />
         </Box>
 
-        <HamburgerMenu />
+        <HamburgerMenu>
+          <UploadButton handleOpen={handleOpen} />
+        </HamburgerMenu>
 
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
@@ -62,7 +93,11 @@ function PageButton({ path }: { path: string }) {
 
 function UploadButton({ handleOpen }: { handleOpen: () => void }) {
   return (
-    <Button className="button-upload" onClick={handleOpen}>
+    <Button
+      className="button-upload"
+      onClick={handleOpen}
+      sx={{ width: "100%" }}
+    >
       Upload a photo
     </Button>
   );
@@ -73,7 +108,10 @@ function UserMenu({
   accessToken,
   navigate,
 }: {
-  logoutUser: (token: string | null, navigate: NavigateFunction) => Promise<void>;
+  logoutUser: (
+    token: string | null,
+    navigate: NavigateFunction
+  ) => Promise<void>;
   accessToken: string | null;
   navigate: NavigateFunction;
 }) {
@@ -96,18 +134,27 @@ function UserMenu({
         <Menu.Item>Stats</Menu.Item>
         <Menu.Item>Account settings</Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
+        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>
+          Logout
+        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
 }
 
-function HamburgerMenu() {
+function HamburgerMenu({ children }: { children: React.ReactNode }) {
   const listData = {
     company: {
       header: "Company",
       icon: <AiOutlineHome style={{ marginRight: "4px" }} />,
-      list: ["About", "History", "Join the team", "Press", "Contact us", "Help Center"],
+      list: [
+        "About",
+        "History",
+        "Join the team",
+        "Press",
+        "Contact us",
+        "Help Center",
+      ],
     },
     terms: {
       header: "Terms",
@@ -117,14 +164,39 @@ function HamburgerMenu() {
     community: {
       header: "Community",
       icon: <AiOutlineTeam style={{ marginRight: "4px" }} />,
-      list: ["Become a Contributor", "Topics", "Collection", "Trends", "Luminova Awards", "Stats"],
+      list: [
+        "Become a Contributor",
+        "Topics",
+        "Collection",
+        "Trends",
+        "Luminova Awards",
+        "Stats",
+      ],
     },
   };
 
   const { company, terms, community } = listData;
 
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  const handleMediaChange = useCallback(
+    (mq: MediaQueryListEvent | MediaQueryList) => {
+      setIsSmallScreen(mq.matches);
+    },
+    []
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("only screen and (max-width: 993px)");
+
+    mediaQuery.addListener(handleMediaChange);
+    handleMediaChange(mediaQuery);
+
+    return () => mediaQuery.removeListener(handleMediaChange);
+  }, [handleMediaChange]);
+
   return (
-    <Menu position="bottom-end" shadow="md" width={600}>
+    <Menu position="bottom-end" shadow="md" width={isSmallScreen ? 300 : 600}>
       <Menu.Target>
         <IconButton>
           <Gigachamburger />
@@ -138,51 +210,111 @@ function HamburgerMenu() {
             display: "flex",
             justifyContent: "space-evenly",
             // TODO: continue here
-            "@media (max-width: 993px)": { flexDirection: "column", alignItems: "center" },
+            "@media (max-width: 993px)": {
+              flexDirection: "column",
+              alignItems: "center",
+            },
             padding: "20px",
           },
         }}
       >
-        {[company, terms, community].map(({ header, list, icon }) => (
-          <Box
-            key={header}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              flexBasis: "30%",
-            }}
-          >
-            <Box
-              sx={{ width: "100%", display: "flex", alignItems: "center", marginBottom: "10px" }}
+        {[company, terms, community].map(({ header, list, icon }) =>
+          isSmallScreen ? (
+            <Accordion
+              defaultValue="accordion-menu"
+              key={header}
+              sx={{ width: "100%" }}
             >
-              {icon}
-              <Text size={16} style={{ fontWeight: "700" }}>
-                {header}
-              </Text>
-            </Box>
-
-            <List sx={{ width: "100%", paddingLeft: "20px" }}>
-              {list.map((text, index) => {
-                return (
-                  <List.Item
-                    key={index}
-                    sx={{
-                      marginBottom: "5px",
-                      transition: "all 0.12s ease-in-out",
-                      color: "#7a7a7a",
-                      "&:hover": { color: "#2e2e2e" },
-                    }}
+              <Accordion.Item value={header}>
+                <Accordion.Control>
+                  <Box
+                    className="accordion-category"
+                    sx={{ display: "flex", alignItems: "center" }}
                   >
-                    <Text style={{ fontWeight: "500", cursor: "pointer" }} size={14}>
-                      {text}
-                    </Text>
-                  </List.Item>
-                );
-              })}
-            </List>
-          </Box>
-        ))}
+                    {icon}
+                    {header}
+                  </Box>
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <List sx={{ width: "100%", paddingLeft: "10px" }}>
+                    {list.map((text, index) => {
+                      return (
+                        <List.Item
+                          key={index}
+                          sx={{
+                            marginBottom: "5px",
+                            transition: "all 0.12s ease-in-out",
+                            color: "#7a7a7a",
+                            "&:hover": { color: "#2e2e2e" },
+                          }}
+                        >
+                          <Text
+                            style={{ fontWeight: "500", cursor: "pointer" }}
+                            size={14}
+                          >
+                            {text}
+                          </Text>
+                        </List.Item>
+                      );
+                    })}
+                  </List>
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          ) : (
+            <Box
+              key={header}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+                flexBasis: "30%",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "10px",
+                }}
+              >
+                {icon}
+                <Text size={16} style={{ fontWeight: "700" }}>
+                  {header}
+                </Text>
+              </Box>
+
+              <List sx={{ width: "100%" }}>
+                {list.map((text, index) => {
+                  return (
+                    <List.Item
+                      key={index}
+                      sx={{
+                        marginBottom: "5px",
+                        transition: "all 0.12s ease-in-out",
+                        color: "#7a7a7a",
+
+                        "&:hover": { color: "#2e2e2e" },
+                      }}
+                    >
+                      <Text
+                        style={{ fontWeight: "500", cursor: "pointer" }}
+                        size={14}
+                      >
+                        {text}
+                      </Text>
+                    </List.Item>
+                  );
+                })}
+              </List>
+            </Box>
+          )
+        )}
+
+        {isSmallScreen ? (
+          <Box sx={{ marginTop: "20px", width: "100%" }}>{children}</Box>
+        ) : null}
       </Menu.Dropdown>
     </Menu>
   );
