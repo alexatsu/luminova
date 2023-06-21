@@ -1,8 +1,10 @@
-import { useResizeWidth } from "@/hooks";
 import { ImagesBlock, Footer, PagePreview } from "../layouts";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
+
+import { useResizeWidth } from "@/hooks";
 import { useImages } from "../hooks";
+
 import { downloadImage } from "../utils";
 import { Resources } from "@/types";
 

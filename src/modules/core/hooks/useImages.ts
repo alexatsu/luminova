@@ -10,7 +10,7 @@ export const useImages = (category: string | undefined) => {
   const { refreshAccessToken } = reuseAuth();
 
   const accessToken = localStorage.getItem("accessToken");
-  const queryKey = ["images", category, endpoints.images, accessToken];
+  const queryKey = ["images", category];
 
   const { data, isLoading } = useQuery<ImageResources>({
     queryKey: queryKey,
@@ -71,18 +71,20 @@ export const useImages = (category: string | undefined) => {
     },
 
     onMutate: async (public_id: string) => {
-      await queryClient.cancelQueries({ queryKey: queryKey });
+      await queryClient.cancelQueries({
+        queryKey: queryKey,
+      });
       const previousQuery = queryClient.getQueryData(queryKey);
 
       queryClient.setQueryData(queryKey, (old?: ImageResources) => {
-        const previousResources = old?.images.resources.map((image) => {
+        const images = old?.images.map((image) => {
           if (image.public_id === public_id) {
             return { ...image, favorite: !image.favorite };
           }
           return image;
         });
 
-        return { ...old, resources: previousResources } as ImageResources;
+        return { ...old, images: images } as ImageResources;
       });
       return { previousQuery };
     },
