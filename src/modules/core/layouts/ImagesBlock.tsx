@@ -17,7 +17,7 @@ const { buttonHeart, buttonHeartActive, container, title, downloadButton } =
   };
 type ImagesBlockProps = {
   width: number;
-  data: Resources;
+  data: Resources[];
   updateFavImages: UseMutateFunction<
     Resources | undefined,
     unknown,
@@ -49,7 +49,7 @@ export function ImagesBlock({
         gap={16}
       >
         <>
-          {data?.resources.map(({ public_id, url, filename, favorite }) => (
+          {data?.map(({ public_id, url, filename, favorite }) => (
             <ImageListItem
               key={public_id}
               sx={container}

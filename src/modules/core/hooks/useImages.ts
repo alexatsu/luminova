@@ -17,7 +17,7 @@ export const useImages = (category: string | undefined) => {
 
     queryFn: async (): Promise<ImageResources> => {
       const { forNonUser, forUser } = endpoints.images;
-
+      const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
         const fetchForAnyone = await handleFetch(
           forNonUser,

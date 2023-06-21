@@ -209,7 +209,6 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
             width: "100%",
             display: "flex",
             justifyContent: "space-evenly",
-            // TODO: continue here
             "@media (max-width: 993px)": {
               flexDirection: "column",
               alignItems: "center",

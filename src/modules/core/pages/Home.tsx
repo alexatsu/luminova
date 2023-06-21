@@ -26,7 +26,7 @@ export function Home() {
           />
           <ImagesBlock
             width={width}
-            data={images as Resources}
+            data={images as Resources[]}
             updateFavImages={updateFavoriteImages}
             download={downloadImage}
           />
