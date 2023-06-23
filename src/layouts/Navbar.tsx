@@ -2,7 +2,7 @@ import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
-import { useModal } from "@/hooks";
+import { useModal, useResizeWidth } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { Logo, ModalCard } from "@/components";
 import {
@@ -20,7 +20,6 @@ import {
   AiOutlineTeam,
   AiOutlineUser,
 } from "react-icons/ai";
-import { useCallback, useEffect, useState } from "react";
 
 export function Navbar() {
   const navigate = useNavigate();
@@ -177,26 +176,10 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 
   const { company, terms, community } = listData;
 
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-
-  const handleMediaChange = useCallback(
-    (mq: MediaQueryListEvent | MediaQueryList) => {
-      setIsSmallScreen(mq.matches);
-    },
-    []
-  );
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("only screen and (max-width: 993px)");
-
-    mediaQuery.addListener(handleMediaChange);
-    handleMediaChange(mediaQuery);
-
-    return () => mediaQuery.removeListener(handleMediaChange);
-  }, [handleMediaChange]);
+  const width = useResizeWidth();
 
   return (
-    <Menu position="bottom-end" shadow="md" width={isSmallScreen ? 300 : 600}>
+    <Menu position="bottom-end" shadow="md" width={width < 993 ? 300 : 600}>
       <Menu.Target>
         <IconButton>
           <Gigachamburger />
@@ -218,7 +201,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         }}
       >
         {[company, terms, community].map(({ header, list, icon }) =>
-          isSmallScreen ? (
+          width < 993 ? (
             <Accordion
               defaultValue="accordion-menu"
               key={header}
@@ -311,7 +294,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
           )
         )}
 
-        {isSmallScreen ? (
+        {width < 993 ? (
           <Box sx={{ marginTop: "20px", width: "100%" }}>{children}</Box>
         ) : null}
       </Menu.Dropdown>
