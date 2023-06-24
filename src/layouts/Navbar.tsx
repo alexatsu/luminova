@@ -2,7 +2,7 @@ import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
-import { useModal, useResizeWidth } from "@/hooks";
+import { useResizeWidth } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 import { Logo, ModalCard } from "@/components";
 import {
@@ -20,10 +20,10 @@ import {
   AiOutlineTeam,
   AiOutlineUser,
 } from "react-icons/ai";
-
+import { useModal } from "@/hooks";
 export function Navbar() {
-  const navigate = useNavigate();
   const { modalOpen, handleOpen, handleClose } = useModal();
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
   const { logoutUser } = reuseAuth();
   const { pathname } = useLocation();
@@ -75,9 +75,8 @@ export function Navbar() {
           <UploadButton handleOpen={handleOpen} />
           {!accessToken ? <PageButton path="login" /> : null}
         </HamburgerMenu>
-
-        <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
       </Box>
+      <ModalCard modalOpen={modalOpen} handleClose={handleClose} />
     </nav>
   );
 }
@@ -143,6 +142,8 @@ function UserMenu({
 }
 
 function HamburgerMenu({ children }: { children: React.ReactNode }) {
+  const width = useResizeWidth();
+
   const listData = {
     company: {
       header: "Company",
@@ -176,8 +177,6 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
   };
 
   const { company, terms, community } = listData;
-
-  const width = useResizeWidth();
 
   return (
     <Menu position="bottom-end" shadow="md" width={width < 993 ? 300 : 600}>
