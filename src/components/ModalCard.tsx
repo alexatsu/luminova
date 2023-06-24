@@ -1,68 +1,67 @@
-import CloseIcon from "@mui/icons-material/Close";
-import { modalStyles } from "@/styles/modal";
-import { ModaCardProps } from "@/types";
-import { useUploadImage } from "@/hooks";
-import { SetImageValuesProps } from "@/types";
-import { Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
+import { CSSProperties, MouseEventHandler, useEffect } from "react";
+import { createPortal } from "react-dom";
+//uuid
 
-//TODO this component is temporally used for testing
-export function ModalCard({ modalOpen, handleClose }: ModaCardProps) {
-  const { imageData, setImageData, addImageHandler, loading, doneLoading } = useUploadImage();
-  const { url, title } = imageData;
-  const { container, closeIcon } = modalStyles;
-  const isAddButtonDisabled = title === "" || url === "";
+type ModalCardProps = {
+  handleClose: MouseEventHandler<HTMLButtonElement>;
+  modalOpen: boolean;
+};
 
-  const setImageValues: SetImageValuesProps = (event) => {
-    const { name, value } = event.target;
-    setImageData((prevImageData) => ({ ...prevImageData, [name]: value }));
+export function ModalCard({ handleClose, modalOpen }: ModalCardProps) {
+  const styles = {
+    zIndex: "3",
+    position: "absolute",
+    width: "100vw",
+    height: "100vh",
+    top: `calc(50% + ${window.scrollY}px)`,
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#0009",
   };
+  useEffect(() => {
+    const body = document.body;
 
+    if (modalOpen) {
+      const scrollY = window.scrollY;
+      const scrollX = window.scrollX;
+
+      body.style.position = "fixed";
+      body.style.top = `-${scrollY}px`;
+      body.style.left = `-${scrollX}px`;
+    } else {
+      const scrollY = parseInt(body.style.top || "0") * -1;
+      const scrollX = parseInt(body.style.left || "0") * -1;
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      window.scrollTo(scrollX, scrollY);
+    }
+  }, [modalOpen]);
+
+  const root = document.getElementById("root");
   return (
-    <Modal
-      hideBackdrop={true}
-      open={modalOpen}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      sx={container}
-      disablePortal
-      closeAfterTransition
-    >
-      <Fade in={modalOpen}>
-        <Box>
-          <CloseIcon sx={closeIcon} onClick={handleClose} fontSize={"small"} />
-          <Box sx={{ marginBottom: "10px" }}>
-            <TextField
-              label="title"
-              sx={{ margin: "10px 0", width: "100%" }}
-              onChange={setImageValues}
-              value={title}
-              required
-              name="title"
-            />
-            <TextField
-              label="url"
-              sx={{ width: "100%" }}
-              onChange={setImageValues}
-              value={url}
-              required
-              name="url"
-            />
-          </Box>
-          <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center" }}>
-            <Button
-              sx={{ display: "flex", marginBottom: "-20px" }}
-              onClick={addImageHandler}
-              disabled={isAddButtonDisabled}
+    <>
+      {modalOpen &&
+        createPortal(
+          <div style={styles as CSSProperties}>
+            <button onClick={handleClose}>x</button>
+            <div
+              style={{
+                width: "90%",
+                height: "90%",
+                backgroundColor: "white",
+                position: "absolute",
+                margin: "auto",
+                top: "5%",
+                left: "5%",
+                borderRadius: "10px",
+              }}
             >
-              {loading ? "Loading..." : "Add"}
-            </Button>
-            {doneLoading && (
-              <Typography sx={{ marginBottom: "-19px", fontSize: "14px" }}>Done!</Typography>
-            )}
-          </Box>
-        </Box>
-      </Fade>
-    </Modal>
+              wrapper
+            </div>
+          </div>,
+          root as HTMLElement
+        )}
+    </>
   );
 }
