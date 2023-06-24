@@ -5,13 +5,12 @@ import {
   ImageListItem,
   SxProps,
   Theme,
-  Typography,
 } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
 import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
-const { buttonHeart, buttonHeartActive, container, title, downloadButton } =
+const { buttonHeart, buttonHeartActive, container, downloadButton } =
   imagesStyles as {
     [key: string]: SxProps<Theme>;
   };
@@ -36,6 +35,7 @@ export function ImagesBlock({
   download,
 }: ImagesBlockProps) {
   console.log(data, "data");
+
   return (
     <>
       <ImageList
@@ -59,7 +59,8 @@ export function ImagesBlock({
                 src={url}
                 alt={filename}
                 loading={"eager"}
-                style={{ borderRadius: "8px" }}
+                style={{ borderRadius: "8px", maxWidth: "100%" }}
+                title={filename}
               />
 
               <IconButton
@@ -75,10 +76,6 @@ export function ImagesBlock({
               >
                 <AiFillHeart size={16} />
               </IconButton>
-
-              <Typography sx={title} variant={"h5"} className="title">
-                {filename}
-              </Typography>
             </ImageListItem>
           ))}
         </>

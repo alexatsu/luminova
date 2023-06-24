@@ -143,18 +143,21 @@ function UserMenu({
 }
 
 function HamburgerMenu({ children }: { children: React.ReactNode }) {
+  const width = useResizeWidth();
+
   const listData = {
     company: {
       header: "Company",
       icon: <AiOutlineHome style={{ marginRight: "4px" }} />,
       list: [
         "About",
+        width < 993 ? "Advertise" : null,
         "History",
         "Join the team",
         "Press",
         "Contact us",
         "Help Center",
-      ],
+      ].filter((item) => item !== null),
     },
     terms: {
       header: "Terms",
@@ -176,8 +179,6 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
   };
 
   const { company, terms, community } = listData;
-
-  const width = useResizeWidth();
 
   return (
     <Menu position="bottom-end" shadow="md" width={width < 993 ? 300 : 600}>
