@@ -73,6 +73,7 @@ export function Navbar() {
 
         <HamburgerMenu>
           <UploadButton handleOpen={handleOpen} />
+          {!accessToken ? <PageButton path="login" /> : null}
         </HamburgerMenu>
 
         <ModalCard handleClose={handleClose} modalOpen={modalOpen} />
@@ -295,7 +296,9 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         )}
 
         {width < 993 ? (
-          <Box sx={{ marginTop: "20px", width: "100%" }}>{children}</Box>
+          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>
+            {children}
+          </Box>
         ) : null}
       </Menu.Dropdown>
     </Menu>
