@@ -1,0 +1,17 @@
+.image-list-item {
+  .image-tools {
+    transition: all 0.15s ease-in-out;
+    opacity: 0;
+  }
+
+  &:hover {
+    .image {
+      filter: brightness(0.8);
+      cursor: zoom-in;
+    }
+
+    .image-tools {
+      opacity: 1;
+    }
+  }
+}
