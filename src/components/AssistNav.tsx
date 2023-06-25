@@ -15,7 +15,7 @@ export function AssistNav() {
       <NavLink
         to={to}
         style={({ isActive }) => ({
-          borderBottom: isActive ? "2px solid #111" : "none",
+          borderBottom: isActive ? "3px solid #111" : "none",
           color: isActive ? "#111" : "",
         })}
       >

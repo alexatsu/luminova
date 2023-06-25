@@ -10,6 +10,8 @@ import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
 import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
+import "../sass/components/ImagesBlock.scss";
+
 const { buttonHeart, buttonHeartActive, container, downloadButton } =
   imagesStyles as {
     [key: string]: SxProps<Theme>;
@@ -51,11 +53,12 @@ export function ImagesBlock({
         <>
           {data?.map(({ public_id, url, filename, favorite }) => (
             <ImageListItem
+              className="image-list-item"
               key={public_id}
               sx={container}
               onClick={() => console.log(public_id, filename)}
             >
-              <img
+              <img className="image"
                 src={url}
                 alt={filename}
                 loading={"eager"}
@@ -63,19 +66,21 @@ export function ImagesBlock({
                 title={filename}
               />
 
-              <IconButton
-                sx={downloadButton}
-                onClick={() => download(url, filename)}
-              >
-                <AiOutlineDownload size={18} />
-              </IconButton>
+              <div className="image-tools">
+                <IconButton
+                  sx={downloadButton}
+                  onClick={() => download(url, filename)}
+                >
+                  <AiOutlineDownload size={18} />
+                </IconButton>
 
-              <IconButton
-                sx={favorite ? buttonHeartActive : buttonHeart}
-                onClick={() => updateFavImages(public_id)}
-              >
-                <AiFillHeart size={16} />
-              </IconButton>
+                <IconButton
+                  sx={favorite ? buttonHeartActive : buttonHeart}
+                  onClick={() => updateFavImages(public_id)}
+                >
+                  <AiFillHeart size={16} />
+                </IconButton>
+              </div>
             </ImageListItem>
           ))}
         </>
