@@ -6,6 +6,7 @@ import { NativeAdv } from "../components/advertise/native-adv/NativeAdv";
 import { Audience } from "../components/advertise/audience/Audience";
 import { AdvContainer } from "../components/advertise/AdvContainer";
 import { ProgressBar } from "@/components";
+import { ScrollTopButton } from "@/components";
 
 export const Advertise = () => {
   const dataBrands = [
@@ -113,6 +114,7 @@ export const Advertise = () => {
         <Audience dataAudienceItems={dataAudienceItems} />
       </AdvContainer>
 
+      <ScrollTopButton />
       <ProgressBar />
     </div>
   );
