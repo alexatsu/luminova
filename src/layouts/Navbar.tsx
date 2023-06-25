@@ -21,6 +21,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 import { useModal } from "@/hooks";
+import styles from "../styles/components/Button.module.scss"
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ function PageButton({ path }: { path: string }) {
   const buttonText = path.charAt(0).toUpperCase() + path.slice(1);
   return (
     <Link to={`/${path}`}>
-      <Button className="button-nav-page">{buttonText}</Button>
+      <Button className={'button-nav-page'}>{buttonText}</Button>
     </Link>
   );
 }
