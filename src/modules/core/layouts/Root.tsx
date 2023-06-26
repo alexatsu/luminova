@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "@/layouts";
-import { AssistNav, ProgressBar } from "@/components";
+import { AssistNav, ProgressBar, ScrollTopButton } from "@/components";
 
 export function Root() {
   return (
@@ -8,6 +8,7 @@ export function Root() {
       <Navbar />
       <AssistNav />
       <Outlet />
+      <ScrollTopButton />
       <ProgressBar />
     </>
   );
