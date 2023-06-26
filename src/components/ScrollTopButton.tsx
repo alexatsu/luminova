@@ -11,8 +11,6 @@ export function ScrollTopButton() {
     };
   });
 
-  console.log("scroll");
-
   const onScrollTop = () => {
     window.scrollTo({
       top: 0,

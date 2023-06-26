@@ -10,7 +10,7 @@ import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
 import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
-import "../sass/components/ImagesBlock.scss";
+import "../sass/layouts/ImagesBlock.scss";
 
 const { buttonHeart, buttonHeartActive, container, downloadButton } =
   imagesStyles as {
