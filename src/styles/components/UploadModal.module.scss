@@ -1,0 +1,39 @@
+%section {
+  width: 100%;
+  background-color: white;
+}
+.section {
+  &Top {
+    @extend %section;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  &Form {
+    @extend %section;
+    height: 100%;
+  }
+}
+
+.closeIcon {
+  fill: rgb(116, 116, 116);
+  transition: fill 0.2s;
+  &:hover {
+    fill: rgb(32, 32, 32);
+  }
+}
+.uploaderContainer {
+  border: 2px dashed rgb(188, 188, 188);
+  border-radius: 2px;
+  width: 90%;
+  //   height: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.submitBtn {
+  min-height: 40px;
+  padding: 15px 20px;
+}

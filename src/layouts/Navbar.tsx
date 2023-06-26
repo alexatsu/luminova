@@ -4,24 +4,14 @@ import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
 import { useResizeWidth } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
-import { Logo, ModalCard } from "@/components";
-import {
-  Link,
-  NavigateFunction,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Logo, UploadModal } from "@/components";
+import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
 import { SearchInput } from "@/components/form";
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
-import {
-  AiOutlineHome,
-  AiOutlineProfile,
-  AiOutlineTeam,
-  AiOutlineUser,
-} from "react-icons/ai";
+import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 import { useModal } from "@/hooks";
-import styles from "../styles/components/Button.module.scss"
+
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
@@ -46,11 +36,7 @@ export function Navbar() {
             display: "flex",
           }}
         >
-          {accessToken ? (
-            <PageButton path="blog" />
-          ) : (
-            <PageButton path="discover" />
-          )}
+          {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
           {pathname !== "/advertise" && <PageButton path="advertise" />}
         </Box>
 
@@ -61,11 +47,7 @@ export function Navbar() {
           }}
         >
           {accessToken ? (
-            <UserMenu
-              logoutUser={logoutUser}
-              accessToken={accessToken}
-              navigate={navigate}
-            />
+            <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
           ) : (
             <PageButton path="login" />
           )}
@@ -77,7 +59,7 @@ export function Navbar() {
           {!accessToken ? <PageButton path="login" /> : null}
         </HamburgerMenu>
       </Box>
-      <ModalCard modalOpen={modalOpen} handleClose={handleClose} />
+      <UploadModal modalOpen={modalOpen} handleClose={handleClose} />
     </nav>
   );
 }
@@ -86,18 +68,14 @@ function PageButton({ path }: { path: string }) {
   const buttonText = path.charAt(0).toUpperCase() + path.slice(1);
   return (
     <Link to={`/${path}`}>
-      <Button className={'button-nav-page'}>{buttonText}</Button>
+      <Button className={"button-nav-page"}>{buttonText}</Button>
     </Link>
   );
 }
 
 function UploadButton({ handleOpen }: { handleOpen: () => void }) {
   return (
-    <Button
-      className="button-upload"
-      onClick={handleOpen}
-      sx={{ width: "100%" }}
-    >
+    <Button className="button-upload" onClick={handleOpen} sx={{ width: "100%" }}>
       Upload a photo
     </Button>
   );
@@ -108,10 +86,7 @@ function UserMenu({
   accessToken,
   navigate,
 }: {
-  logoutUser: (
-    token: string | null,
-    navigate: NavigateFunction
-  ) => Promise<void>;
+  logoutUser: (token: string | null, navigate: NavigateFunction) => Promise<void>;
   accessToken: string | null;
   navigate: NavigateFunction;
 }) {
@@ -134,9 +109,7 @@ function UserMenu({
         <Menu.Item>Stats</Menu.Item>
         <Menu.Item>Account settings</Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>
-          Logout
-        </Menu.Item>
+        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
@@ -167,14 +140,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
     community: {
       header: "Community",
       icon: <AiOutlineTeam style={{ marginRight: "4px" }} />,
-      list: [
-        "Become a Contributor",
-        "Topics",
-        "Collection",
-        "Trends",
-        "Luminova Awards",
-        "Stats",
-      ],
+      list: ["Become a Contributor", "Topics", "Collection", "Trends", "Luminova Awards", "Stats"],
     },
   };
 
@@ -204,11 +170,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
       >
         {[company, terms, community].map(({ header, list, icon }) =>
           width < 993 ? (
-            <Accordion
-              defaultValue="accordion-menu"
-              key={header}
-              sx={{ width: "100%" }}
-            >
+            <Accordion defaultValue="accordion-menu" key={header} sx={{ width: "100%" }}>
               <Accordion.Item value={header}>
                 <Accordion.Control>
                   <Box
@@ -232,10 +194,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
                             "&:hover": { color: "#2e2e2e" },
                           }}
                         >
-                          <Text
-                            style={{ fontWeight: "500", cursor: "pointer" }}
-                            size={14}
-                          >
+                          <Text style={{ fontWeight: "500", cursor: "pointer" }} size={14}>
                             {text}
                           </Text>
                         </List.Item>
@@ -282,10 +241,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
                         "&:hover": { color: "#2e2e2e" },
                       }}
                     >
-                      <Text
-                        style={{ fontWeight: "500", cursor: "pointer" }}
-                        size={14}
-                      >
+                      <Text style={{ fontWeight: "500", cursor: "pointer" }} size={14}>
                         {text}
                       </Text>
                     </List.Item>
@@ -297,9 +253,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         )}
 
         {width < 993 ? (
-          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>
-            {children}
-          </Box>
+          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>{children}</Box>
         ) : null}
       </Menu.Dropdown>
     </Menu>

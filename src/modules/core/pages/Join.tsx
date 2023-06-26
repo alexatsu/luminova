@@ -5,7 +5,12 @@ import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from
 import { reuseAuth } from "@/services/auth";
 
 const useStyles = createStyles((theme) => ({
-  container: { display: "flex", justifyContent: "center", width: "100%", height: "100%" },
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+  },
   image: {
     minWidth: "50%",
     minHeight: "100%",
@@ -25,7 +30,7 @@ const useStyles = createStyles((theme) => ({
     paddingTop: rem(80),
     "@media (max-width: 768px)": {
       borderRight: "none",
-      minWidth: "90%"
+      minWidth: "90%",
     },
   },
 
@@ -42,7 +47,6 @@ const useStyles = createStyles((theme) => ({
     fontSize: "1rem",
     fontFamily:
       "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji",
-
   },
   errorText: {
     display: "flex",
@@ -77,7 +81,7 @@ const useStyles = createStyles((theme) => ({
     color: "grey",
     textAlign: "center",
     "@media (max-width: 768px)": {
-      width:"90%",
+      width: "90%",
       textAlign: "center",
     },
   },

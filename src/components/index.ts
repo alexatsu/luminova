@@ -1,7 +1,7 @@
 import { AssistNav } from "./AssistNav";
 import { Loader } from "./Loader";
 import { Logo } from "./Logo";
-import { ModalCard } from "./ModalCard";
+import { UploadModal } from "./UploadModal";
 import { ProgressBar } from "./ProgressBar";
 
-export { Loader, Logo, ModalCard, ProgressBar, AssistNav };
+export { Loader, Logo, UploadModal, ProgressBar, AssistNav };

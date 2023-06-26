@@ -1,3 +1,4 @@
+import "../sass/layouts/ImagesBlock.scss";
 import { imagesStyles } from "@/styles/imageCard";
 import {
   IconButton,
@@ -10,7 +11,6 @@ import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
 import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
-import "../sass/components/ImagesBlock.scss";
 
 const { buttonHeart, buttonHeartActive, container, downloadButton } =
   imagesStyles as {
@@ -61,7 +61,7 @@ export function ImagesBlock({
               <img className="image"
                 src={url}
                 alt={filename}
-                loading={"eager"}
+                loading={"lazy"}
                 style={{ borderRadius: "8px", maxWidth: "100%" }}
                 title={filename}
               />
