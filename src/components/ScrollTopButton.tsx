@@ -4,20 +4,17 @@ export function ScrollTopButton() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => setScrollY(window.scrollY));
-
-    return () => {
-      window.removeEventListener("scroll", () => setScrollY(window.scrollY));
+    const handleScroll = () => {
+      const timerId = setTimeout(() => setScrollY(window.scrollY), 500);
+      return () => clearTimeout(timerId);
     };
-  });
 
-  const onScrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleScrollToTop = () => window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
   return (
     <div
@@ -34,7 +31,7 @@ export function ScrollTopButton() {
         transition: "all 0.2s ease-in-out",
         opacity: scrollY > 250 ? "1" : "0",
       }}
-      onClick={onScrollTop}
+      onClick={handleScrollToTop}
       aria-hidden="true"
     >
       <img src="/img/arrow-top.png" alt="Arrow" style={{ width: "100%" }} />

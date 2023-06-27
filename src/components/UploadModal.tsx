@@ -1,6 +1,7 @@
-import { CSSProperties, MouseEventHandler, useEffect } from "react";
+import { MouseEventHandler, useEffect } from "react";
 import { createPortal } from "react-dom";
 import sass from "../styles/components/UploadModal.module.scss";
+import uploadImg from "../assets/uploadImg.jpg";
 
 type UploadModalProps = {
   handleClose: MouseEventHandler<HTMLButtonElement>;
@@ -8,16 +9,6 @@ type UploadModalProps = {
 };
 
 export function UploadModal({ handleClose, modalOpen }: UploadModalProps) {
-  const styles = {
-    zIndex: "3",
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    top: `calc(50% + ${window.scrollY}px)`,
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "#0009",
-  };
   useEffect(() => {
     const body = document.body;
 
@@ -43,10 +34,10 @@ export function UploadModal({ handleClose, modalOpen }: UploadModalProps) {
     <>
       {modalOpen &&
         createPortal(
-          <div style={styles as CSSProperties}>
+          <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
             <div style={{ position: "relative", width: "100%", height: "100%" }}>
               <section className={sass.sectionTop}>
-                <h3>Submit to Luminova</h3>
+                <h3 style={{ margin: "auto" }}>Submit to Luminova</h3>
                 <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
                   <svg
                     className={sass.closeIcon}
@@ -62,19 +53,25 @@ export function UploadModal({ handleClose, modalOpen }: UploadModalProps) {
                 </button>
               </section>
 
-              <div className={sass.sectionForm}>
+              <form className={sass.sectionForm}>
                 <div className={sass.uploaderContainer}>
-                  <button>
-                    <img src="" alt="upload" />
+                  <button className={sass.uploadBtn}>
+                    <img src={uploadImg} alt="upload" />
                     <div>Add your photos here</div>
                   </button>
                   {/* <input type="file" /> */}
-                  <div>Read the Luminova License</div>
                 </div>
-                <div style={{height:"30%"}}>
-                  <button className={sass.submitBtn}>Submit</button>
+
+                <div className={sass.sumbitContainer}>
+                  <button className={sass.submitBtn}>
+                    <span>Submit to Luminova</span>
+                  </button>
+
+                  <p className={sass.licenseText}>
+                    Read the <span>Luminova License</span>
+                  </p>
                 </div>
-              </div>
+              </form>
             </div>
           </div>,
           root as HTMLElement

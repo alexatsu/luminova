@@ -19,7 +19,7 @@ export const useImages = (category: string | undefined) => {
       const { forNonUser, forUser } = endpoints.images;
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
-        const fetchForAnyone = await handleFetch(
+        const fetchForAnyone = await handleFetch(//TODO: type it
           forNonUser,
           "POST",
           {},
@@ -101,4 +101,5 @@ export const useImages = (category: string | undefined) => {
 
   return { data, isLoading, updateFavoriteImages };
 };
+
 export type UseImagesReturn = ReturnType<typeof useImages>;
