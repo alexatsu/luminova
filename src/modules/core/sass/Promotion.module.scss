@@ -1,10 +1,21 @@
+%flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+%flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 @media screen and (min-width: 768px) {
-  .promotion-container {
+  .container {
     margin: 20px 100px;
   }
 }
 
-.direct-promotion {
+.direct {
   background: linear-gradient(180deg, #ffffff, #f5f5f5);
   padding: 70px 10px;
 
@@ -12,22 +23,20 @@
     margin: 100px 0 50px 0;
   }
 
-  .direct-info {
+  .directInfo {
     margin: 0px auto;
     text-align: center;
     max-width: 630px;
   }
 
-  .direct-list-items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  .directListItems {
+    @extend %flex-wrap;
 
     @media screen and (max-width: 768px) {
       justify-content: center;
     }
 
-    .direct-item {
+    .directItem {
       width: 300px;
       max-height: 100%;
 
@@ -36,7 +45,7 @@
         margin: 0 auto;
       }
 
-      .direct-item-info {
+      .directItemInfo {
         padding: 20px;
         background-color: #fff;
         border-radius: 5px;
@@ -50,7 +59,7 @@
   }
 }
 
-.native-promotion {
+.native {
   img {
     margin: 100px 0;
     width: 100%;
@@ -62,15 +71,14 @@
     font-weight: 400;
   }
 
-  .native-info {
+  .nativeInfo {
     margin: 60px auto;
     text-align: center;
     max-width: 630px;
   }
 
   .studio {
-    display: flex;
-    justify-content: space-between;
+    @extend %flex-between;
     align-items: center;
     background-color: #f5f5f5;
     margin: 100px auto;
@@ -79,13 +87,13 @@
     border-radius: 5px;
     text-align: left;
 
-    .studio-info {
-      max-width: 500px;
-    }
-
-    img {
+    .studioImg {
       width: 500px;
       margin: 40px;
+    }
+
+    .studioInfo {
+      max-width: 500px;
     }
 
     @media screen and (max-width: 1155px) {
@@ -93,13 +101,13 @@
       padding-bottom: 40px;
       text-align: center;
 
-      .studio-info {
+      .studioInfo {
         display: flex;
         flex-direction: column;
         align-items: center;
       }
 
-      .studio-img {
+      .studioImg {
         margin-bottom: 20px;
       }
     }
@@ -107,9 +115,8 @@
 }
 
 .audience {
-  .email-block {
-    display: flex;
-    justify-content: space-between;
+  .email {
+    @extend %flex-between;
     align-items: center;
     width: 100%;
     height: 350px;
@@ -118,14 +125,13 @@
     margin-top: 50px;
     padding: 40px 60px;
 
-    .email-block-content {
-      display: flex;
+    .emailContent {
+      @extend %flex-between;
       flex-direction: column;
-      justify-content: space-between;
       margin-right: 200px;
       height: 100%;
 
-      .email-block-descr {
+      .emailDescr {
         color: #fff;
         font-size: 14px;
         font-weight: 400;
@@ -137,7 +143,7 @@
         }
       }
 
-      .email-block-title {
+      .emailTitle {
         color: #fff;
         font-size: 80px;
         font-weight: 600;
@@ -145,16 +151,16 @@
       }
     }
 
-    .email-block-btn {
+    .emailButton {
       margin: 0 80px;
     }
   }
 
   @media screen and (max-width: 1200px) {
-    .email-block {
-      .email-block-content {
+    .email {
+      .emailContent {
         margin-right: 50px;
-        .email-block-title {
+        .emailTitle {
           font-size: 60px;
         }
       }
@@ -162,32 +168,32 @@
   }
 
   @media screen and (max-width: 1024px) {
-    .email-block {
+    .email {
       display: block;
       text-align: center;
-      .email-block-content {
+      .emailContent {
         display: block;
         width: 100%;
         height: 220px;
         margin-right: 0px;
-        .email-block-title {
+        .emailTitle {
           font-size: 40px;
         }
-        .email-block-desc {
+        .emailDescr {
           margin-top: 65px;
         }
       }
-      .email-block-btn {
+      .emailButton {
         margin: 0 auto;
       }
     }
   }
 
   @media screen and (max-width: 768px) {
-    .email-block {
+    .email {
       border-radius: 0px;
-      .email-block-content {
-        .email-block-title {
+      .emailContent {
+        .emailTitle {
           font-size: 30px;
         }
       }
@@ -195,13 +201,13 @@
   }
 
   @media screen and (max-width: 480px) {
-    .email-block {
-      .email-block-content {
-        .email-block-descr {
+    .email {
+      .emailContent {
+        .emailDescr {
           margin-top: 10px;
         }
 
-        .email-block-title {
+        .emailTitle {
           font-size: 19px;
         }
       }
@@ -209,12 +215,10 @@
   }
 }
 
-.audience-item {
+.audienceItem {
   margin-top: 25px;
-  display: flex;
-  flex-wrap: wrap;
+  @extend %flex-wrap;
   flex-direction: column;
-  justify-content: space-between;
   width: 380px;
   height: 270px;
   padding: 30px;
@@ -240,10 +244,8 @@
   }
 }
 
-.audience-list-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.audienceListItems {
+  @extend %flex-wrap;
 
   @media screen and (max-width: 768px) {
     justify-content: center;
@@ -259,10 +261,8 @@
     text-align: center;
   }
 
-  .brand-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  .brandList {
+    @extend %flex-wrap;
     margin-top: 80px;
 
     img {
@@ -284,7 +284,7 @@
   }
 }
 
-.promotion-btn {
+.button {
   button {
     cursor: pointer;
     display: block;
@@ -306,10 +306,8 @@
   }
 }
 
-.promotion-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.header {
+  @extend %flex-wrap;
   align-items: center;
   padding: 10px 10px;
 
@@ -319,7 +317,7 @@
   }
 
   @media screen and (max-width: 1200px) {
-    .promotion-header-info {
+    .headerInfo {
       margin: 30px auto;
     }
 

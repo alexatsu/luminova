@@ -1,0 +1,10 @@
+.button {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
+  transition: all 0.2s ease-in-out;
+}

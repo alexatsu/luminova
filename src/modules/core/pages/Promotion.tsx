@@ -2,7 +2,7 @@ import { Navbar } from "@/layouts";
 import { ProgressBar } from "@/components";
 import { ScrollTopButton } from "@/components";
 
-import "../sass/Promotion.scss";
+import sass from "../sass/Promotion.module.scss";
 
 export const Promotion = () => {
   const dataBrands = [
@@ -97,8 +97,8 @@ export const Promotion = () => {
       <Navbar />
 
       <PromotionContainer>
-        <div className="promotion-header">
-          <div className="promotion-header-info">
+        <div className={sass.header}>
+          <div className={sass.headerInfo}>
             <Description
               title={"Advertise on Luminova"}
               descr={"The world’s most popular creative platform."}
@@ -112,12 +112,12 @@ export const Promotion = () => {
           <img src="/img/advertiseHeader.avif" alt="promotion-header" />
         </div>
 
-        <div className="brands">
+        <div className={sass.brands}>
           <p>
             Join the world’s biggest brands that we’re proud to call partners
           </p>
 
-          <div className="brand-list">
+          <div className={sass.brandList}>
             {dataBrands.map((item: any, index: number) => (
               <img key={index} src={item.url} alt={item.alt} />
             ))}
@@ -125,8 +125,8 @@ export const Promotion = () => {
         </div>
       </PromotionContainer>
 
-      <div className="direct-promotion">
-        <div className="direct-info">
+      <div className={sass.direct}>
+        <div className={sass.directInfo}>
           <Description
             title={"Direct Advertising"}
             descr={`Direct ads are performance-driven placements. Built to generate traffic for brands and convert
@@ -144,8 +144,8 @@ export const Promotion = () => {
         </PromotionButton>
       </div>
 
-      <div className="native-promotion">
-        <div className="native-info">
+      <div className={sass.native}>
+        <div className={sass.nativeInfo}>
           <Description
             title={"Native advertising"}
             descr={`Generate brand lift unseen on any other platform.
@@ -161,8 +161,8 @@ export const Promotion = () => {
         <p>Trusted by the world’s biggest brands</p>
 
         <PromotionContainer>
-          <div className="studio">
-            <div className="studio-info">
+          <div className={sass.studio}>
+            <div className={sass.studioInfo}>
               <Description
                 title={"Don’t have images readily available?"}
                 descr={`Take advantage of Luminova Studio: work with Luminova photographers
@@ -171,28 +171,32 @@ export const Promotion = () => {
                   fontSize: "28px",
                 }}
               />
-              <PromotionButton styleCenter={"center"} styleBtn={null}>
+              <PromotionButton styleCenter={sass.center} styleBtn={null}>
                 Get in touch to learn more about Studio
               </PromotionButton>
             </div>
 
-            <img className="studio-img" src="./img/studio.avif" alt="Studio" />
+            <img
+              className={sass.studioImg}
+              src="./img/studio.avif"
+              alt="Studio"
+            />
           </div>
         </PromotionContainer>
       </div>
 
       <PromotionContainer>
-        <div className="audience">
+        <div className={sass.audience}>
           <div style={{ textAlign: "center" }}>
             <Description title="Our Audience" />
           </div>
 
           <AudienceListItems dataAudienceItems={dataAudienceItems} />
 
-          <div className="email-block">
-            <div className="email-block-content">
-              <h4 className="email-block-title">Ready to get started?</h4>
-              <p className="email-block-descr">
+          <div className={sass.email}>
+            <div className={sass.emailContent}>
+              <h4 className={sass.emailTitle}>Ready to get started?</h4>
+              <p className={sass.emailDescr}>
                 Not sure where to start? Email us directly{" "}
                 <a href="mailto:partnershisp@luminova.com">
                   partnership@luminova.com
@@ -200,7 +204,7 @@ export const Promotion = () => {
               </p>
             </div>
 
-            <div className="email-block-btn">
+            <div className={sass.emailButton}>
               <PromotionButton
                 styleBtn={{
                   backgroundColor: "#fff",
@@ -233,7 +237,7 @@ function AudienceItem({ bgColor, title, descr }: any) {
 
   return (
     <div
-      className="audience-item"
+      className={sass.audienceItem}
       style={{
         backgroundColor: bgColor,
         color: textColor(),
@@ -255,19 +259,19 @@ function AudienceListItems({ dataAudienceItems }: any) {
     />
   ));
 
-  return <div className="audience-list-items">{items}</div>;
+  return <div className={sass.audienceListItems}>{items}</div>;
 }
 
 function PromotionContainer({ children }: any) {
-  return <div className="promotion-container">{children}</div>;
+  return <div className={sass.container}>{children}</div>;
 }
 
 function DirectItem({ url, title, descr }: any) {
   return (
-    <div className="direct-item">
+    <div className={sass.directItem}>
       <img src={url} alt={title} />
 
-      <div className="direct-item-info">
+      <div className={sass.directItemInfo}>
         <Description
           title={title}
           descr={descr}
@@ -289,7 +293,7 @@ function DirectListItems({ dataDirectItems }: any) {
     />
   ));
 
-  return <div className="direct-list-items">{items}</div>;
+  return <div className={sass.directListItems}>{items}</div>;
 }
 
 function PromotionButton({
@@ -310,7 +314,7 @@ function PromotionButton({
   };
 
   return (
-    <div className="promotion-btn">
+    <div className={sass.button}>
       <button
         className={styleCenter}
         style={{
@@ -325,7 +329,7 @@ function PromotionButton({
 
 function Description({ title, descr, styleTitle, styleDescr }: any) {
   return (
-    <div className="description">
+    <div>
       {title ? (
         <h2
           style={{
