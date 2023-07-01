@@ -1,29 +1,9 @@
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
-import "@/styles/assistNav.scss";
 import { paths } from "@/utils";
+import "@/styles/assistNav.scss";
 
 export function AssistNav() {
-  const RenderNavlink = ({
-    to,
-    children,
-  }: {
-    to: string;
-    children: React.ReactNode;
-  }) => {
-    return (
-      <NavLink
-        to={to}
-        style={({ isActive }) => ({
-          borderBottom: isActive ? "3px solid #111" : "none",
-          color: isActive ? "#111" : "",
-        })}
-      >
-        {children}
-      </NavLink>
-    );
-  };
-
   const categoriesList = paths.map(({ name, path }) => {
     return (
       <li key={name}>
@@ -68,5 +48,18 @@ export function AssistNav() {
         <ul ref={ref}>{categoriesList}</ul>
       </div>
     </div>
+  );
+}
+function RenderNavlink({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <NavLink
+      to={to}
+      style={({ isActive }) => ({
+        borderBottom: isActive ? "3px solid #111" : "none",
+        color: isActive ? "#111" : "",
+      })}
+    >
+      {children}
+    </NavLink>
   );
 }

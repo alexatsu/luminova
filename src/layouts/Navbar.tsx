@@ -4,13 +4,16 @@ import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
 import { useResizeWidth } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
-import { Logo, UploadModal } from "@/components";
+import { Logo } from "@/components";
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
-import { SearchInput } from "@/components/form";
+import { SearchInput, UploadModal } from "@/components/form";
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 import { useModal } from "@/hooks";
+import sass from "../styles/components/UploadModal.module.scss";
+import uploadImg from "../assets/uploadImg.jpg";
+import { useEffect, useState } from "react";
 
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
@@ -59,7 +62,9 @@ export function Navbar() {
           {!accessToken ? <PageButton path="login" /> : null}
         </HamburgerMenu>
       </Box>
-      <UploadModal modalOpen={modalOpen} handleClose={handleClose} />
+      <UploadModal modalOpen={modalOpen}>
+        <ModalContent handleClose={handleClose} />
+      </UploadModal>
     </nav>
   );
 }
@@ -257,5 +262,80 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         ) : null}
       </Menu.Dropdown>
     </Menu>
+  );
+}
+
+function ModalContent({ handleClose }: { handleClose: () => void }) {
+  const [images, setImages] = useState<File[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  console.log(imageUrls);
+
+  useEffect(() => {
+    const files = Array.from(images);
+    setImageUrls(files.map((file) => URL.createObjectURL(file as unknown as Blob | MediaSource)));
+  }, [images]);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files!;
+    const selectedImages: File[] = Array.from(fileList);
+    setImages((prevImages) => [...prevImages, ...selectedImages]);
+  };
+  // const removeImage = (index: number) => {
+  //   setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  // }
+  return (
+    <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
+      <section className={sass.sectionTop}>
+        <h3 style={{ margin: "auto" }}>Submit to Luminova</h3>
+        <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
+          <svg
+            className={sass.closeIcon}
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            version="1.1"
+            aria-hidden="false"
+          >
+            <desc lang="en-US">An X shape</desc>
+            <path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path>
+          </svg>
+        </button>
+      </section>
+
+      <form className={sass.sectionForm} style={{ overflow: "auto" }}>
+        <label htmlFor="upload" className={imageUrls.length > 0 ? sass.test : sass.uploadBtn}>
+          <img src={uploadImg} alt="upload" />
+          <div>Add your photos here</div>
+        </label>
+        <input
+          id="upload"
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          multiple
+          onChange={handleFileUpload}
+        />
+        <ul style={{ listStyle: "none", height: "200px" }}>
+          {imageUrls.map((url, index) => {
+            return (
+              <li key={index} style={{ marginBottom: "5px" }}>
+                <img src={url} width={"200px"} height={"200px"} alt="upload" />
+              </li>
+            );
+          })}
+          {imageUrls.length > 0 && <div style={{ padding: "10px" }}>{imageUrls.length} images</div>}
+        </ul>
+      </form>
+
+      <div className={sass.sumbitContainer}>
+        <button className={sass.submitBtn}>
+          <span>Submit to Luminova</span>
+        </button>
+
+        <p className={sass.licenseText}>
+          Read the <Link to={"/tos/license"}>Luminova License</Link>
+        </p>
+      </div>
+    </div>
   );
 }

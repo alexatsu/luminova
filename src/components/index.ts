@@ -1,7 +1,7 @@
 import { AssistNav } from "./AssistNav";
 import { Loader } from "./Loader";
 import { Logo } from "./Logo";
-import { UploadModal } from "./UploadModal";
+import { UploadModal } from "./form/UploadModal";
 import { ProgressBar } from "./ProgressBar";
 import { ScrollTopButton } from "./ScrollTopButton";
 
