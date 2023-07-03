@@ -2,18 +2,22 @@ import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
-import { useResizeWidth } from "@/hooks";
+
+import { useResizeWidth, useModal } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
+
+import sass from "../styles/components/UploadModal.module.scss";
 import { Logo } from "@/components";
+import { SearchInput, UploadModal } from "@/components/form";
+
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
-import { SearchInput, UploadModal } from "@/components/form";
+
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
-import { useModal } from "@/hooks";
-import sass from "../styles/components/UploadModal.module.scss";
+
 import uploadImg from "../assets/uploadImg.jpg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
@@ -266,23 +270,17 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 }
 
 function ModalContent({ handleClose }: { handleClose: () => void }) {
-  const [images, setImages] = useState<File[]>([]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-  console.log(imageUrls);
-
-  useEffect(() => {
-    const files = Array.from(images);
-    setImageUrls(files.map((file) => URL.createObjectURL(file as unknown as Blob | MediaSource)));
-  }, [images]);
-
+  const width = useResizeWidth();
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files!;
-    const selectedImages: File[] = Array.from(fileList);
-    setImages((prevImages) => [...prevImages, ...selectedImages]);
+    const images = (e.target.files || []) as File[];
+    setImageUrls((prevImages) => [URL.createObjectURL(images[0])].concat(prevImages));
   };
+
   // const removeImage = (index: number) => {
   //   setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   // }
+
   return (
     <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
       <section className={sass.sectionTop}>
@@ -303,10 +301,15 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
       </section>
 
       <form className={sass.sectionForm} style={{ overflow: "auto" }}>
-        <label htmlFor="upload" className={imageUrls.length > 0 ? sass.test : sass.uploadBtn}>
-          <img src={uploadImg} alt="upload" />
-          <div>Add your photos here</div>
-        </label>
+        {width < 768 && (
+          <label
+            htmlFor="upload"
+            className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
+          >
+            <img src={uploadImg} alt="upload" height={80} width={110} />
+            <div>Add your photos here</div>
+          </label>
+        )}
         <input
           id="upload"
           type="file"
@@ -315,19 +318,45 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
           multiple
           onChange={handleFileUpload}
         />
-        <ul style={{ listStyle: "none", height: "200px" }}>
-          {imageUrls.map((url, index) => {
-            return (
-              <li key={index} style={{ marginBottom: "5px" }}>
-                <img src={url} width={"200px"} height={"200px"} alt="upload" />
-              </li>
-            );
-          })}
-          {imageUrls.length > 0 && <div style={{ padding: "10px" }}>{imageUrls.length} images</div>}
+        <ul className={sass.imageList} style={{ listStyle: "none", height: "200px" }}>
+          <>
+            {width >= 768 && (
+              <label
+                htmlFor="upload"
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  height: "200px",
+                }}
+                // className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
+              >
+                <img
+                  src={uploadImg}
+                  alt="upload"
+                  height={100}
+                  width={200}
+                  style={{ objectFit: "contain" }}
+                />
+                <div>Add your photos here</div>
+              </label>
+            )}
+
+            {imageUrls.map((url) => {
+              return (
+                <li key={url} style={{ marginBottom: "5px" }}>
+                  <img src={url} width={200} height={200} alt="upload" />
+                </li>
+              );
+            })}
+          </>
         </ul>
       </form>
 
       <div className={sass.sumbitContainer}>
+        {imageUrls.length > 0 && <div style={{ padding: "10px" }}>{imageUrls.length} images</div>}
         <button className={sass.submitBtn}>
           <span>Submit to Luminova</span>
         </button>

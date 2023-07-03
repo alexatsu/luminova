@@ -9,20 +9,14 @@ export const useResizeWidth = () => {
   const [width, setWidth] = useState(0);
 
   const debounce: Debounce<[]> = (func, delay) => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-
     return (...args) => {
-      timeoutId && clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func(...args), delay);
+      const timeout = setTimeout(() => func(...args), delay);
+      return () => clearTimeout(timeout);
     };
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      const newWidth = window.innerWidth;
-      setWidth(newWidth);
-    };
-
+    const handleResize = () => setWidth(window.innerWidth);
     handleResize();
 
     const debouncedHandleResize = debounce(handleResize, 300);
