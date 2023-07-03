@@ -10,11 +10,21 @@ import sass from "../styles/components/UploadModal.module.scss";
 import { Logo } from "@/components";
 import { SearchInput, UploadModal } from "@/components/form";
 
-import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavigateFunction,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
 
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
-import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineProfile,
+  AiOutlineTeam,
+  AiOutlineUser,
+} from "react-icons/ai";
 
 import uploadImg from "../assets/uploadImg.jpg";
 import { useState } from "react";
@@ -43,7 +53,11 @@ export function Navbar() {
             display: "flex",
           }}
         >
-          {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
+          {accessToken ? (
+            <PageButton path="blog" />
+          ) : (
+            <PageButton path="discover" />
+          )}
           {pathname !== "/advertise" && <PageButton path="advertise" />}
         </Box>
 
@@ -54,7 +68,11 @@ export function Navbar() {
           }}
         >
           {accessToken ? (
-            <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
+            <UserMenu
+              logoutUser={logoutUser}
+              accessToken={accessToken}
+              navigate={navigate}
+            />
           ) : (
             <PageButton path="login" />
           )}
@@ -84,7 +102,11 @@ function PageButton({ path }: { path: string }) {
 
 function UploadButton({ handleOpen }: { handleOpen: () => void }) {
   return (
-    <Button className="button-upload" onClick={handleOpen} sx={{ width: "100%" }}>
+    <Button
+      className="button-upload"
+      onClick={handleOpen}
+      sx={{ width: "100%" }}
+    >
       Upload a photo
     </Button>
   );
@@ -95,7 +117,10 @@ function UserMenu({
   accessToken,
   navigate,
 }: {
-  logoutUser: (token: string | null, navigate: NavigateFunction) => Promise<void>;
+  logoutUser: (
+    token: string | null,
+    navigate: NavigateFunction
+  ) => Promise<void>;
   accessToken: string | null;
   navigate: NavigateFunction;
 }) {
@@ -118,7 +143,9 @@ function UserMenu({
         <Menu.Item>Stats</Menu.Item>
         <Menu.Item>Account settings</Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
+        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>
+          Logout
+        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
@@ -132,28 +159,61 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
       header: "Company",
       icon: <AiOutlineHome style={{ marginRight: "4px" }} />,
       list: [
-        "About",
-        width < 993 ? "Advertise" : null,
-        "History",
-        "Join the team",
-        "Press",
-        "Contact us",
-        "Help Center",
+        { title: "About", path: "/company/about" },
+        width < 993 ? { title: "Advertise", path: "/advertise" } : null,
+        { title: "History", path: "/company/history" },
+        width < 993 ? { title: "Blog", path: "/blog" } : null,
+        { title: "Join the team", path: "/company/jointheteam" },
+        { title: "Press", path: "/company/press" },
+        { title: "Contact us", path: "/company/contactus" },
+        { title: "Help Center", path: "/company/helpcenter" },
       ].filter((item) => item !== null),
     },
     terms: {
       header: "Terms",
       icon: <AiOutlineProfile style={{ marginRight: "4px" }} />,
-      list: ["License", "Terms & Conditions", "Privacy Policy", "Security"],
+      list: [
+        { title: "License", path: "/tos/license" },
+        { title: "Terms & Conditions", path: "/tos/conditions" },
+        { title: "Privacy Policy", path: "/tos/privacy" },
+        { title: "Security", path: "/tos/security" },
+      ],
     },
     community: {
       header: "Community",
       icon: <AiOutlineTeam style={{ marginRight: "4px" }} />,
-      list: ["Become a Contributor", "Topics", "Collection", "Trends", "Luminova Awards", "Stats"],
+      list: [
+        { title: "Become a Contributor", path: "/community/contributor" },
+        { title: "Topics", path: "/community/topics" },
+        { title: "Collection", path: "/community/collection" },
+        { title: "Trends", path: "/community/trends" },
+        { title: "Luminova Awards", path: "/community/awards" },
+        { title: "Stats", path: "/community/stats" },
+      ],
     },
   };
 
   const { company, terms, community } = listData;
+
+  const setItems = (list: any) =>
+    list.map(({ title, path }: any, index: number) => {
+      return (
+        <Link
+          key={index}
+          to={path}
+          style={{
+            marginBottom: "5px",
+            transition: "all 0.12s ease-in-out",
+            color: "#7a7a7a",
+            fontWeight: "500",
+            cursor: "pointer",
+            textDecoration: "none",
+          }}
+        >
+          {title}
+        </Link>
+      );
+    });
 
   return (
     <Menu position="bottom-end" shadow="md" width={width < 993 ? 300 : 600}>
@@ -179,7 +239,11 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
       >
         {[company, terms, community].map(({ header, list, icon }) =>
           width < 993 ? (
-            <Accordion defaultValue="accordion-menu" key={header} sx={{ width: "100%" }}>
+            <Accordion
+              defaultValue="accordion-menu"
+              key={header}
+              sx={{ width: "100%" }}
+            >
               <Accordion.Item value={header}>
                 <Accordion.Control>
                   <Box
@@ -191,24 +255,16 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
                   </Box>
                 </Accordion.Control>
                 <Accordion.Panel>
-                  <List sx={{ width: "100%", paddingLeft: "10px" }}>
-                    {list.map((text, index) => {
-                      return (
-                        <List.Item
-                          key={index}
-                          sx={{
-                            marginBottom: "5px",
-                            transition: "all 0.12s ease-in-out",
-                            color: "#7a7a7a",
-                            "&:hover": { color: "#2e2e2e" },
-                          }}
-                        >
-                          <Text style={{ fontWeight: "500", cursor: "pointer" }} size={14}>
-                            {text}
-                          </Text>
-                        </List.Item>
-                      );
-                    })}
+                  <List
+                    sx={{
+                      width: "100%",
+                      paddingLeft: "10px",
+                      display: "flex",
+                      flexDirection: "column",
+                      marginLeft: "10px",
+                    }}
+                  >
+                    {setItems(list)}
                   </List>
                 </Accordion.Panel>
               </Accordion.Item>
@@ -237,32 +293,24 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
                 </Text>
               </Box>
 
-              <List sx={{ width: "100%" }}>
-                {list.map((text, index) => {
-                  return (
-                    <List.Item
-                      key={index}
-                      sx={{
-                        marginBottom: "5px",
-                        transition: "all 0.12s ease-in-out",
-                        color: "#7a7a7a",
-
-                        "&:hover": { color: "#2e2e2e" },
-                      }}
-                    >
-                      <Text style={{ fontWeight: "500", cursor: "pointer" }} size={14}>
-                        {text}
-                      </Text>
-                    </List.Item>
-                  );
-                })}
+              <List
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginLeft: "45px",
+                }}
+              >
+                {setItems(list)}
               </List>
             </Box>
           )
         )}
 
         {width < 993 ? (
-          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>{children}</Box>
+          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>
+            {children}
+          </Box>
         ) : null}
       </Menu.Dropdown>
     </Menu>
@@ -271,7 +319,17 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 
 function ModalContent({ handleClose }: { handleClose: () => void }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const width = useResizeWidth();
+  console.log(imageUrls);
+
+  useEffect(() => {
+    const files = Array.from(images);
+    setImageUrls(
+      files.map((file) =>
+        URL.createObjectURL(file as unknown as Blob | MediaSource)
+      )
+    );
+  }, [images]);
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const images = (e.target.files || []) as File[];
     setImageUrls((prevImages) => [URL.createObjectURL(images[0])].concat(prevImages));
@@ -282,10 +340,16 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
   // }
 
   return (
-    <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
+    <div
+      style={{ top: `calc(50% + ${window.scrollY}px)` }}
+      className={sass.modalContainer}
+    >
       <section className={sass.sectionTop}>
         <h3 style={{ margin: "auto" }}>Submit to Luminova</h3>
-        <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
+        <button
+          onClick={handleClose}
+          style={{ all: "unset", cursor: "pointer" }}
+        >
           <svg
             className={sass.closeIcon}
             width="24"
@@ -301,15 +365,10 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
       </section>
 
       <form className={sass.sectionForm} style={{ overflow: "auto" }}>
-        {width < 768 && (
-          <label
-            htmlFor="upload"
-            className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
-          >
-            <img src={uploadImg} alt="upload" height={80} width={110} />
-            <div>Add your photos here</div>
-          </label>
-        )}
+        <label htmlFor="upload" className={imageUrls.length > 0 ? sass.test : sass.uploadBtn}>
+          <img src={uploadImg} alt="upload" />
+          <div>Add your photos here</div>
+        </label>
         <input
           id="upload"
           type="file"
@@ -318,40 +377,15 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
           multiple
           onChange={handleFileUpload}
         />
-        <ul className={sass.imageList} style={{ listStyle: "none", height: "200px" }}>
-          <>
-            {width >= 768 && (
-              <label
-                htmlFor="upload"
-                style={{
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  height: "200px",
-                }}
-                // className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
-              >
-                <img
-                  src={uploadImg}
-                  alt="upload"
-                  height={100}
-                  width={200}
-                  style={{ objectFit: "contain" }}
-                />
-                <div>Add your photos here</div>
-              </label>
-            )}
-
-            {imageUrls.map((url) => {
-              return (
-                <li key={url} style={{ marginBottom: "5px" }}>
-                  <img src={url} width={200} height={200} alt="upload" />
-                </li>
-              );
-            })}
-          </>
+        <ul style={{ listStyle: "none", height: "200px" }}>
+          {imageUrls.map((url, index) => {
+            return (
+              <li key={index} style={{ marginBottom: "5px" }}>
+                <img src={url} width={"200px"} height={"200px"} alt="upload" />
+              </li>
+            );
+          })}
+          {imageUrls.length > 0 && <div style={{ padding: "10px" }}>{imageUrls.length} images</div>}
         </ul>
       </form>
 
