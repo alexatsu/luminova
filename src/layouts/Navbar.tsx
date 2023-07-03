@@ -319,17 +319,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 
 function ModalContent({ handleClose }: { handleClose: () => void }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-  console.log(imageUrls);
-
-  useEffect(() => {
-    const files = Array.from(images);
-    setImageUrls(
-      files.map((file) =>
-        URL.createObjectURL(file as unknown as Blob | MediaSource)
-      )
-    );
-  }, [images]);
-
+  const width = useResizeWidth();
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const images = (e.target.files || []) as File[];
     setImageUrls((prevImages) => [URL.createObjectURL(images[0])].concat(prevImages));
@@ -340,16 +330,10 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
   // }
 
   return (
-    <div
-      style={{ top: `calc(50% + ${window.scrollY}px)` }}
-      className={sass.modalContainer}
-    >
+    <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
       <section className={sass.sectionTop}>
         <h3 style={{ margin: "auto" }}>Submit to Luminova</h3>
-        <button
-          onClick={handleClose}
-          style={{ all: "unset", cursor: "pointer" }}
-        >
+        <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
           <svg
             className={sass.closeIcon}
             width="24"
@@ -365,10 +349,15 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
       </section>
 
       <form className={sass.sectionForm} style={{ overflow: "auto" }}>
-        <label htmlFor="upload" className={imageUrls.length > 0 ? sass.test : sass.uploadBtn}>
-          <img src={uploadImg} alt="upload" />
-          <div>Add your photos here</div>
-        </label>
+        {width < 768 && (
+          <label
+            htmlFor="upload"
+            className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
+          >
+            <img src={uploadImg} alt="upload" height={80} width={110} />
+            <div>Add your photos here</div>
+          </label>
+        )}
         <input
           id="upload"
           type="file"
@@ -377,15 +366,40 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
           multiple
           onChange={handleFileUpload}
         />
-        <ul style={{ listStyle: "none", height: "200px" }}>
-          {imageUrls.map((url, index) => {
-            return (
-              <li key={index} style={{ marginBottom: "5px" }}>
-                <img src={url} width={"200px"} height={"200px"} alt="upload" />
-              </li>
-            );
-          })}
-          {imageUrls.length > 0 && <div style={{ padding: "10px" }}>{imageUrls.length} images</div>}
+        <ul className={sass.imageList} style={{ listStyle: "none", height: "200px" }}>
+          <>
+            {width >= 768 && (
+              <label
+                htmlFor="upload"
+                style={{
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  height: "200px",
+                }}
+                // className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
+              >
+                <img
+                  src={uploadImg}
+                  alt="upload"
+                  height={100}
+                  width={200}
+                  style={{ objectFit: "contain" }}
+                />
+                <div>Add your photos here</div>
+              </label>
+            )}
+
+            {imageUrls.map((url) => {
+              return (
+                <li key={url} style={{ marginBottom: "5px" }}>
+                  <img src={url} width={200} height={200} alt="upload" />
+                </li>
+              );
+            })}
+          </>
         </ul>
       </form>
 
