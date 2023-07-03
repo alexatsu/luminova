@@ -2,7 +2,7 @@ import { ImagesBlock, Footer, PagePreview } from "../layouts";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
 
-import { useResizeWidth } from "@/hooks";
+import { useDebounce, useResizeWidth } from "@/hooks";
 import { useImages } from "../hooks";
 
 import { downloadImage } from "../utils";
@@ -10,6 +10,7 @@ import { Resources } from "@/types";
 
 export function Home() {
   const width = useResizeWidth();
+  const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
   const editorial = "gallery";
   const { data, isLoading, updateFavoriteImages } = useImages(editorial);
 
@@ -27,7 +28,7 @@ export function Home() {
             description={pagePreview?.description}
           />
           <ImagesBlock
-            width={width}
+            width={debouncedWidth}
             data={images as Resources[]}
             updateFavImages={updateFavoriteImages}
             download={downloadImage}

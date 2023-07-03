@@ -104,18 +104,14 @@ export const Promotion = () => {
               descr={"The world’s most popular creative platform."}
             />
 
-            <PromotionButton styleBtn={null}>
-              Get in touch with us
-            </PromotionButton>
+            <PromotionButton styleBtn={null}>Get in touch with us</PromotionButton>
           </div>
 
           <img src="/img/advertiseHeader.avif" alt="promotion-header" />
         </div>
 
         <div className={sass.brands}>
-          <p>
-            Join the world’s biggest brands that we’re proud to call partners
-          </p>
+          <p>Join the world’s biggest brands that we’re proud to call partners</p>
 
           <div className={sass.brandList}>
             {dataBrands.map((item: any, index: number) => (
@@ -176,11 +172,7 @@ export const Promotion = () => {
               </PromotionButton>
             </div>
 
-            <img
-              className={sass.studioImg}
-              src="./img/studio.avif"
-              alt="Studio"
-            />
+            <img className={sass.studioImg} src="./img/studio.avif" alt="Studio" />
           </div>
         </PromotionContainer>
       </div>
@@ -198,9 +190,7 @@ export const Promotion = () => {
               <h4 className={sass.emailTitle}>Ready to get started?</h4>
               <p className={sass.emailDescr}>
                 Not sure where to start? Email us directly{" "}
-                <a href="mailto:partnershisp@luminova.com">
-                  partnership@luminova.com
-                </a>
+                <a href="mailto:partnershisp@luminova.com">partnership@luminova.com</a>
               </p>
             </div>
 
@@ -251,12 +241,7 @@ function AudienceItem({ bgColor, title, descr }: any) {
 
 function AudienceListItems({ dataAudienceItems }: any) {
   const items = dataAudienceItems?.map((item: any, index: number) => (
-    <AudienceItem
-      key={index}
-      bgColor={item.bgColor}
-      title={item.title}
-      descr={item.descr}
-    />
+    <AudienceItem key={index} bgColor={item.bgColor} title={item.title} descr={item.descr} />
   ));
 
   return <div className={sass.audienceListItems}>{items}</div>;
@@ -285,12 +270,7 @@ function DirectItem({ url, title, descr }: any) {
 
 function DirectListItems({ dataDirectItems }: any) {
   const items = dataDirectItems.map((item: any, index: number) => (
-    <DirectItem
-      key={index}
-      url={item.url}
-      title={item.title}
-      descr={item.descr}
-    />
+    <DirectItem key={index} url={item.url} title={item.title} descr={item.descr} />
   ));
 
   return <div className={sass.directListItems}>{items}</div>;

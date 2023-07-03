@@ -37,7 +37,7 @@ export function ImagesBlock({
   updateFavImages,
   download,
 }: ImagesBlockProps) {
-  console.log(data, "data");
+  // console.log(data, "data");
 
   return (
     <>

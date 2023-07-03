@@ -3,28 +3,18 @@ import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
 
-import { useResizeWidth, useModal } from "@/hooks";
+import { useResizeWidth, useModal, useDebounce } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 
 import sass from "../styles/components/UploadModal.module.scss";
 import { Logo } from "@/components";
 import { SearchInput, UploadModal } from "@/components/form";
 
-import {
-  Link,
-  NavigateFunction,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
 
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
-import {
-  AiOutlineHome,
-  AiOutlineProfile,
-  AiOutlineTeam,
-  AiOutlineUser,
-} from "react-icons/ai";
+import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 
 import uploadImg from "../assets/uploadImg.jpg";
 import { useState } from "react";
@@ -53,11 +43,7 @@ export function Navbar() {
             display: "flex",
           }}
         >
-          {accessToken ? (
-            <PageButton path="blog" />
-          ) : (
-            <PageButton path="discover" />
-          )}
+          {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
           {pathname !== "/advertise" && <PageButton path="advertise" />}
         </Box>
 
@@ -68,11 +54,7 @@ export function Navbar() {
           }}
         >
           {accessToken ? (
-            <UserMenu
-              logoutUser={logoutUser}
-              accessToken={accessToken}
-              navigate={navigate}
-            />
+            <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
           ) : (
             <PageButton path="login" />
           )}
@@ -102,11 +84,7 @@ function PageButton({ path }: { path: string }) {
 
 function UploadButton({ handleOpen }: { handleOpen: () => void }) {
   return (
-    <Button
-      className="button-upload"
-      onClick={handleOpen}
-      sx={{ width: "100%" }}
-    >
+    <Button className="button-upload" onClick={handleOpen} sx={{ width: "100%" }}>
       Upload a photo
     </Button>
   );
@@ -117,10 +95,7 @@ function UserMenu({
   accessToken,
   navigate,
 }: {
-  logoutUser: (
-    token: string | null,
-    navigate: NavigateFunction
-  ) => Promise<void>;
+  logoutUser: (token: string | null, navigate: NavigateFunction) => Promise<void>;
   accessToken: string | null;
   navigate: NavigateFunction;
 }) {
@@ -143,9 +118,7 @@ function UserMenu({
         <Menu.Item>Stats</Menu.Item>
         <Menu.Item>Account settings</Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>
-          Logout
-        </Menu.Item>
+        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
@@ -153,6 +126,7 @@ function UserMenu({
 
 function HamburgerMenu({ children }: { children: React.ReactNode }) {
   const width = useResizeWidth();
+  const {debouncedValue:debouncedWidth} = useDebounce<number>(width, 400);
 
   const listData = {
     company: {
@@ -160,9 +134,9 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
       icon: <AiOutlineHome style={{ marginRight: "4px" }} />,
       list: [
         { title: "About", path: "/company/about" },
-        width < 993 ? { title: "Advertise", path: "/advertise" } : null,
+        debouncedWidth < 993 ? { title: "Advertise", path: "/advertise" } : null,
         { title: "History", path: "/company/history" },
-        width < 993 ? { title: "Blog", path: "/blog" } : null,
+        debouncedWidth < 993 ? { title: "Blog", path: "/blog" } : null,
         { title: "Join the team", path: "/company/jointheteam" },
         { title: "Press", path: "/company/press" },
         { title: "Contact us", path: "/company/contactus" },
@@ -216,7 +190,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
     });
 
   return (
-    <Menu position="bottom-end" shadow="md" width={width < 993 ? 300 : 600}>
+    <Menu position="bottom-end" shadow="md" width={debouncedWidth < 993 ? 300 : 600}>
       <Menu.Target>
         <IconButton>
           <Gigachamburger />
@@ -238,12 +212,8 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         }}
       >
         {[company, terms, community].map(({ header, list, icon }) =>
-          width < 993 ? (
-            <Accordion
-              defaultValue="accordion-menu"
-              key={header}
-              sx={{ width: "100%" }}
-            >
+          debouncedWidth < 993 ? (
+            <Accordion defaultValue="accordion-menu" key={header} sx={{ width: "100%" }}>
               <Accordion.Item value={header}>
                 <Accordion.Control>
                   <Box
@@ -307,10 +277,8 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
           )
         )}
 
-        {width < 993 ? (
-          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>
-            {children}
-          </Box>
+        {debouncedWidth < 993 ? (
+          <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>{children}</Box>
         ) : null}
       </Menu.Dropdown>
     </Menu>
@@ -320,6 +288,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 function ModalContent({ handleClose }: { handleClose: () => void }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const width = useResizeWidth();
+  const {debouncedValue:debouncedWidth} = useDebounce<number>(width, 400);
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const images = (e.target.files || []) as File[];
     setImageUrls((prevImages) => [URL.createObjectURL(images[0])].concat(prevImages));
@@ -349,7 +318,7 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
       </section>
 
       <form className={sass.sectionForm} style={{ overflow: "auto" }}>
-        {width < 768 && (
+        {debouncedWidth < 768 && (
           <label
             htmlFor="upload"
             className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn}
@@ -368,7 +337,7 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
         />
         <ul className={sass.imageList} style={{ listStyle: "none", height: "200px" }}>
           <>
-            {width >= 768 && (
+            {debouncedWidth >= 768 && (
               <label
                 htmlFor="upload"
                 style={{
