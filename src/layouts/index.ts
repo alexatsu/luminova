@@ -1,3 +1,4 @@
 import { Navbar } from "./Navbar";
+import { Root } from "./Root";
 
-export { Navbar };
+export { Navbar, Root };

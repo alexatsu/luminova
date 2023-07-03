@@ -1,8 +1,7 @@
 import { RouteObject } from "react-router-dom";
-import { Root } from "../layouts";
-import { License } from "../pages";
+import { Root } from "@/layouts";
+import { License, Conditions, Security, Privacy } from "../pages";
 import { Error } from "@/pages";
-import { Privacy } from "../pages/Privacy";
 
 export const tos: RouteObject[] = [
   {
@@ -17,6 +16,14 @@ export const tos: RouteObject[] = [
       {
         path: "privacy",
         element: <Privacy />,
+      },
+      {
+        path: "conditions",
+        element: <Conditions />,
+      },
+      {
+        path: "security",
+        element: <Security />,
       },
     ],
   },
