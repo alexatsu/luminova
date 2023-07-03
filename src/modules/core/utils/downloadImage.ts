@@ -1,8 +1,8 @@
-import { ImagesProps } from "@/types";
+import { Resources } from "@/types";
 
 type Props = (
-  url: ImagesProps["url"],
-  filename: ImagesProps["filename"]
+  url: Resources["url"],
+  filename: Resources["filename"]
 ) => void;
 
 const downloadImage: Props = async (url, filename) => {
