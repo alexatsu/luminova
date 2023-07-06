@@ -128,7 +128,9 @@ function UserMenu({
         </Tooltip>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item>View Profile</Menu.Item>
+        <Link to="/profile/photos" style={{ textDecoration: "none" }}>
+          <Menu.Item>View Profile</Menu.Item>
+        </Link>
         <Menu.Item>Stats</Menu.Item>
         <Menu.Item>Account settings</Menu.Item>
         <Menu.Divider />
@@ -226,7 +228,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         }}
       >
         {[company, terms, community].map(({ header, list, icon }) =>
-          debouncedWidth < 993 ? (
+          width < 993 ? (
             <Accordion defaultValue="accordion-menu" key={header} sx={{ width: "100%" }}>
               <Accordion.Item value={header}>
                 <Accordion.Control>
@@ -291,7 +293,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
           )
         )}
 
-        {debouncedWidth < 993 ? (
+        {width < 993 ? (
           <Box sx={{ display: "flex", marginTop: "20px", width: "100%" }}>{children}</Box>
         ) : null}
       </Menu.Dropdown>
