@@ -1,8 +1,10 @@
 import { AiOutlineUser } from "react-icons/ai";
-import { NavLink, Outlet, useMatch } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "@/layouts";
 
 import sass from "../sass/layouts/RootProfile.module.scss";
+import sass1 from "../sass/layouts/FooterProfile.module.scss";
+import { Logo } from "@/components";
 
 const dataPoints = [
   {
@@ -24,9 +26,10 @@ const dataPoints = [
 ];
 
 export const RootProfile = () => {
+  const { pathname } = useLocation();
   const points = () =>
     dataPoints.map(({ title, path }) => {
-      const isActive = useMatch(path);
+      const isActive = pathname === path;
       return (
         <NavLink
           key={path}
@@ -64,6 +67,10 @@ export const RootProfile = () => {
       </nav>
 
       <Outlet />
+      <footer className={sass1.footer}>
+        <Logo />
+        <p>Make something awesome</p>
+      </footer>
     </div>
   );
 };

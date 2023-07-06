@@ -13,21 +13,10 @@ type RegisterProps = (
   setError: React.Dispatch<React.SetStateAction<string>>
 ) => void;
 
-const reuseAuth = () => {
-  const logoutUser = async (token: string | null, navigate: NavigateFunction) => {
-    try {
-      const response = await handleFetch(authEndpoints.logout, "POST", {
-        Authorization: `Bearer ${token}`,
-      });
-      console.log(response, "logout");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      navigate("/login");
-      localStorage.removeItem("accessToken");
-    }
-  };
+type RefreshProps = (navigate: NavigateFunction) => void;
+type LogoutProps = (token: string | null, navigate: NavigateFunction) => void;
 
+const reuseAuth = () => {
   const register: RegisterProps = async (payload, navigate, setError) => {
     console.log(payload, "payload");
     const { email, password, name } = payload;
@@ -38,7 +27,7 @@ const reuseAuth = () => {
         {},
         { email, password, name }
       )) as { error: string; accessToken: string };
-        console.log(error)
+      console.log(error);
       if (error) {
         setError(error);
         return;
@@ -53,7 +42,7 @@ const reuseAuth = () => {
 
   const login: LoginProps = async (payload, navigate, setError) => {
     const { email, password } = payload;
-    console.log("fired")
+    console.log("fired");
     try {
       const { error, accessToken } = (await handleFetch(
         authEndpoints.login,
@@ -74,7 +63,7 @@ const reuseAuth = () => {
     }
   };
 
-  const refreshAccessToken = async (navigate: NavigateFunction) => {
+  const refreshAccessToken: RefreshProps = async (navigate) => {
     const { refresh } = authEndpoints;
     const { error, accessToken } = (await handleFetch(refresh, "POST", {}, {})) as {
       error: string;
@@ -88,6 +77,19 @@ const reuseAuth = () => {
     }
 
     localStorage.setItem("accessToken", accessToken);
+  };
+  const logoutUser: LogoutProps = async (token, navigate) => {
+    try {
+      const response = await handleFetch(authEndpoints.logout, "POST", {
+        Authorization: `Bearer ${token}`,
+      });
+      console.log(response, "logout");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      navigate("/login");
+      localStorage.removeItem("accessToken");
+    }
   };
 
   return {

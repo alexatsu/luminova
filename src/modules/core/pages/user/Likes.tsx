@@ -6,7 +6,6 @@ import { useDebounce, useResizeWidth } from "@/hooks";
 import { downloadImage } from "../../utils";
 import { handleFetch } from "@/utils";
 
-import { FooterProfile } from "../../layouts";
 import sass from "../../sass/user/Likes.module.scss";
 
 export const Likes = () => {
@@ -34,7 +33,6 @@ export const Likes = () => {
         width={debouncedWidth}
         download={downloadImage}
       />
-      <FooterProfile />
     </>
   );
 };

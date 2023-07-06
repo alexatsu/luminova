@@ -1,8 +1,6 @@
-import { Home } from "./Home";
-import { Join } from "./Join";
-import { Login } from "./Login";
-import { Category } from "./Category";
-import { Promotion } from "./Promotion";
-import { Discover } from "./Discover";
-
-export { Category, Home, Join, Login, Promotion, Discover };
+export { Home } from "./Home";
+export { Join } from "./Join";
+export { Login } from "./Login";
+export { Category } from "./Category";
+export { Promotion } from "./Promotion";
+export { Discover } from "./Discover";

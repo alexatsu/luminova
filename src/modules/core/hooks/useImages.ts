@@ -43,10 +43,10 @@ export const useImages = (category: string | undefined) => {
 
   const { mutate: updateFavoriteImages } = useMutation({
     mutationFn: async (public_id: string) => {
-      const { addToFavorites } = endpoints.images;
+      const { updateFavorites } = endpoints.images;
 
       const data = await handleFetch(
-        addToFavorites,
+        updateFavorites,
         "POST",
         { Authorization: `Bearer ${accessToken}` },
         { public_id: public_id, accessToken: accessToken }

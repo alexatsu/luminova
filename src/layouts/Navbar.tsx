@@ -9,6 +9,7 @@ import { navstyles } from "@/styles/navbar";
 import sass from "../styles/components/UploadModal.module.scss";
 import { Logo } from "@/components";
 import { SearchInput, UploadModal } from "@/components/form";
+import { Xshape } from "@/components/icons";
 
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
@@ -23,8 +24,7 @@ import {
 } from "react-icons/ai";
 
 import uploadImg from "../assets/uploadImg.jpg";
-import { useState } from "react";
-import { Xshape } from "@/components/icons";
+import { MouseEventHandler, useState } from "react";
 
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
@@ -305,9 +305,17 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const width = useResizeWidth();
 
+  const test = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    type Target = HTMLImageElement & { naturalWidth: number; naturalHeight: number };
+    console.log(e);
+    const { naturalWidth, naturalHeight } = e.target as Target;
+    console.log(naturalWidth, naturalHeight);
+  };
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const images = (e.target.files || []) as File[];
-    setImageUrls((prevImages) => [URL.createObjectURL(images[0])].concat(prevImages));
+    const files = e.target.files as Iterable<File> | ArrayLike<File>;
+    const urls = Array.from(files).map((file) => URL.createObjectURL(file));
+
+    setImageUrls((prevImages) => [...prevImages, ...urls]);
   };
 
   const removeImage = (url: string) => {
@@ -329,7 +337,7 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
           type="file"
           accept="image/*"
           style={{ display: "none" }}
-          multiple={true}
+          multiple
           onChange={handleFileUpload}
           disabled={imageUrls.length >= 10}
         />
@@ -349,7 +357,7 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
           {imageUrls.map((url) => {
             return (
               <li key={url} className={sass.imageItem}>
-                <img src={url} width={200} height={200} alt="upload" />
+                <img onClick={(e) => test(e)} src={url} width={200} height={200} alt="upload" />
                 <button
                   onClick={() => removeImage(url)}
                   children={<AiOutlineClose size={14} fontWeight={"bold"} />}

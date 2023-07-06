@@ -6,7 +6,7 @@ const endpoints = {
   images: {
     forNonUser: `${images}/fornonuser`,
     forUser: `${images}/foruser`,
-    addToFavorites: `${images}/favorites`,
+    updateFavorites: `${images}/updatefavorites`,
     addImage: `${images}/upload`,
     searchImages: `${images}/search`,
   },

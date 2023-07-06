@@ -1,4 +1,3 @@
-import { FooterProfile } from "../../layouts";
 import { CollectionWrapper } from "./CollectionWrapper";
 
 import sass from "../../sass/user/Collections.module.scss";
@@ -9,7 +8,6 @@ export const Collections = () => {
       <div className={sass.listItems}>
         <CollectionWrapper />
       </div>
-      <FooterProfile />
     </>
   );
 };

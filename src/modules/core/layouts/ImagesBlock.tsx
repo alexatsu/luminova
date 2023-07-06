@@ -1,11 +1,11 @@
-import "../sass/layouts/ImagesBlock.scss";
 import { imagesStyles } from "@/styles/imageCard";
+import "../sass/layouts/ImagesBlock.scss";
+
 import { IconButton, ImageList, ImageListItem, SxProps, Theme } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
+
 import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
-
-import "../sass/layouts/ImagesBlock.scss";
 
 const { buttonHeart, buttonHeartActive, container, downloadButton } = imagesStyles as {
   [key: string]: SxProps<Theme>;
@@ -25,8 +25,6 @@ type ImagesBlockProps = {
 };
 
 export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBlockProps) {
-  // console.log(data, "data");
-
   return (
     <>
       <ImageList
