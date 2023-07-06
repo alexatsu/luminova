@@ -1,13 +1,13 @@
 import { AiOutlineUser } from "react-icons/ai";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useMatch } from "react-router-dom";
 import { Navbar } from "@/layouts";
 
-import sass from "../../sass/pages/user/UserProfile.module.scss";
+import sass from "../sass/layouts/RootProfile.module.scss";
 
 const dataPoints = [
   {
     title: "Photos",
-    path: "/profile/photos",
+    path: "/profile",
   },
   {
     title: "Likes",
@@ -23,22 +23,23 @@ const dataPoints = [
   },
 ];
 
-export const UserProfile = () => {
+export const RootProfile = () => {
   const points = () =>
-    dataPoints.map(({ title, path }) => (
-      <NavLink
-        key={title}
-        to={path}
-        style={({ isActive }) =>
-          isActive ? { color: "#111", borderBottom: "2px solid #111" } : { color: "gray" }
-        }
-      >
-        {title}
-      </NavLink>
-    ));
+    dataPoints.map(({ title, path }) => {
+      const isActive = useMatch(path);
+      return (
+        <NavLink
+          key={path}
+          to={path}
+          style={isActive ? { color: "#111", borderBottom: "2px solid #111" } : { color: "gray" }}
+        >
+          {title}
+        </NavLink>
+      );
+    });
 
   return (
-    <div>
+    <div className={sass.profile}>
       <Navbar />
 
       <div className={sass.wrapper}>
@@ -57,7 +58,10 @@ export const UserProfile = () => {
         </div>
       </div>
 
-      <nav className={sass.navigation}>{points()}</nav>
+      <nav className={sass.navigation}>
+        {points()}
+        <hr />
+      </nav>
 
       <Outlet />
     </div>

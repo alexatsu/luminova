@@ -1,3 +1,9 @@
+import { FooterProfile } from "../../layouts";
+
 export const Photos = () => {
-  return <h3>Photos</h3>;
+  return (
+    <>
+      <FooterProfile />
+    </>
+  );
 };

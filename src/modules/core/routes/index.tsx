@@ -1,8 +1,8 @@
 import { RouteObject } from "react-router-dom";
 import { Home, Category, Join, Login, Promotion, Discover } from "../pages";
-import { UserProfile } from "../pages/user/UserProfile";
-import { Root } from "../layouts";
+import { Root, RootProfile } from "../layouts";
 import { Error } from "../../../pages";
+import { Collections, Likes, Photos, Stats } from "../pages/user";
 
 export const core: RouteObject[] = [
   {
@@ -37,7 +37,25 @@ export const core: RouteObject[] = [
     element: <Discover />,
   },
   {
-    path: "profile",
-    element: <UserProfile />,
+    path: "/profile",
+    element: <RootProfile />,
+    children: [
+      {
+        index: true,
+        element: <Photos />,
+      },
+      {
+        path: "likes",
+        element: <Likes />,
+      },
+      {
+        path: "collections",
+        element: <Collections />,
+      },
+      {
+        path: "stats",
+        element: <Stats />,
+      },
+    ],
   },
 ];

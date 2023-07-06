@@ -1,0 +1,81 @@
+.profile {
+  padding: 0 10px;
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    @media screen and (max-width: 768px) {
+      display: block;
+      .image {
+        margin-bottom: 20px;
+      }
+    }
+    .image {
+      padding: 15px;
+      border-radius: 100%;
+      border: 6px solid rgb(175, 175, 175);
+      background-color: #fafafa;
+      margin-right: 50px;
+      min-width: 140px;
+      min-height: 140px;
+    }
+    .infoWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 120px;
+      .info {
+        position: relative;
+        display: flex;
+        align-items: center;
+        .username {
+          font-size: 2.5rem;
+          font-weight: 700;
+          margin-right: 20px;
+          @media screen and (max-width: 768px) {
+            font-size: 1.6rem;
+          }
+        }
+        .editBtn {
+          all: unset;
+          display: flex;
+          align-items: center;
+          padding: 3px 10px;
+          cursor: pointer;
+          border: 1px solid rgb(180, 180, 180);
+          border-radius: 5px;
+          font-size: 0.9rem;
+          color: gray;
+          transition: all 0.1s ease-in-out;
+          @media screen and (max-width: 768px) {
+            position: absolute;
+            right: 0;
+            top: -150px;
+          }
+          &:hover {
+            border: 1px solid rgb(88, 88, 88);
+            color: rgb(43, 43, 43);
+          }
+          span {
+            margin-right: 5px;
+            font-size: 1.2rem;
+          }
+        }
+      }
+    }
+  }
+  .navigation {
+    margin-top: 70px;
+    margin-bottom: 50px;
+    a {
+      text-decoration: none;
+      margin-right: 25px;
+      padding-bottom: 15px;
+    }
+    hr {
+      margin-top: 15px;
+      border-color: #fdfdfd;
+    }
+  }
+}

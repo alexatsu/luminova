@@ -1,22 +1,15 @@
 import "../sass/layouts/ImagesBlock.scss";
 import { imagesStyles } from "@/styles/imageCard";
-import {
-  IconButton,
-  ImageList,
-  ImageListItem,
-  SxProps,
-  Theme,
-} from "@mui/material";
+import { IconButton, ImageList, ImageListItem, SxProps, Theme } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
 import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
 import "../sass/layouts/ImagesBlock.scss";
 
-const { buttonHeart, buttonHeartActive, container, downloadButton } =
-  imagesStyles as {
-    [key: string]: SxProps<Theme>;
-  };
+const { buttonHeart, buttonHeartActive, container, downloadButton } = imagesStyles as {
+  [key: string]: SxProps<Theme>;
+};
 type ImagesBlockProps = {
   width: number;
   data: Resources[];
@@ -31,12 +24,7 @@ type ImagesBlockProps = {
   download: (url: string, filename: string) => void;
 };
 
-export function ImagesBlock({
-  width,
-  data,
-  updateFavImages,
-  download,
-}: ImagesBlockProps) {
+export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBlockProps) {
   // console.log(data, "data");
 
   return (
@@ -59,7 +47,8 @@ export function ImagesBlock({
               sx={container}
               onClick={() => console.log(public_id, filename)}
             >
-              <img className="image"
+              <img
+                className="image"
                 src={url}
                 alt={filename}
                 loading={"lazy"}
@@ -68,10 +57,7 @@ export function ImagesBlock({
               />
 
               <div className="image-tools">
-                <IconButton
-                  sx={downloadButton}
-                  onClick={() => download(url, filename)}
-                >
+                <IconButton sx={downloadButton} onClick={() => download(url, filename)}>
                   <AiOutlineDownload size={18} />
                 </IconButton>
 

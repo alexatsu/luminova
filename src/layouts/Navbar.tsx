@@ -128,7 +128,7 @@ function UserMenu({
         </Tooltip>
       </Menu.Target>
       <Menu.Dropdown>
-        <Link to="/profile/photos" style={{ textDecoration: "none" }}>
+        <Link to="/profile" style={{ textDecoration: "none" }}>
           <Menu.Item>View Profile</Menu.Item>
         </Link>
         <Menu.Item>Stats</Menu.Item>
