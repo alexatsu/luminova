@@ -312,8 +312,8 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
     console.log(naturalWidth, naturalHeight);
   };
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files as Iterable<File> | ArrayLike<File>;
-    const urls = Array.from(files).map((file) => URL.createObjectURL(file));
+    const files = [...e.target.files!] as File[];
+    const urls = files.map((file) => URL.createObjectURL(file));
 
     setImageUrls((prevImages) => [...prevImages, ...urls]);
   };

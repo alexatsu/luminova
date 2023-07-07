@@ -5,16 +5,16 @@ type LoginProps = (
   payload: { email: string; password: string },
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>
-) => void;
+) => Promise<void>;
 
 type RegisterProps = (
   payload: { email: string; password: string; name: string },
   navigate: NavigateFunction,
   setError: React.Dispatch<React.SetStateAction<string>>
-) => void;
+) => Promise<void>;
 
-type RefreshProps = (navigate: NavigateFunction) => void;
-type LogoutProps = (token: string | null, navigate: NavigateFunction) => void;
+type RefreshProps = (navigate: NavigateFunction) => Promise<void>;
+type LogoutProps = (token: string | null, navigate: NavigateFunction) => Promise<void>;
 
 const reuseAuth = () => {
   const register: RegisterProps = async (payload, navigate, setError) => {
