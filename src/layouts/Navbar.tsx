@@ -303,19 +303,43 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 
 function ModalContent({ handleClose }: { handleClose: () => void }) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const width = useResizeWidth();
-
+  console.log(uploadedFiles, "uploadedFiles");
+  
   const test = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     type Target = HTMLImageElement & { naturalWidth: number; naturalHeight: number };
     console.log(e);
     const { naturalWidth, naturalHeight } = e.target as Target;
     console.log(naturalWidth, naturalHeight);
   };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = [...e.target.files!] as File[];
     const urls = files.map((file) => URL.createObjectURL(file));
 
     setImageUrls((prevImages) => [...prevImages, ...urls]);
+    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+  };
+
+  const sendToBackend = async (files: File[], e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+      // const url = URL.createObjectURL(file)
+      // console.log(url, "url")
+    });
+    // console.log(formData, "formData");
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const data = await response.json();
+    console.log(data, "data");
   };
 
   const removeImage = (url: string) => {
@@ -366,6 +390,9 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
             );
           })}
         </ul>
+        {/*  */}
+        <button onClick={(e) => sendToBackend(uploadedFiles, e)}>test</button>
+        {/*  */}
       </form>
 
       <div className={sass.sumbitContainer}>
