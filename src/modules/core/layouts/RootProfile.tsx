@@ -1,32 +1,34 @@
 import { AiOutlineUser } from "react-icons/ai";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import { Navbar } from "@/layouts";
 
 import sass from "../sass/layouts/RootProfile.module.scss";
 import sass1 from "../sass/layouts/FooterProfile.module.scss";
 import { Logo } from "@/components";
 
-const dataPoints = [
-  {
-    title: "Photos",
-    path: "/profile",
-  },
-  {
-    title: "Likes",
-    path: "/profile/likes",
-  },
-  {
-    title: "Collections",
-    path: "/profile/collections",
-  },
-  {
-    title: "Stats",
-    path: "/profile/stats",
-  },
-];
 
 export const RootProfile = () => {
+  const {userName} = useParams();
+  const dataPoints = [
+    {
+      title: "Photos",
+      path: `/${userName}`,
+    },
+    {
+      title: "Likes",
+      path: `/${userName}/likes`,
+    },
+    {
+      title: "Collections",
+      path: `/${userName}/collections`,
+    },
+    {
+      title: "Stats",
+      path: `/${userName}/stats`,
+    },
+  ];
   const { pathname } = useLocation();
+  const LSUserName = localStorage.getItem("userName")
   const points = () =>
     dataPoints.map(({ title, path }) => {
       const isActive = pathname === path;
@@ -49,7 +51,7 @@ export const RootProfile = () => {
         <AiOutlineUser color="rgb(175, 175, 175)" className={sass.image} />
         <div className={sass.infoWrapper}>
           <div className={sass.info}>
-            <h1 className={sass.username}>USERNAME</h1>
+            <h1 className={sass.username}>{LSUserName}</h1>
             <button className={sass.editBtn}>
               <span>&#9998;</span>Edit profile
             </button>

@@ -21,12 +21,16 @@ const reuseAuth = () => {
     console.log(payload, "payload");
     const { email, password, name } = payload;
     try {
-      const { error, accessToken } = (await handleFetch(
+      const { error, accessToken, userName } = (await handleFetch(
         authEndpoints.register,
         "POST",
         {},
         { email, password, name }
-      )) as { error: string; accessToken: string };
+      )) as {
+        error: string;
+        accessToken: string;
+        userName: string;
+      };
       console.log(error);
       if (error) {
         setError(error);
@@ -34,6 +38,7 @@ const reuseAuth = () => {
       }
 
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userName", userName);
       navigate("/");
     } catch (error) {
       console.log(error, "error register");
@@ -42,21 +47,21 @@ const reuseAuth = () => {
 
   const login: LoginProps = async (payload, navigate, setError) => {
     const { email, password } = payload;
-    console.log("fired");
     try {
-      const { error, accessToken } = (await handleFetch(
+      const { error, accessToken, userName } = (await handleFetch(
         authEndpoints.login,
         "POST",
         {},
         { email, password }
-      )) as { error: string; accessToken: string };
-
+      )) as { error: string; accessToken: string; userName: string };
+      console.log(userName, "userName");
       if (error === "Invalid email or password") {
         setError(error);
         return;
       }
 
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userName", userName);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -65,18 +70,21 @@ const reuseAuth = () => {
 
   const refreshAccessToken: RefreshProps = async (navigate) => {
     const { refresh } = authEndpoints;
-    const { error, accessToken } = (await handleFetch(refresh, "POST", {}, {})) as {
+    const { error, accessToken, userName } = (await handleFetch(refresh, "POST", {}, {})) as {
       error: string;
       accessToken: string;
+      userName: string;
     };
 
     if (error === "Refresh token missing") {
       navigate("/login");
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
       return;
     }
 
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("userName", userName);
   };
   const logoutUser: LogoutProps = async (token, navigate) => {
     try {
@@ -89,6 +97,7 @@ const reuseAuth = () => {
     } finally {
       navigate("/login");
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
     }
   };
 

@@ -24,8 +24,7 @@ import {
 } from "react-icons/ai";
 
 import uploadImg from "../assets/uploadImg.jpg";
-import { MouseEventHandler, useState } from "react";
-
+import { useState } from "react";
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
@@ -113,6 +112,8 @@ function UserMenu({
   accessToken: string | null;
   navigate: NavigateFunction;
 }) {
+  const userName = localStorage.getItem("userName");
+  
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
@@ -128,13 +129,13 @@ function UserMenu({
         </Tooltip>
       </Menu.Target>
       <Menu.Dropdown>
-        <Link to="/profile" style={{ textDecoration: "none" }}>
+        <Link to={`/${userName}`}style={{ textDecoration: "none" }}>
           <Menu.Item>View Profile</Menu.Item>
         </Link>
         <Menu.Item>Stats</Menu.Item>
         <Menu.Item>Account settings</Menu.Item>
         <Menu.Divider />
-        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout</Menu.Item>
+        <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout @{userName}</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
@@ -306,7 +307,7 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const width = useResizeWidth();
   console.log(uploadedFiles, "uploadedFiles");
-  
+
   const test = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     type Target = HTMLImageElement & { naturalWidth: number; naturalHeight: number };
     console.log(e);
@@ -325,18 +326,20 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
   const sendToBackend = async (files: File[], e) => {
     e.preventDefault();
     const formData = new FormData();
+
     files.forEach((file) => {
-      formData.append("files", file);
-      // const url = URL.createObjectURL(file)
-      // console.log(url, "url")
+      formData.append(`file`, file);
+      const url = URL.createObjectURL(file);
+      console.log(url, "url");
     });
-    // console.log(formData, "formData");
-    const response = await fetch("/api/upload", {
+    const userName = localStorage.getItem("userName") as string;
+    formData.append('userName', userName);
+    console.log(formData, "formData");
+
+    const response = await fetch("http://localhost:8080/images/upload", {
       method: "POST",
       body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+     
     });
     const data = await response.json();
     console.log(data, "data");
@@ -349,13 +352,13 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
   return (
     <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
       <section className={sass.sectionTop}>
-        <h3 style={{ margin: "auto" }}>Submit to Luminova</h3>
+        <h3 style={{ margin: "auto" }}>Submit to Editorial</h3>
         <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
           <Xshape className={sass.closeIcon} />
         </button>
       </section>
 
-      <form className={sass.sectionForm}>
+      <form className={sass.sectionForm} encType="multipart/form-data">
         <input
           id="upload"
           type="file"

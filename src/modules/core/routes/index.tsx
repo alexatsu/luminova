@@ -37,7 +37,7 @@ export const core: RouteObject[] = [
     element: <Discover />,
   },
   {
-    path: "/profile",
+    path: "/:userName",
     element: <RootProfile />,
     children: [
       {

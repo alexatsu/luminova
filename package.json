@@ -10,6 +10,8 @@
     "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.10.1",
     "@contentful/rich-text-html-renderer": "^16.1.0",
     "@contentful/rich-text-react-renderer": "^15.17.0",
     "@contentful/rich-text-types": "^16.2.0",
@@ -22,6 +24,7 @@
     "@mui/material": "^5.13.5",
     "@tanstack/react-query": "^4.29.15",
     "axios": "^1.4.0",
+    "cloudinary": "^1.37.3",
     "contentful": "^10.2.4",
     "immer": "^9.0.21",
     "nanoid": "^4.0.2",
