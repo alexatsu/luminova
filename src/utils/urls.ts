@@ -1,5 +1,5 @@
-const baseURL = "http://localhost:8080";
-// const baseURL = "https://long-lime-caridea-slip.cyclic.app";
+const baseURL = "http://v2004009.hosted-by-vdsina.ru";
+// const baseURL = "http://localhost:8080";
 const images = `${baseURL}/images`;
 
 const endpoints = {

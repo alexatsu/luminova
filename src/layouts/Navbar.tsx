@@ -113,7 +113,7 @@ function UserMenu({
   navigate: NavigateFunction;
 }) {
   const userName = localStorage.getItem("userName");
-  
+
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
@@ -129,7 +129,7 @@ function UserMenu({
         </Tooltip>
       </Menu.Target>
       <Menu.Dropdown>
-        <Link to={`/${userName}`}style={{ textDecoration: "none" }}>
+        <Link to={`/${userName}`} style={{ textDecoration: "none" }}>
           <Menu.Item>View Profile</Menu.Item>
         </Link>
         <Menu.Item>Stats</Menu.Item>
@@ -333,13 +333,12 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
       console.log(url, "url");
     });
     const userName = localStorage.getItem("userName") as string;
-    formData.append('userName', userName);
+    formData.append("userName", userName);
     console.log(formData, "formData");
 
     const response = await fetch("http://localhost:8080/images/upload", {
       method: "POST",
       body: formData,
-     
     });
     const data = await response.json();
     console.log(data, "data");
