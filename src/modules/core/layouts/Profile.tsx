@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 import { Navbar } from "@/layouts";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdInsertPhoto, MdFavorite, MdCollections, MdBarChart } from "react-icons/md";
@@ -6,32 +6,33 @@ import { Logo } from "@/components";
 
 import sass from "../sass/layouts/Profile.module.scss";
 
-const dataPoints = [
-  {
-    icon: <MdInsertPhoto />,
-    title: "Photos",
-    path: "/profile",
-  },
-  {
-    icon: <MdFavorite />,
-    title: "Likes",
-    path: "/profile/likes",
-  },
-  {
-    icon: <MdCollections />,
-    title: "Collections",
-    path: "/profile/collections",
-  },
-  {
-    icon: <MdBarChart />,
-    title: "Stats",
-    path: "/profile/stats",
-  },
-];
-
 export const Profile = () => {
+  const { userName } = useParams();
+  const dataPoints = [
+    {
+      icon: <MdInsertPhoto />,
+      title: "Photos",
+      path: `/${userName}`,
+    },
+    {
+      icon: <MdFavorite />,
+      title: "Likes",
+      path: `/${userName}/likes`,
+    },
+    {
+      icon: <MdCollections />,
+      title: "Collections",
+      path: `/${userName}/collections`,
+    },
+    {
+      icon: <MdBarChart />,
+      title: "Collections",
+      path: `/${userName}/collections`,
+    },
+  ];
   const { pathname } = useLocation();
-  const points = dataPoints.map(({ icon, title, path }) => {
+  const LSUserName = localStorage.getItem("userName");
+  const points = dataPoints.map(({ title, path }) => {
     const isActive = pathname === path;
     return (
       <NavLink
@@ -39,7 +40,6 @@ export const Profile = () => {
         to={path}
         style={isActive ? { color: "#111", borderBottom: "2px solid #111" } : { color: "gray" }}
       >
-        {icon}
         {title}
       </NavLink>
     );
@@ -53,7 +53,7 @@ export const Profile = () => {
         <AiOutlineUser color="rgb(175, 175, 175)" className={sass.image} />
         <div className={sass.infoWrapper}>
           <div className={sass.info}>
-            <h2 className={sass.username}>USERNAME</h2>
+            <h1 className={sass.username}>{LSUserName}</h1>
             <Link to="/account" style={{ textDecoration: "none" }}>
               <button className={sass.editBtn}>
                 <span>&#9998;</span>Edit profile

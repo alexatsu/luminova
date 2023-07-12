@@ -38,7 +38,7 @@ export const core: RouteObject[] = [
   },
   {
     path: "/:userName",
-    element: <RootProfile />,
+    element: <Profile />,
     children: [
       {
         index: true,
