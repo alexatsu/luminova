@@ -26,8 +26,8 @@ export const Profile = () => {
     },
     {
       icon: <MdBarChart />,
-      title: "Collections",
-      path: `/${userName}/collections`,
+      title: "Stats",
+      path: `/${userName}/stats`,
     },
   ];
   const { pathname } = useLocation();
