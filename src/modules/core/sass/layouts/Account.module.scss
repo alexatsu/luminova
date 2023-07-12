@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+
+  .wrapper {
+    display: flex;
+    margin-top: 50px;
+    padding: 0 320px;
+    @media screen and (max-width: 1440px) {
+      padding: 0 100px;
+    }
+    @media screen and (max-width: 935px) {
+      padding: 0 20px;
+    }
+    @media screen and (max-width: 768px) {
+      display: block;
+    }
+    .sidebar {
+      min-width: 230px;
+      margin-bottom: 50px;
+      ul {
+        li {
+          margin-top: 15px;
+          list-style-type: none;
+          a {
+            text-decoration: none;
+            font-size: 0.9rem;
+            color: gray;
+            text-decoration: underline;
+            transition: all 0.1s ease-in-out;
+            &:hover {
+              color: #111;
+            }
+          }
+        }
+      }
+      h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+    }
+    main {
+      width: 100%;
+      padding-bottom: 40px;
+    }
+  }
+}

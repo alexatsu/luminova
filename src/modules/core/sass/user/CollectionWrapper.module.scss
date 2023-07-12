@@ -1,14 +1,17 @@
 .wrapper {
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
-  grid-auto-rows: minmax(100px, auto);
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 2px;
   border-radius: 12px;
   overflow: hidden;
-  width: 437px;
+  max-width: 437px;
+  height: 300px;
   height: 300px;
   transition: all 0.1s ease-in-out;
-  
+  margin-top: 30px;
+  @media screen and (max-width: 468px) {
+    height: 200px;
+  }
   &:hover {
     cursor: pointer;
     filter: opacity(0.9);
@@ -19,16 +22,15 @@
     background-color: #000;
     grid-column: 1 / span 2;
     grid-row: 1 / span 2;
+    @media screen and (max-width: 468px) {
+      width: 200px;
+    }
   }
   .secondImg {
     background-color: #000;
-    grid-column: 3;
-    grid-row: 1;
   }
   .thirdImg {
     background-color: #000;
-    grid-column: 3;
-    grid-row: 2;
   }
 }
 .title {

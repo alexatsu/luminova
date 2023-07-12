@@ -1,0 +1,102 @@
+%form {
+  display: flex;
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+}
+.wrapper {
+  padding: 0 10px;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+  }
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .editProfile {
+    display: flex;
+    margin-top: 15px;
+    @media screen and (max-width: 768px) {
+      display: block;
+    }
+    .avatar {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-right: 50px;
+      width: 400px;
+      @media screen and (max-width: 935px) {
+        width: 200px;
+      }
+      @media screen and (max-width: 768px) {
+        margin: 0 auto;
+        margin-bottom: 30px;
+      }
+      .image {
+        padding: 15px;
+        border-radius: 100%;
+        border: 4px solid rgb(175, 175, 175);
+        background-color: #fafafa;
+        margin: 0 auto;
+        margin-bottom: 15px;
+        width: 120px;
+        height: 120px;
+      }
+      p {
+        text-align: center;
+        color: gray;
+        font-size: 0.8rem;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+  .section {
+    margin-top: 30px;
+  }
+  fieldset {
+    border: none;
+  }
+  .form {
+    @extend %form;
+  }
+  .formAbout {
+    @extend %form;
+    .textarea {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      margin-right: 20px;
+      @media screen and (max-width: 768px) {
+        margin-right: 0px;
+      }
+      textarea {
+        resize: none;
+        margin-top: 7px;
+        border-radius: 3px;
+        padding: 15px;
+        &:focus {
+          outline: none;
+          border: 1px solid #111;
+        }
+      }
+      .bioValue {
+        position: absolute;
+        bottom: 10px;
+        right: 12px;
+        font-size: 0.8rem;
+        color: gray;
+      }
+    }
+  }
+  button {
+    margin-top: 50px;
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    background-color: #111;
+    color: #fff;
+    cursor: pointer;
+  }
+}

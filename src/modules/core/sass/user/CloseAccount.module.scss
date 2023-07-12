@@ -1,0 +1,33 @@
+.wrapper {
+  h2 {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  p {
+    margin-top: 20px;
+    span {
+      color: rgb(224, 94, 77);
+      font-weight: 600;
+    }
+  }
+  fieldset {
+    border: 0;
+  }
+  button {
+    margin-top: 20px;
+    width: 200px;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(224, 94, 77);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+    &:hover {
+      background-color: rgb(207, 80, 63);
+    }
+  }
+}

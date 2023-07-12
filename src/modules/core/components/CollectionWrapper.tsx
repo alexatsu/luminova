@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import sass from "../../sass/user/CollectionWrapper.module.scss";
+import sass from "../sass/user/CollectionWrapper.module.scss";
 
 export const CollectionWrapper = () => {
   return (

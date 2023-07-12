@@ -6,8 +6,6 @@ import { useDebounce, useResizeWidth } from "@/hooks";
 import { downloadImage } from "../../utils";
 import { handleFetch } from "@/utils";
 
-import sass from "../../sass/user/Likes.module.scss";
-
 export const Likes = () => {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
