@@ -32,7 +32,7 @@ export const Profile = () => {
   ];
   const { pathname } = useLocation();
   const LSUserName = localStorage.getItem("userName");
-  const points = dataPoints.map(({ title, path }) => {
+  const points = dataPoints.map(({ title, path, icon }) => {
     const isActive = pathname === path;
     return (
       <NavLink
@@ -40,6 +40,7 @@ export const Profile = () => {
         to={path}
         style={isActive ? { color: "#111", borderBottom: "2px solid #111" } : { color: "gray" }}
       >
+        {icon}
         {title}
       </NavLink>
     );
