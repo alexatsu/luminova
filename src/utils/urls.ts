@@ -1,5 +1,6 @@
-const baseURL = "http://v2004009.hosted-by-vdsina.ru";
-// const baseURL = "http://localhost:8080";
+import { env } from "./env";
+
+const baseURL = env("BASE_URL");
 const images = `${baseURL}/images`;
 
 const endpoints = {

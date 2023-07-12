@@ -18,8 +18,8 @@ export const Likes = () => {
   const [test, setTest] = useState([]);
 
   const dataFavorite = async () => {
-    const url = "https://long-lime-caridea-slip.cyclic.app/images/getfavorites";
-    const response = await handleFetch(url, "POST", {}, { name: "feat" });
+    const url = "http://localhost:8080/images/getfavorites";
+    const response = await handleFetch(url, "POST", {}, { name: "mypassis123" });
     console.log(response);
     return setTest(response);
   };

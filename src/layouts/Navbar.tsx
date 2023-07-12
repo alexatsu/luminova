@@ -24,7 +24,7 @@ import {
 } from "react-icons/ai";
 
 import uploadImg from "../assets/uploadImg.jpg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 export function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
@@ -303,38 +303,52 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 }
 
 function ModalContent({ handleClose }: { handleClose: () => void }) {
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [imageUrls, setImageUrls] = useState<{ blob: string; small: boolean }[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+
   const width = useResizeWidth();
   console.log(uploadedFiles, "uploadedFiles");
 
-  const test = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    type Target = HTMLImageElement & { naturalWidth: number; naturalHeight: number };
-    console.log(e);
-    const { naturalWidth, naturalHeight } = e.target as Target;
-    console.log(naturalWidth, naturalHeight);
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = [...e.target.files!] as File[];
     const urls = files.map((file) => URL.createObjectURL(file));
+    const newImages = [] as { blob: string; small: boolean }[];
 
-    setImageUrls((prevImages) => [...prevImages, ...urls]);
-    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+    let loadedCount = 0;
+    const onLoad = () => {
+      loadedCount++;
+      if (loadedCount === urls.length) {
+        const uniqueImages = newImages.filter(
+          (newImage) => !imageUrls.some((image) => image.blob === newImage.blob)
+        );
+        setImageUrls((prevImages) => [...prevImages, ...uniqueImages]);
+        setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+        console.log(imageUrls, "imageUrls");
+      }
+    };
+
+    urls.forEach((url) => {
+      const image = new Image();
+      image.src = url;
+      image.onload = () => {
+        const { naturalWidth, naturalHeight } = image;
+        const result = { blob: url, small: naturalHeight < 2000 || naturalWidth < 2000 };
+        newImages.push(result);
+        onLoad();
+      };
+    });
   };
-
   const sendToBackend = async (files: File[], e) => {
     e.preventDefault();
+
     const formData = new FormData();
 
     files.forEach((file) => {
       formData.append(`file`, file);
-      const url = URL.createObjectURL(file);
-      console.log(url, "url");
     });
     const userName = localStorage.getItem("userName") as string;
     formData.append("userName", userName);
-    console.log(formData, "formData");
+    formData.append("category", "gallery");
 
     const response = await fetch("http://localhost:8080/images/upload", {
       method: "POST",
@@ -344,12 +358,22 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
     console.log(data, "data");
   };
 
-  const removeImage = (url: string) => {
-    setImageUrls((prevImages) => prevImages.filter((image) => image !== url));
+  const filterSmallImages = (images: { blob: string; small: boolean }[]) => {
+    return images.filter((image) => image.small !== true);
   };
 
+  const removeImage = (url: string) => {
+    setImageUrls((prevImages) => prevImages.filter((image) => image.blob !== url));
+  };
+
+  const containerRef = useRef<null | HTMLDivElement>(null);
+
+  containerRef.current
+    ? containerRef.current.style.setProperty("--top", `calc(50% + ${window.scrollY}px)`)
+    : null;
+
   return (
-    <div style={{ top: `calc(50% + ${window.scrollY}px)` }} className={sass.modalContainer}>
+    <div ref={containerRef} className={sass.modalContainer}>
       <section className={sass.sectionTop}>
         <h3 style={{ margin: "auto" }}>Submit to Editorial</h3>
         <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
@@ -380,27 +404,43 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
           {width >= 768 && (
             <>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</>
           )}
-          {imageUrls.map((url) => {
+
+          {imageUrls.map(({ blob, small }) => {
             return (
-              <li key={url} className={sass.imageItem}>
-                <img onClick={(e) => test(e)} src={url} width={200} height={200} alt="upload" />
-                <button
-                  onClick={() => removeImage(url)}
-                  children={<AiOutlineClose size={14} fontWeight={"bold"} />}
-                />
-              </li>
+              <div key={blob} className={sass.imageContainer}>
+                <li className={sass.imageItem}>
+                  <img src={blob} width={230} height={200} alt="upload" />
+                  <button
+                    onClick={() => removeImage(blob)}
+                    children={<AiOutlineClose size={14} fontWeight={"bold"} />}
+                  />
+                </li>
+                {small ? (
+                  <div className={sass.limit}>
+                    Current file did not meet the minimum size. Please upload images over 2000x2000px.
+                    Please, provide better quality images or remove them.
+                  </div>
+                ) : (
+                  <section className={sass.additionals}>
+                    <input type="text" placeholder="Add a tag" />
+                    <textarea rows={3} maxLength={600} placeholder="Add a description (optional)" />
+                  </section>
+                )}
+              </div>
             );
           })}
         </ul>
-        {/*  */}
         <button onClick={(e) => sendToBackend(uploadedFiles, e)}>test</button>
-        {/*  */}
       </form>
 
       <div className={sass.sumbitContainer}>
-        {imageUrls.length < 10 && <div style={{ padding: "10px" }}>{imageUrls.length} images</div>}
+        {imageUrls.length < 10 && (
+          <div style={{ padding: "10px" }}>
+            {filterSmallImages(imageUrls).length} images will be uploaded
+          </div>
+        )}
         {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
-        <button className={sass.submitBtn}>
+        <button className={imageUrls.length > 0 ? sass.submitBtnFilled : sass.submitBtn}>
           <span>Submit to Luminova</span>
         </button>
 
@@ -413,9 +453,11 @@ function ModalContent({ handleClose }: { handleClose: () => void }) {
 }
 function Uploader({ className }: { className: string }) {
   return (
-    <label htmlFor="upload" className={className}>
-      <img src={uploadImg} alt="upload" />
-      <div>Add your photos here</div>
-    </label>
+    <>
+      <label htmlFor="upload" className={className}>
+        <img src={uploadImg} alt="upload" />
+        <div>Add your photos here</div>
+      </label>
+    </>
   );
 }
