@@ -10,6 +10,8 @@ const endpoints = {
     updateFavorites: `${images}/updatefavorites`,
     searchImages: `${images}/search`,
     upload: `${images}/upload`,
+    getProfileImages: `${images}/getprofileimages`,
+    getFavoriteImages: `${images}/getfavorites`,
   },
 };
 

@@ -7,35 +7,17 @@ import { useImages } from "../hooks";
 
 import { downloadImage } from "../utils";
 import { Resources } from "@/types";
-import { endpoints, handleFetch } from "@/utils";
+import { getCorePhotos } from "../services/images";
 
 export function Home() {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
+
   const category = "gallery";
   const queryKey = ["images", category];
-  const { data, isLoading, updateFavoriteImages } = useImages(fetchData, queryKey);
-
+  const { data, isLoading, updateFavoriteImages } = useImages(getCorePhotos(category), queryKey);
   const { pagePreview, images } = data || {};
-  
-  async function fetchData() {
-    const { forNonUser, forUser } = endpoints.images;
-    const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) {
-      const fetchForAnyone = await handleFetch(forNonUser, "POST", {
-        category: category,
-        next_cursor: "",
-      });
-      return fetchForAnyone;
-    }
 
-    const fetchForUser = await handleFetch(forUser, "POST", {
-      accessToken: accessToken,
-      category: category,
-      next_cursor: "",
-    });
-    return fetchForUser;
-  }
   return (
     <PageWrapper>
       {isLoading ? (

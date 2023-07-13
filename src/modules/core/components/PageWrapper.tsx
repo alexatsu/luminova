@@ -6,6 +6,7 @@ export function PageWrapper({ children }: { children: React.ReactNode }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        
       }}
     >
       {children}

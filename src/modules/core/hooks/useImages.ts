@@ -5,16 +5,15 @@ import { queryClient } from "@/main";
 import { reuseAuth } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
 
-export const useImages = (queryFunc, key) => {
+export const useImages = (queryFunc: Promise<ImageResources>, key: (string | undefined)[]) => {
   const navigate = useNavigate();
   const { refreshAccessToken } = reuseAuth();
 
   const accessToken = localStorage.getItem("accessToken");
 
   const { data, isLoading } = useQuery<ImageResources>({
-    queryKey: key,
-
-    queryFn: queryFunc,
+    queryKey: [key, queryFunc],
+    queryFn: () => queryFunc,
 
     refetchOnWindowFocus: false,
   });

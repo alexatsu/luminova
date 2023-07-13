@@ -1,32 +1,30 @@
 import { Resources } from "@/types";
 import { useImages } from "../../hooks";
-import { ImagesBlock } from "../../layouts";
 import { useDebounce, useResizeWidth } from "@/hooks";
+import { ImagesBlock } from "../../layouts";
 import { downloadImage } from "../../utils";
-import { handleFetch } from "@/utils";
+import { endpoints } from "@/utils";
 import { PageWrapper } from "../../components";
 import { Loader } from "@/components";
+import { getProfilePhotos } from "../../services/images";
 
 export const Photos = () => {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
 
+  const { getProfileImages } = endpoints.images;
   const queryKey = ["profilePhotos"];
-  const { data, isLoading, updateFavoriteImages } = useImages(dataPhotos, queryKey);
+  const { data, isLoading, updateFavoriteImages } = useImages(
+     getProfilePhotos(getProfileImages),
+    queryKey
+  );
+
   const { images } = data || {};
 
-  async function dataPhotos() {
-    console.log("fired");
-    const userName = localStorage.getItem("userName");
-    const url = "http://localhost:8080/images/getprofileimages";
-    const response = await handleFetch(url, "POST", { name: userName });
-    return response;
-  }
   return (
-    <>
-      {/* <PageWrapper> */}
+    <PageWrapper>
       {isLoading ? (
-        <Loader style={{ margin: "auto" }} />
+        <Loader style={{ margin: "0 auto" }} />
       ) : (
         <ImagesBlock
           data={images as Resources[]}
@@ -35,7 +33,6 @@ export const Photos = () => {
           download={downloadImage}
         />
       )}
-      {/* </PageWrapper> */}
-    </>
+    </PageWrapper>
   );
 };
