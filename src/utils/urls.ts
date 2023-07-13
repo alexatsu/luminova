@@ -8,8 +8,8 @@ const endpoints = {
     forNonUser: `${images}/fornonuser`,
     forUser: `${images}/foruser`,
     updateFavorites: `${images}/updatefavorites`,
-    addImage: `${images}/upload`,
     searchImages: `${images}/search`,
+    upload: `${images}/upload`,
   },
 };
 

@@ -29,18 +29,18 @@ export function AssistNav() {
       <div className="other-categories">
         <div
           className="btn-left"
-          onClick={() => {
-            ref.current!.scrollLeft -= 150;
-          }}
+          onClick={() => (ref.current!.scrollLeft -= 150)}
+          role="button"
+          tabIndex={0}
         >
           <img src="/img/arrow.png" alt="to Left" />
         </div>
 
         <div
           className="btn-right"
-          onClick={() => {
-            ref.current!.scrollLeft += 150;
-          }}
+          onClick={() => (ref.current!.scrollLeft += 150)}
+          role="button"
+          tabIndex={0}
         >
           <img src="/img/arrow.png" alt="to Right" />
         </div>

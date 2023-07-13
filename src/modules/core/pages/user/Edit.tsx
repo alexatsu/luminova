@@ -6,12 +6,7 @@ import sass from "../../sass/user/Edit.module.scss";
 
 export const Edit = () => {
   const [bioValue, setBioValue] = useState("");
-  const [bioCount, setBioCount] = useState(250);
-
-  useEffect(() => {
-    setBioCount(250 - bioValue.length);
-  }, [bioValue]);
-
+  const maxLength = 250 - bioValue.length;
   return (
     <div className={sass.wrapper}>
       <h2>Edit Profile</h2>
@@ -74,12 +69,10 @@ export const Edit = () => {
                 autoComplete="on"
                 placeholder=""
                 value={bioValue}
-                onChange={(e) => {
-                  setBioValue(e.target.value);
-                }}
-              ></textarea>
-              <span className={sass.bioValue} style={{ color: bioCount < 0 ? "red" : "gray" }}>
-                {bioCount}
+                onChange={(e) => setBioValue(e.target.value)}
+              />
+              <span className={sass.bioValue} style={{ color: maxLength < 0 ? "red" : "gray" }}>
+                {maxLength}
               </span>
             </div>
             <FormInput

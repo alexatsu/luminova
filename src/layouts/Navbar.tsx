@@ -6,31 +6,22 @@ import { List, Menu, Text, Accordion } from "@mantine/core";
 import { useResizeWidth, useModal, useDebounce } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 
-import sass from "../styles/components/UploadModal.module.scss";
 import { Logo } from "@/components";
-import { SearchInput, UploadModal } from "@/components/form";
-import { Xshape } from "@/components/icons";
+import { SearchInput, ModalContainer, UploadModal } from "@/components/form";
 
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { reuseAuth } from "@/services/auth";
 
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
-import {
-  AiOutlineClose,
-  AiOutlineHome,
-  AiOutlineProfile,
-  AiOutlineTeam,
-  AiOutlineUser,
-} from "react-icons/ai";
+import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
+import { memo } from "react";
 
-import uploadImg from "../assets/uploadImg.jpg";
-import { useRef, useState } from "react";
-export function Navbar() {
+export const MemoizedNavbar = memo(function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const accessToken = localStorage.getItem("accessToken");
   const { logoutUser } = reuseAuth();
-  const { pathname } = useLocation();
 
   return (
     <nav>
@@ -79,12 +70,12 @@ export function Navbar() {
           {!accessToken ? <PageButton path="login" /> : null}
         </HamburgerMenu>
       </Box>
-      <UploadModal modalOpen={modalOpen}>
-        <ModalContent handleClose={handleClose} />
-      </UploadModal>
+      <ModalContainer modalOpen={modalOpen}>
+        <UploadModal handleClose={handleClose} />
+      </ModalContainer>
     </nav>
   );
-}
+});
 
 function PageButton({ path }: { path: string }) {
   const buttonText = path.charAt(0).toUpperCase() + path.slice(1);
@@ -299,165 +290,5 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         ) : null}
       </Menu.Dropdown>
     </Menu>
-  );
-}
-
-function ModalContent({ handleClose }: { handleClose: () => void }) {
-  const [imageUrls, setImageUrls] = useState<{ blob: string; small: boolean }[]>([]);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-
-  const width = useResizeWidth();
-  console.log(uploadedFiles, "uploadedFiles");
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = [...e.target.files!] as File[];
-    const urls = files.map((file) => URL.createObjectURL(file));
-    const newImages = [] as { blob: string; small: boolean }[];
-
-    let loadedCount = 0;
-    const onLoad = () => {
-      loadedCount++;
-      if (loadedCount === urls.length) {
-        const uniqueImages = newImages.filter(
-          (newImage) => !imageUrls.some((image) => image.blob === newImage.blob)
-        );
-        setImageUrls((prevImages) => [...prevImages, ...uniqueImages]);
-        setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
-        console.log(imageUrls, "imageUrls");
-      }
-    };
-
-    urls.forEach((url) => {
-      const image = new Image();
-      image.src = url;
-      image.onload = () => {
-        const { naturalWidth, naturalHeight } = image;
-        const result = { blob: url, small: naturalHeight < 2000 || naturalWidth < 2000 };
-        newImages.push(result);
-        onLoad();
-      };
-    });
-  };
-  const sendToBackend = async (files: File[], e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-
-    files.forEach((file) => {
-      formData.append(`file`, file);
-    });
-    const userName = localStorage.getItem("userName") as string;
-    formData.append("userName", userName);
-    formData.append("category", "gallery");
-
-    const response = await fetch("http://localhost:8080/images/upload", {
-      method: "POST",
-      body: formData,
-    });
-    const data = await response.json();
-    console.log(data, "data");
-  };
-
-  const filterSmallImages = (images: { blob: string; small: boolean }[]) => {
-    return images.filter((image) => image.small !== true);
-  };
-
-  const removeImage = (url: string) => {
-    setImageUrls((prevImages) => prevImages.filter((image) => image.blob !== url));
-  };
-
-  const containerRef = useRef<null | HTMLDivElement>(null);
-
-  containerRef.current
-    ? containerRef.current.style.setProperty("--top", `calc(50% + ${window.scrollY}px)`)
-    : null;
-
-  return (
-    <div ref={containerRef} className={sass.modalContainer}>
-      <section className={sass.sectionTop}>
-        <h3 style={{ margin: "auto" }}>Submit to Editorial</h3>
-        <button onClick={handleClose} style={{ all: "unset", cursor: "pointer" }}>
-          <Xshape className={sass.closeIcon} />
-        </button>
-      </section>
-
-      <form className={sass.sectionForm} encType="multipart/form-data">
-        <input
-          id="upload"
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          multiple
-          onChange={handleFileUpload}
-          disabled={imageUrls.length >= 10}
-        />
-
-        {width < 768 && (
-          <>
-            {imageUrls.length < 10 && (
-              <Uploader className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn} />
-            )}
-          </>
-        )}
-
-        <ul className={sass.imageList}>
-          {width >= 768 && (
-            <>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</>
-          )}
-
-          {imageUrls.map(({ blob, small }) => {
-            return (
-              <div key={blob} className={sass.imageContainer}>
-                <li className={sass.imageItem}>
-                  <img src={blob} width={230} height={200} alt="upload" />
-                  <button
-                    onClick={() => removeImage(blob)}
-                    children={<AiOutlineClose size={14} fontWeight={"bold"} />}
-                  />
-                </li>
-                {small ? (
-                  <div className={sass.limit}>
-                    Current file did not meet the minimum size. Please upload images over 2000x2000px.
-                    Please, provide better quality images or remove them.
-                  </div>
-                ) : (
-                  <section className={sass.additionals}>
-                    <input type="text" placeholder="Add a tag" />
-                    <textarea rows={3} maxLength={600} placeholder="Add a description (optional)" />
-                  </section>
-                )}
-              </div>
-            );
-          })}
-        </ul>
-        <button onClick={(e) => sendToBackend(uploadedFiles, e)}>test</button>
-      </form>
-
-      <div className={sass.sumbitContainer}>
-        {imageUrls.length < 10 && (
-          <div style={{ padding: "10px" }}>
-            {filterSmallImages(imageUrls).length} images will be uploaded
-          </div>
-        )}
-        {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
-        <button className={imageUrls.length > 0 ? sass.submitBtnFilled : sass.submitBtn}>
-          <span>Submit to Luminova</span>
-        </button>
-
-        <p className={sass.licenseText}>
-          Read the <Link to={"/tos/license"}>Luminova License</Link>
-        </p>
-      </div>
-    </div>
-  );
-}
-function Uploader({ className }: { className: string }) {
-  return (
-    <>
-      <label htmlFor="upload" className={className}>
-        <img src={uploadImg} alt="upload" />
-        <div>Add your photos here</div>
-      </label>
-    </>
   );
 }

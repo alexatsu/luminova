@@ -1,4 +1,4 @@
-import { Navbar } from "@/layouts";
+import { MemoizedNavbar} from "@/layouts";
 import { ProgressBar } from "@/components";
 import { ScrollTopButton } from "@/components";
 
@@ -94,7 +94,7 @@ export const Promotion = () => {
 
   return (
     <div className="promotion">
-      <Navbar />
+      <MemoizedNavbar />
 
       <PromotionContainer>
         <div className={sass.header}>

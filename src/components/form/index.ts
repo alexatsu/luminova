@@ -1,4 +1,5 @@
-import { SearchInput } from "./SearchInput";
 import { UploadModal } from "./UploadModal";
+import { SearchInput } from "./SearchInput";
+import { ModalContainer } from "./ModalContainer";
 
-export { SearchInput, UploadModal };
+export { SearchInput, ModalContainer, UploadModal };

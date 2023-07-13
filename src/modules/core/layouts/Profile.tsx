@@ -1,10 +1,11 @@
 import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom";
-import { Navbar } from "@/layouts";
+
 import { AiOutlineUser } from "react-icons/ai";
 import { MdInsertPhoto, MdFavorite, MdCollections, MdBarChart } from "react-icons/md";
 import { Logo } from "@/components";
 
 import sass from "../sass/layouts/Profile.module.scss";
+import { MemoizedNavbar } from "@/layouts";
 
 export const Profile = () => {
   const { userName } = useParams();
@@ -48,7 +49,7 @@ export const Profile = () => {
 
   return (
     <div className={sass.profile}>
-      <Navbar />
+      <MemoizedNavbar />
 
       <div className={sass.wrapper}>
         <AiOutlineUser color="rgb(175, 175, 175)" className={sass.image} />

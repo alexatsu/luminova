@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "@/layouts";
+
 import { AssistNav, ProgressBar, ScrollTopButton } from "@/components";
+import { MemoizedNavbar } from "@/layouts";
 
 export function Root() {
   return (
     <>
-      <Navbar />
+      <MemoizedNavbar />
       <AssistNav />
       <Outlet />
       <ScrollTopButton />

@@ -5,38 +5,16 @@ import { queryClient } from "@/main";
 import { reuseAuth } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
 
-export const useImages = (category: string | undefined) => {
+export const useImages = (queryFunc, key) => {
   const navigate = useNavigate();
   const { refreshAccessToken } = reuseAuth();
 
   const accessToken = localStorage.getItem("accessToken");
-  const queryKey = ["images", category];
 
   const { data, isLoading } = useQuery<ImageResources>({
-    queryKey: queryKey,
+    queryKey: key,
 
-    queryFn: async (): Promise<ImageResources> => {
-      const { forNonUser, forUser } = endpoints.images;
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        const fetchForAnyone = await handleFetch(
-          //TODO: type it
-          forNonUser,
-          "POST",
-          {},
-          { category: category, next_cursor: "" }
-        );
-        return fetchForAnyone;
-      }
-
-      const fetchForUser = await handleFetch(
-        forUser,
-        "POST",
-        {},
-        { accessToken: accessToken, category: category, next_cursor: "" }
-      );
-      return fetchForUser;
-    },
+    queryFn: queryFunc,
 
     refetchOnWindowFocus: false,
   });
@@ -48,8 +26,8 @@ export const useImages = (category: string | undefined) => {
       const data = await handleFetch(
         updateFavorites,
         "POST",
-        { Authorization: `Bearer ${accessToken}` },
-        { public_id: public_id, accessToken: accessToken }
+        { public_id: public_id, accessToken: accessToken },
+        { Authorization: `Bearer ${accessToken}` }
       );
 
       const { error } = data as unknown as { error: string };
@@ -73,11 +51,11 @@ export const useImages = (category: string | undefined) => {
 
     onMutate: async (public_id: string) => {
       await queryClient.cancelQueries({
-        queryKey: queryKey,
+        queryKey: key,
       });
-      const previousQuery = queryClient.getQueryData(queryKey);
+      const previousQuery = queryClient.getQueryData(key);
 
-      queryClient.setQueryData(queryKey, (old?: ImageResources) => {
+      queryClient.setQueryData(key, (old?: ImageResources) => {
         const images = old?.images.map((image) => {
           if (image.public_id === public_id) {
             return { ...image, favorite: !image.favorite };
@@ -91,12 +69,12 @@ export const useImages = (category: string | undefined) => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKey });
+      queryClient.invalidateQueries({ queryKey: key });
     },
 
     onError: (err, payload, context) => {
       const previousQuery = context?.previousQuery;
-      queryClient.setQueryData(queryKey, previousQuery);
+      queryClient.setQueryData(key, previousQuery);
     },
   });
 

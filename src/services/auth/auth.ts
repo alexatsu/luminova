@@ -24,7 +24,6 @@ const reuseAuth = () => {
       const { error, accessToken, userName } = (await handleFetch(
         authEndpoints.register,
         "POST",
-        {},
         { email, password, name }
       )) as {
         error: string;
@@ -48,12 +47,10 @@ const reuseAuth = () => {
   const login: LoginProps = async (payload, navigate, setError) => {
     const { email, password } = payload;
     try {
-      const { error, accessToken, userName } = (await handleFetch(
-        authEndpoints.login,
-        "POST",
-        {},
-        { email, password }
-      )) as { error: string; accessToken: string; userName: string };
+      const { error, accessToken, userName } = (await handleFetch(authEndpoints.login, "POST", {
+        email,
+        password,
+      })) as { error: string; accessToken: string; userName: string };
       console.log(userName, "userName");
       if (error === "Invalid email or password") {
         setError(error);
@@ -70,7 +67,7 @@ const reuseAuth = () => {
 
   const refreshAccessToken: RefreshProps = async (navigate) => {
     const { refresh } = authEndpoints;
-    const { error, accessToken, userName } = (await handleFetch(refresh, "POST", {}, {})) as {
+    const { error, accessToken, userName } = (await handleFetch(refresh, "POST")) as {
       error: string;
       accessToken: string;
       userName: string;
@@ -88,9 +85,14 @@ const reuseAuth = () => {
   };
   const logoutUser: LogoutProps = async (token, navigate) => {
     try {
-      const response = await handleFetch(authEndpoints.logout, "POST", {
-        Authorization: `Bearer ${token}`,
-      });
+      const response = await handleFetch(
+        authEndpoints.logout,
+        "POST",
+        {},
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      );
       console.log(response, "logout");
     } catch (error) {
       console.log(error);

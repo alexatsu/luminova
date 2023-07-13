@@ -7,10 +7,10 @@ type PagePreviewProps = {
   imgURL: string | undefined;
   description?: string | undefined;
   title?: string | undefined;
-  upload?: () => void;
+  handleOpenModal?: () => void;
 };
 
-export function PagePreview({ imgURL, description, title, upload }: PagePreviewProps) {
+export function PagePreview({ imgURL, description, title, handleOpenModal }: PagePreviewProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const handleImageLoad = () => setImgLoaded(true);
 
@@ -33,7 +33,7 @@ export function PagePreview({ imgURL, description, title, upload }: PagePreviewP
               <SearchInput className="search-page-preview" />
             ) : (
               <Button
-                onClick={() => console.log("clicked")}
+                onClick={handleOpenModal}
                 variant="gradient"
                 gradient={{ from: "#ffa2c7", to: "#ffb79c", deg: 35 }}
               >

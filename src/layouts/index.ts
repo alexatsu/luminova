@@ -1,4 +1,4 @@
-import { Navbar } from "./Navbar";
+import { MemoizedNavbar } from "./Navbar";
 import { Root } from "./Root";
 
-export { Navbar, Root };
+export { MemoizedNavbar, Root };

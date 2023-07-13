@@ -1,4 +1,4 @@
-const handleFetch = async (url: string, method = "GET", headers = {}, body = {}) => {
+const handleFetch = async (url: string, method = "GET", body = {}, headers = {}) => {
   const reqHeaders = { ...headers, "Content-Type": "application/json" };
   const reqBody = method === "GET" || method === "DELETE" ? undefined : JSON.stringify(body);
 

@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { Navbar } from "@/layouts";
 import { Footer } from "./Footer";
 
 import sass from "../sass/layouts/Account.module.scss";
+import { MemoizedNavbar } from "@/layouts";
 
 const dataPoints = [
   {
@@ -35,7 +35,7 @@ export const Account = () => {
 
   return (
     <div className={sass.container}>
-      <Navbar />
+      <MemoizedNavbar />
 
       <div className={sass.wrapper}>
         <div className={sass.sidebar}>
