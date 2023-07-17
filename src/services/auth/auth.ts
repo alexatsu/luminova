@@ -21,11 +21,11 @@ const reuseAuth = () => {
     console.log(payload, "payload");
     const { email, password, name } = payload;
     try {
-      const { error, accessToken, userName } = (await handleFetch(
-        authEndpoints.register,
-        "POST",
-        { email, password, name }
-      )) as {
+      const { error, accessToken, userName } = (await handleFetch(authEndpoints.register, "POST", {
+        email,
+        password,
+        name,
+      })) as {
         error: string;
         accessToken: string;
         userName: string;
