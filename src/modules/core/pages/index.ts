@@ -4,3 +4,4 @@ export { Login } from "./Login";
 export { Category } from "./Category";
 export { Promotion } from "./Promotion";
 export { Discover } from "./Discover";
+export { Root } from "./Root";

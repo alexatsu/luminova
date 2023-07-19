@@ -67,6 +67,7 @@ export function UploadModal({ handleClose, category = "gallery", title = "Editor
   };
 
   const sendToBackend = async (files: File[]) => {
+
     const formData = new FormData();
     const userName = localStorage.getItem("userName") as string;
     const { upload } = endpoints.images;
@@ -81,8 +82,8 @@ export function UploadModal({ handleClose, category = "gallery", title = "Editor
     }
     formData.append("userName", userName);
     formData.append("category", category);
-
     await fetch(upload, { method: "POST", body: formData });
+
   };
 
   const filterSmallImages = (images: { blob: string; small: boolean }[]) => {

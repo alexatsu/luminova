@@ -15,21 +15,18 @@ type RegisterProps = (
 
 type RefreshProps = (navigate: NavigateFunction) => Promise<void>;
 type LogoutProps = (token: string | null, navigate: NavigateFunction) => Promise<void>;
+type Fetch = { [key: string]: string };
 
 const reuseAuth = () => {
   const register: RegisterProps = async (payload, navigate, setError) => {
-    console.log(payload, "payload");
     const { email, password, name } = payload;
     try {
-      const { error, accessToken, userName } = (await handleFetch(authEndpoints.register, "POST", {
-        email,
-        password,
-        name,
-      })) as {
-        error: string;
-        accessToken: string;
-        userName: string;
-      };
+      const { error, accessToken, userName }: Fetch = await handleFetch(
+        authEndpoints.register,
+        "POST",
+        { email, password, name }
+      );
+
       console.log(error);
       if (error) {
         setError(error);
@@ -38,6 +35,7 @@ const reuseAuth = () => {
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("userName", userName);
+
       navigate("/");
     } catch (error) {
       console.log(error, "error register");
@@ -47,11 +45,12 @@ const reuseAuth = () => {
   const login: LoginProps = async (payload, navigate, setError) => {
     const { email, password } = payload;
     try {
-      const { error, accessToken, userName } = (await handleFetch(authEndpoints.login, "POST", {
-        email,
-        password,
-      })) as { error: string; accessToken: string; userName: string };
-      console.log(userName, "userName");
+      const { error, accessToken, userName }: Fetch = await handleFetch(
+        authEndpoints.login,
+        "POST",
+        { email, password }
+      );
+
       if (error === "Invalid email or password") {
         setError(error);
         return;
@@ -59,6 +58,7 @@ const reuseAuth = () => {
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("userName", userName);
+
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -67,11 +67,11 @@ const reuseAuth = () => {
 
   const refreshAccessToken: RefreshProps = async (navigate) => {
     const { refresh } = authEndpoints;
-    const { error, accessToken, userName } = (await handleFetch(refresh, "POST")) as {
-      error: string;
-      accessToken: string;
-      userName: string;
-    };
+    const name = localStorage.getItem("userName");
+
+    const { error, accessToken, userName }: Fetch = await handleFetch(refresh, "POST", {
+      userName: name,
+    });
 
     if (error === "Refresh token missing") {
       navigate("/login");
@@ -83,15 +83,14 @@ const reuseAuth = () => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("userName", userName);
   };
+
   const logoutUser: LogoutProps = async (token, navigate) => {
     try {
       const response = await handleFetch(
         authEndpoints.logout,
         "POST",
         {},
-        {
-          Authorization: `Bearer ${token}`,
-        }
+        { Authorization: `Bearer ${token}` }
       );
       console.log(response, "logout");
     } catch (error) {

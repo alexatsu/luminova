@@ -10,9 +10,10 @@ export const useImages = (queryFunc: Promise<ImageResources>, key: (string | und
   const { refreshAccessToken } = reuseAuth();
 
   const accessToken = localStorage.getItem("accessToken");
+  const queryKey = [key, queryFunc];
 
-  const { data, isLoading } = useQuery<ImageResources>({
-    queryKey: [key, queryFunc],
+  const { data, isLoading } = useQuery({
+    queryKey: queryKey,
     queryFn: () => queryFunc,
 
     refetchOnWindowFocus: false,
@@ -49,12 +50,11 @@ export const useImages = (queryFunc: Promise<ImageResources>, key: (string | und
     },
 
     onMutate: async (public_id: string) => {
-      await queryClient.cancelQueries({
-        queryKey: key,
-      });
-      const previousQuery = queryClient.getQueryData(key);
+      await queryClient.cancelQueries({ queryKey: queryKey });
+      
+      const previousQuery = queryClient.getQueryData(queryKey);
 
-      queryClient.setQueryData(key, (old?: ImageResources) => {
+      queryClient.setQueryData(queryKey, (old?: ImageResources) => {
         const images = old?.images.map((image) => {
           if (image.public_id === public_id) {
             return { ...image, favorite: !image.favorite };
@@ -68,12 +68,12 @@ export const useImages = (queryFunc: Promise<ImageResources>, key: (string | und
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: key });
+      queryClient.invalidateQueries({ queryKey: queryKey });
     },
 
     onError: (err, payload, context) => {
       const previousQuery = context?.previousQuery;
-      queryClient.setQueryData(key, previousQuery);
+      queryClient.setQueryData(queryKey, previousQuery);
     },
   });
 

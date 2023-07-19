@@ -10,6 +10,7 @@ async function getCorePhotos(category: string | undefined): Promise<ImageResourc
       category: category,
       next_cursor: "",
     });
+    console.log(fetchForAnyone, 'fetchForAnyone');
     return fetchForAnyone;
   }
 
@@ -18,6 +19,7 @@ async function getCorePhotos(category: string | undefined): Promise<ImageResourc
     category: category,
     next_cursor: "",
   });
+  console.log(fetchForUser, ' fetchForUser');
   return fetchForUser;
 }
 

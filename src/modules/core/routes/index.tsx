@@ -1,6 +1,6 @@
 import { RouteObject } from "react-router-dom";
-import { Home, Category, Join, Login, Promotion, Discover } from "../pages";
-import { Root, Profile, Account } from "../layouts";
+import { Home, Category, Join, Login, Promotion, Discover, Root } from "../pages";
+import { Profile, Account } from "../layouts";
 import { Error } from "../../../pages";
 import { CloseAccount, ChangePass, Collections, Edit, Likes, Photos, Stats } from "../pages/user";
 
