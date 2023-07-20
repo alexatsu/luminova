@@ -14,15 +14,15 @@ export const Likes = () => {
 
   const queryKey = ["likes"];
   const { getFavoriteImages } = endpoints.images;
-  const { data, isLoading, updateFavoriteImages } = useImages(
-    getProfilePhotos(getFavoriteImages),
+  const { data, status, updateFavoriteImages } = useImages(
+    () => getProfilePhotos(getFavoriteImages),
     queryKey
   );
   const { images } = data || {};
 
   return (
     <PageWrapper>
-      {isLoading ? (
+      {status === "loading" ? (
         <Loader style={{ margin: "0 auto" }} />
       ) : (
         <ImagesBlock

@@ -14,8 +14,8 @@ export const Photos = () => {
 
   const { getProfileImages } = endpoints.images;
   const queryKey = ["profilePhotos"];
-  const { data, isLoading, updateFavoriteImages } = useImages(
-     getProfilePhotos(getProfileImages),
+  const { data, status, updateFavoriteImages } = useImages(
+    () => getProfilePhotos(getProfileImages),
     queryKey
   );
 
@@ -23,7 +23,7 @@ export const Photos = () => {
 
   return (
     <PageWrapper>
-      {isLoading ? (
+      {status === "loading" ? (
         <Loader style={{ margin: "0 auto" }} />
       ) : (
         <ImagesBlock

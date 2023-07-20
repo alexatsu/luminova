@@ -21,19 +21,24 @@ export function Category() {
   const { category } = useParams();
   const { name: title } = paths.find(({ path }) => path === category) || {};
 
-  const queryKey = ["images", category];
-  const { data, isLoading, updateFavoriteImages } = useImages(getCorePhotos(category), queryKey);
+  const queryKey = ["category", category];
+  const { data, status, updateFavoriteImages } = useImages(() => getCorePhotos(category), queryKey);
   const { images, pagePreview } = data || {};
+
+  // TODO Make error component
+  if (status === "error") {
+    return <p>Error</p>;
+  }
 
   return (
     <PageWrapper>
-      {isLoading ? (
-        <Loader style={{ margin: "auto" }} />
+      {status === "loading" ? (
+        <Loader style={{ margin: " auto " }} />
       ) : (
         <>
           <PagePreview
             imgURL={pagePreview?.img}
-            title={title}
+            title={category}
             description={pagePreview?.description}
             handleOpenModal={handleOpen}
           />
@@ -45,6 +50,7 @@ export function Category() {
           />
         </>
       )}
+
       <Footer />
       <ModalContainer modalOpen={modalOpen}>
         <UploadModal handleClose={handleClose} category={category} title={title} />

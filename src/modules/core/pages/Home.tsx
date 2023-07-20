@@ -1,13 +1,12 @@
 import { ImagesBlock, Footer, PagePreview } from "../layouts";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
-
-import { useDebounce, useResizeWidth } from "@/hooks";
 import { useImages } from "../hooks";
 
 import { downloadImage } from "../utils";
 import { Resources } from "@/types";
 import { getCorePhotos } from "../services/images";
+import { useResizeWidth, useDebounce } from "@/hooks";
 
 export function Home() {
   const width = useResizeWidth();
@@ -15,14 +14,18 @@ export function Home() {
 
   const category = "gallery";
   const queryKey = ["images", category];
-  const { data, isLoading, updateFavoriteImages } = useImages(getCorePhotos(category), queryKey);
+  const { data, status, updateFavoriteImages } = useImages(() => getCorePhotos(category), queryKey);
   const { pagePreview, images } = data || {};
 
+  // TODO Make error component
+  if (status === "error") {
+    return <p>Error</p>;
+  }
 
   return (
     <PageWrapper>
-      {isLoading ? (
-        <Loader style={{ margin: "auto" }} />
+      {status === "loading" ? (
+        <Loader style={{ margin: " auto " }} />
       ) : (
         <>
           <PagePreview

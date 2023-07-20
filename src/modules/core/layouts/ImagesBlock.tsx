@@ -24,6 +24,7 @@ type ImagesBlockProps = {
 };
 
 export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBlockProps) {
+  console.log("mounted")
   return (
     <ImageList
       sx={{

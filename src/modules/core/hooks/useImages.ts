@@ -5,16 +5,19 @@ import { queryClient } from "@/main";
 import { reuseAuth } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
 
-export const useImages = (queryFunc: Promise<ImageResources>, key: (string | undefined)[]) => {
+export const useImages = (
+  queryFunc: () => Promise<ImageResources>,
+  key: (string | undefined)[]
+) => {
   const navigate = useNavigate();
   const { refreshAccessToken } = reuseAuth();
 
   const accessToken = localStorage.getItem("accessToken");
   const queryKey = [key, queryFunc];
 
-  const { data, isLoading } = useQuery({
+  const { data, status } = useQuery({
     queryKey: queryKey,
-    queryFn: () => queryFunc,
+    queryFn: queryFunc,
     refetchOnWindowFocus: false,
   });
 
@@ -76,7 +79,7 @@ export const useImages = (queryFunc: Promise<ImageResources>, key: (string | und
     },
   });
 
-  return { data, isLoading, updateFavoriteImages };
+  return { data, status, updateFavoriteImages };
 };
 
 export type UseImagesReturn = ReturnType<typeof useImages>;
