@@ -38,7 +38,7 @@ export function Category() {
         <>
           <PagePreview
             imgURL={pagePreview?.img}
-            title={category}
+            title={title}
             description={pagePreview?.description}
             handleOpenModal={handleOpen}
           />
