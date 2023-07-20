@@ -10,6 +10,7 @@ import { UseMutateFunction } from "@tanstack/react-query";
 const { buttonHeart, buttonHeartActive, container, downloadButton } = imagesStyles as {
   [key: string]: SxProps<Theme>;
 };
+
 type ImagesBlockProps = {
   width: number;
   data: Resources[];
@@ -17,15 +18,12 @@ type ImagesBlockProps = {
     Resources | undefined,
     unknown,
     string,
-    {
-      previousQuery: unknown;
-    }
+    { previousQuery: unknown }
   >;
   download: (url: string, filename: string) => void;
 };
 
 export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBlockProps) {
-  console.log(data, 'data')
   return (
     <ImageList
       sx={{
@@ -36,7 +34,6 @@ export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBl
       variant={"masonry"}
       cols={width > 993 ? 3 : width > 768 ? 2 : 1}
       gap={8}
-      
     >
       <>
         {data?.map(({ public_id, url, filename, favorite }) => (
@@ -44,7 +41,6 @@ export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBl
             className="image-list-item"
             key={public_id}
             sx={{ ...container }}
-            
             onClick={() => console.log(public_id, filename)}
           >
             <img

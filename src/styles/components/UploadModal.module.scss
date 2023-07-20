@@ -52,6 +52,7 @@
       height: 100%;
       width: 100%;
       overflow: auto;
+      position: relative;
 
       &:has(.imageList > li:nth-child(4)) {
         //nth-child(4) because uploader is first and then 3 images
@@ -61,7 +62,7 @@
       .filledImages {
         @include flex(center, center);
         margin-top: 60px;
-        width: 230px;
+        width: 100%;
         position: -webkit-sticky;
         position: sticky;
         flex-direction: column;
@@ -104,17 +105,16 @@
       }
 
       .imageList {
-        @media screen and (min-width: 768px) {
-          display: flex;
-          flex-wrap: wrap;
-          -moz-column-gap: 5px;
-          column-gap: 5px;
-          padding: 5px;
-          justify-content: center;
-          max-width: 800px;
-          list-style: none;
-          height: 200px;
-        }
+        display: flex;
+        flex-wrap: wrap;
+        -moz-column-gap: 5px;
+        column-gap: 5px;
+        padding: 5px;
+        justify-content: center;
+        max-width: 800px;
+        list-style: none;
+        flex-shrink: 0;
+        height: 200px;
 
         .uploadInList {
           cursor: pointer;
@@ -135,6 +135,7 @@
 
           .imageItem {
             position: relative;
+
             list-style: none;
 
             & > img {
@@ -222,7 +223,6 @@
               }
             }
           }
-
 
           .limit {
             max-width: 230px;

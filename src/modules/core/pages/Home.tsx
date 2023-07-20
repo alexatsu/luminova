@@ -15,10 +15,8 @@ export function Home() {
 
   const category = "gallery";
   const queryKey = ["images", category];
-  // console.log(getCorePhotos(category), "getCorePhotos");
   const { data, isLoading, updateFavoriteImages } = useImages(getCorePhotos(category), queryKey);
   const { pagePreview, images } = data || {};
-  // console.log(data, 'images data')
 
 
   return (

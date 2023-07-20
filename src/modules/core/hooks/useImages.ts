@@ -15,7 +15,6 @@ export const useImages = (queryFunc: Promise<ImageResources>, key: (string | und
   const { data, isLoading } = useQuery({
     queryKey: queryKey,
     queryFn: () => queryFunc,
-
     refetchOnWindowFocus: false,
   });
 
@@ -51,7 +50,7 @@ export const useImages = (queryFunc: Promise<ImageResources>, key: (string | und
 
     onMutate: async (public_id: string) => {
       await queryClient.cancelQueries({ queryKey: queryKey });
-      
+
       const previousQuery = queryClient.getQueryData(queryKey);
 
       queryClient.setQueryData(queryKey, (old?: ImageResources) => {
