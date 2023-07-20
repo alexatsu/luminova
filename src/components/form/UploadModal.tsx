@@ -1,11 +1,12 @@
 import { useResizeWidth } from "@/hooks";
 import { endpoints } from "@/utils";
 import { useState, useRef } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Xshape } from "../icons";
 import uploadImg from "@/assets/uploadImg.jpg";
 import sass from "@/styles/components/UploadModal.module.scss";
+import { Loader } from "../Loader";
 
 type UploadProps = {
   handleClose: () => void;
@@ -13,9 +14,15 @@ type UploadProps = {
   title?: string | undefined;
 };
 
-export function UploadModal({ handleClose, category = "gallery", title = "Editorial" }: UploadProps) {
+export function UploadModal({
+  handleClose,
+  category = "gallery",
+  title = "Editorial",
+}: UploadProps) {
   const [imageUrls, setImageUrls] = useState<{ blob: string; small: boolean }[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
 
   const width = useResizeWidth();
 
@@ -67,7 +74,6 @@ export function UploadModal({ handleClose, category = "gallery", title = "Editor
   };
 
   const sendToBackend = async (files: File[]) => {
-
     const formData = new FormData();
     const userName = localStorage.getItem("userName") as string;
     const { upload } = endpoints.images;
@@ -82,8 +88,8 @@ export function UploadModal({ handleClose, category = "gallery", title = "Editor
     }
     formData.append("userName", userName);
     formData.append("category", category);
-    await fetch(upload, { method: "POST", body: formData });
 
+    await fetch(upload, { method: "POST", body: formData }).then(() => setUploaded(true));
   };
 
   const filterSmallImages = (images: { blob: string; small: boolean }[]) => {
@@ -109,79 +115,97 @@ export function UploadModal({ handleClose, category = "gallery", title = "Editor
         </button>
       </section>
 
-      <form className={sass.sectionForm} encType="multipart/form-data">
-        <input
-          id="upload"
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          multiple
-          onChange={handleFileUpload}
-          disabled={imageUrls.length >= 10}
-        />
-
-        {width < 768 && (
-          <>
-            {imageUrls.length < 10 && (
-              <Uploader className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn} />
-            )}
-          </>
-        )}
-
-        <ul className={sass.imageList}>
-          {width >= 768 && (
-            <>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</>
-          )}
-
-          {imageUrls.map(({ blob, small }) => {
-            return (
-              <div key={blob} className={sass.imageContainer}>
-                <li className={sass.imageItem}>
-                  <img src={blob} width={230} height={200} alt="upload" />
-                  <button
-                    onClick={() => removeImage(blob)}
-                    children={<AiOutlineClose size={14} fontWeight={"bold"} />}
-                  />
-                </li>
-                {small ? (
-                  <div className={sass.limit}>
-                    Current file did not meet the minimum size. Please upload images over
-                    2000x2000px. Please, provide better quality images or remove them.
-                  </div>
-                ) : (
-                  <section className={sass.additionals}>
-                    <input type="text" placeholder="Add a tag" />
-                    <textarea rows={3} maxLength={600} placeholder="Add a description (optional)" />
-                  </section>
-                )}
-              </div>
-            );
-          })}
-        </ul>
-      </form>
-
-      <div className={sass.sumbitContainer}>
-        {imageUrls.length < 10 && (
-          <div style={{ padding: "10px" }}>
-            {filterSmallImages(imageUrls).length} images will be uploaded
+      {uploaded ? (
+        <div className={sass.uploaded}>
+          <div className={sass.uploadedIconContainer}>
+            <AiOutlineCheck className={sass.uploadedIcon} />
           </div>
-        )}
+          <p>Uploaded {filterSmallImages(imageUrls).length} images</p>
+        </div>
+      ) : loading ? (
+        <Loader style={{ margin: "auto" }} />
+      ) : (
+        <>
+          <form className={sass.sectionForm} encType="multipart/form-data">
+            <input
+              id="upload"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              multiple
+              onChange={handleFileUpload}
+              disabled={imageUrls.length >= 10}
+            />
 
-        {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            sendToBackend(uploadedFiles);
-          }}
-          className={imageUrls.length > 0 ? sass.submitBtnFilled : sass.submitBtn}
-        >
-          <span>Submit to Luminova</span>
-        </button>
+            {width < 768 && (
+              <>
+                {imageUrls.length < 10 && (
+                  <Uploader className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn} />
+                )}
+              </>
+            )}
 
-        <p className={sass.licenseText}>
-          Read the <Link to={"/tos/license"}>Luminova License</Link>
-        </p>
-      </div>
+            <ul className={sass.imageList}>
+              {width >= 768 && (
+                <>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</>
+              )}
+
+              {imageUrls.map(({ blob, small }) => {
+                return (
+                  <div key={blob} className={sass.imageContainer}>
+                    <li className={sass.imageItem}>
+                      <img src={blob} width={230} height={200} alt="upload" />
+                      <button
+                        onClick={() => removeImage(blob)}
+                        children={<AiOutlineClose size={14} fontWeight={"bold"} />}
+                      />
+                    </li>
+                    {small ? (
+                      <div className={sass.limit}>
+                        Current file did not meet the minimum size. Please upload images over
+                        2000x2000px. Please, provide better quality images or remove them.
+                      </div>
+                    ) : (
+                      <section className={sass.additionals}>
+                        <input type="text" placeholder="Add a tag" />
+                        <textarea
+                          rows={3}
+                          maxLength={600}
+                          placeholder="Add a description (optional)"
+                        />
+                      </section>
+                    )}
+                  </div>
+                );
+              })}
+            </ul>
+          </form>
+
+          <div className={sass.sumbitContainer}>
+            {imageUrls.length < 10 && (
+              <div style={{ padding: "10px" }}>
+                {filterSmallImages(imageUrls).length} images will be uploaded
+              </div>
+            )}
+
+            {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                sendToBackend(uploadedFiles);
+                setLoading(true);
+              }}
+              className={imageUrls.length > 0 ? sass.submitBtnFilled : sass.submitBtn}
+            >
+              <span>Submit to Luminova</span>
+            </button>
+
+            <p className={sass.licenseText}>
+              Read the <Link to={"/tos/license"}>Luminova License</Link>
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 }
