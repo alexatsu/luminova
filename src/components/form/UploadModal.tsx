@@ -100,6 +100,15 @@ export function UploadModal({
     setImageUrls((prevImages) => prevImages.filter((image) => image.blob !== url));
   };
 
+  const onClickSubmit = (e: React.FormEvent) => {
+    if (filterSmallImages(imageUrls).length < 1) {
+      return;
+    }
+    e.preventDefault();
+    sendToBackend(uploadedFiles);
+    setLoading(true);
+  };
+
   const containerRef = useRef<null | HTMLDivElement>(null);
 
   containerRef.current
@@ -121,6 +130,9 @@ export function UploadModal({
             <AiOutlineCheck className={sass.uploadedIcon} />
           </div>
           <p>Uploaded {filterSmallImages(imageUrls).length} images</p>
+          <Link to="/profile">
+            <button>View your profile</button>
+          </Link>
         </div>
       ) : loading ? (
         <Loader style={{ margin: "auto" }} />
@@ -190,12 +202,10 @@ export function UploadModal({
 
             {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                sendToBackend(uploadedFiles);
-                setLoading(true);
-              }}
-              className={imageUrls.length > 0 ? sass.submitBtnFilled : sass.submitBtn}
+              onClick={(e) => onClickSubmit(e)}
+              className={
+                filterSmallImages(imageUrls).length < 1 ? sass.submitBtn : sass.submitBtnFilled
+              }
             >
               <span>Submit to Luminova</span>
             </button>
