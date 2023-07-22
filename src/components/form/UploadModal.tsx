@@ -101,10 +101,10 @@ export function UploadModal({
   };
 
   const onClickSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (filterSmallImages(imageUrls).length < 1) {
       return;
     }
-    e.preventDefault();
     sendToBackend(uploadedFiles);
     setLoading(true);
   };
@@ -131,7 +131,7 @@ export function UploadModal({
           </div>
           <p>Uploaded {filterSmallImages(imageUrls).length} images</p>
           <Link to="/profile">
-            <button>View your profile</button>
+            <button onClick={handleClose}>View your profile</button>
           </Link>
         </div>
       ) : loading ? (
