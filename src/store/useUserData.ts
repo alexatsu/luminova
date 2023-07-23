@@ -1,22 +1,18 @@
 import { immer } from "zustand/middleware/immer";
 import { create } from "zustand";
 
-type Data = { accessToken: string; userName: string };
-type UserDataProps = {
-  data: Data;
-  setUserData: (userData: Data) => void;
+type UserProps = {
+  token: string | null;
+  setToken: (token: string | null) => void;
 };
 
-export const useUserDataStore = create<UserDataProps>()(
+export const useUserDataStore = create<UserProps>()(
   immer((set) => ({
-    data: {
-      accessToken: "",
-      userName: "",
-    },
+    token: "",
 
-    setUserData: (userData) => {
+    setToken: (token) => {
       set((state) => {
-        state.data = { accessToken: userData.accessToken, userName: userData.userName };
+        state.token = token;
       });
     },
   }))
