@@ -1,0 +1,97 @@
+%btn {
+  border-radius: 5px;
+  width: 3rem;
+  height: 2.25rem;
+  position: absolute;
+}
+.imageListItem {
+  position: relative;
+  .imageTools {
+    transition: all 0.15s ease-in-out;
+    opacity: 0;
+    .dropdown {
+      max-height: 400px;
+      overflow: auto;
+      border: 10px solid #fff;
+      h3 {
+        text-align: center;
+        padding: 15px 0;
+      }
+      .newCollectionButton {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 0px;
+        color: gray;
+        border: 1px dashed #a5a5a5;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+      .menuItem {
+        padding: 0;
+        margin-top: 5px;
+      }
+    }
+    .buttonHeart {
+      @extend %btn;
+      max-height: 100%;
+      background-color: #d9d8d8;
+      &:hover {
+        background-color: #f2f2f2;
+      }
+      svg {
+        fill: grey;
+      }
+      right: 10px;
+      top: 10px;
+    }
+    .buttonHeartActive {
+      @extend %btn;
+      background-color: rgb(231, 76, 76);
+      &:hover {
+        background-color: rgb(200, 65, 65);
+      }
+      svg {
+        fill: #d9d8d8;
+      }
+      right: 10px;
+      top: 10px;
+    }
+    .downloadButton {
+      @extend %btn;
+      position: absolute;
+      right: 10px;
+      bottom: 20px;
+      background-color: #d9d8d8;
+      &:hover {
+        background-color: #f2f2f2;
+      }
+    }
+    .collectionButton {
+      @extend %btn;
+      right: 70px;
+      top: 10px;
+      background-color: #d9d8d8;
+      &:hover {
+        background-color: #f2f2f2;
+      }
+    }
+  }
+  .image {
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+  }
+  &:hover {
+    .image {
+      filter: brightness(0.8);
+      cursor: zoom-in;
+    }
+    .imageTools {
+      opacity: 1;
+    }
+  }
+  &:hover button {
+    opacity: 1;
+  }
+}

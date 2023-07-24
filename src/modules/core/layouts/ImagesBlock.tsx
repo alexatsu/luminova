@@ -1,15 +1,12 @@
-import { imagesStyles } from "@/styles/imageCard";
-import "../sass/layouts/ImagesBlock.scss";
-
-import { IconButton, ImageList, ImageListItem, SxProps, Theme } from "@mui/material";
-import { AiFillHeart, AiOutlineDownload } from "react-icons/ai";
-
-import { Resources } from "@/types";
 import { UseMutateFunction } from "@tanstack/react-query";
+import { Menu } from "@mantine/core";
+import { IconButton, ImageList, ImageListItem } from "@mui/material";
+import { AiFillHeart, AiOutlineDownload, AiOutlinePlus } from "react-icons/ai";
+import { Resources } from "@/types";
 
-const { buttonHeart, buttonHeartActive, container, downloadButton } = imagesStyles as {
-  [key: string]: SxProps<Theme>;
-};
+import { CollectionItem } from "../components/CollectionItem";
+
+import sass from "../sass/layouts/ImagesBlock.module.scss";
 
 type ImagesBlockProps = {
   width: number;
@@ -38,31 +35,54 @@ export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBl
       <>
         {data?.map(({ public_id, url, filename, favorite }) => (
           <ImageListItem
-            className="image-list-item"
+            className={sass.imageListItem}
             key={public_id}
-            sx={{ ...container }}
             onClick={() => console.log(public_id, filename)}
           >
             <img
-              className="image"
+              className={sass.image}
               src={url}
               alt={filename}
               loading={"lazy"}
-              style={{ borderRadius: "8px" }}
               title={filename}
             />
 
-            <div className="image-tools">
-              <IconButton sx={downloadButton} onClick={() => download(url, filename)}>
+            <div className={sass.imageTools}>
+              <IconButton className={sass.downloadButton} onClick={() => download(url, filename)}>
                 <AiOutlineDownload size={18} />
               </IconButton>
 
               <IconButton
-                sx={favorite ? buttonHeartActive : buttonHeart}
+                className={favorite ? sass.buttonHeartActive : sass.buttonHeart}
                 onClick={() => updateFavImages(public_id)}
               >
                 <AiFillHeart size={16} />
               </IconButton>
+
+              <Menu
+                width={width > 424 ? 425 : 320}
+                shadow="md"
+                trigger="hover"
+                openDelay={200}
+                closeDelay={30}
+              >
+                <Menu.Target>
+                  <IconButton className={sass.collectionButton}>
+                    <AiOutlinePlus size={20} />
+                  </IconButton>
+                </Menu.Target>
+
+                <Menu.Dropdown className={sass.dropdown}>
+                  <h3>Add to Collection</h3>
+                  <Menu.Item className={sass.menuItem}>
+                    <div className={sass.newCollectionButton}>Create a new collection</div>
+                  </Menu.Item>
+
+                  <Menu.Item className={sass.menuItem}>
+                    <CollectionItem count={0} name={"Name Collection"} bg={url} />
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </div>
           </ImageListItem>
         ))}
