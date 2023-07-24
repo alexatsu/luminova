@@ -3,12 +3,11 @@ import { Menu } from "@mantine/core";
 import { IconButton, ImageList, ImageListItem } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload, AiOutlinePlus } from "react-icons/ai";
 import { Resources } from "@/types";
-
 import { CollectionItem } from "../components/CollectionItem";
 
-import sass from "../sass/layouts/ImagesBlock.module.scss";
+import sass from "../sass/layouts/MasonryImages.module.scss";
 
-type ImagesBlockProps = {
+type MasonryImagesProps = {
   width: number;
   data: Resources[];
   updateFavImages: UseMutateFunction<
@@ -20,7 +19,7 @@ type ImagesBlockProps = {
   download: (url: string, filename: string) => void;
 };
 
-export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBlockProps) {
+export function MasonryImages({ width, data, updateFavImages, download }: MasonryImagesProps) {
   return (
     <ImageList
       sx={{
@@ -71,13 +70,11 @@ export function ImagesBlock({ width, data, updateFavImages, download }: ImagesBl
                     <AiOutlinePlus size={20} />
                   </IconButton>
                 </Menu.Target>
-
                 <Menu.Dropdown className={sass.dropdown}>
                   <h3>Add to Collection</h3>
-                  <Menu.Item className={sass.menuItem}>
-                    <div className={sass.newCollectionButton}>Create a new collection</div>
+                  <Menu.Item className={sass.menuItem} closeMenuOnClick={false}>
+                    <button className={sass.newCollectionButton}>Create a new collection</button>
                   </Menu.Item>
-
                   <Menu.Item className={sass.menuItem}>
                     <CollectionItem count={0} name={"Name Collection"} bg={url} />
                   </Menu.Item>

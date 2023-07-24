@@ -11,14 +11,7 @@ type CollectionItemProps = {
 
 export const CollectionItem: FC<CollectionItemProps> = ({ count, name, bg }) => {
   return (
-    <div
-      className={sass.wrapper}
-      style={
-        {
-          "--url": `url(${bg})`,
-        } as React.CSSProperties
-      }
-    >
+    <div className={sass.wrapper} style={{ "--url": `url(${bg})` } as React.CSSProperties}>
       <p>
         <span>{count}</span> photos
       </p>

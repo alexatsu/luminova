@@ -1,7 +1,7 @@
 import { Resources } from "@/types";
 import { useImages } from "../../hooks";
 import { useDebounce, useResizeWidth } from "@/hooks";
-import { ImagesBlock } from "../../layouts";
+import { MasonryImages } from "../../layouts";
 import { downloadImage } from "../../utils";
 import { endpoints } from "@/utils";
 import { PageWrapper } from "../../components";
@@ -25,7 +25,7 @@ export const Likes = () => {
       {status === "loading" ? (
         <Loader style={{ margin: "0 auto" }} />
       ) : (
-        <ImagesBlock
+        <MasonryImages
           data={images as Resources[]}
           updateFavImages={updateFavoriteImages}
           width={debouncedWidth}

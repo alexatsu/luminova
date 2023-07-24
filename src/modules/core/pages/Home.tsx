@@ -1,4 +1,4 @@
-import { ImagesBlock, Footer, PagePreview } from "../layouts";
+import { MasonryImages, Footer, PagePreview } from "../layouts";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
 import { useImages } from "../hooks";
@@ -33,7 +33,7 @@ export function Home() {
             title={"Luminova"}
             description={pagePreview?.description}
           />
-          <ImagesBlock
+          <MasonryImages
             width={debouncedWidth}
             data={images as Resources[]}
             updateFavImages={updateFavoriteImages}

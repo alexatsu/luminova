@@ -1,4 +1,4 @@
-import { ImagesBlock, Footer, PagePreview } from "../layouts";
+import { MasonryImages, Footer, PagePreview } from "../layouts";
 import { useImages } from "../hooks";
 import { useDebounce, useModal, useResizeWidth } from "@/hooks";
 import { Loader } from "@/components";
@@ -42,7 +42,7 @@ export function Category() {
             description={pagePreview?.description}
             handleOpenModal={handleOpen}
           />
-          <ImagesBlock
+          <MasonryImages
             width={debouncedWidth}
             data={images as Resources[]}
             updateFavImages={updateFavoriteImages}
