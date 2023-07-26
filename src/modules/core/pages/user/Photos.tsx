@@ -7,17 +7,17 @@ import { endpoints } from "@/utils";
 import { PageWrapper } from "../../components";
 import { Loader } from "@/components";
 import { getProfilePhotos } from "../../services/images";
+import { useParams } from "react-router-dom";
 
 export const Photos = () => {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
+  const { userName } = useParams();
 
   const { getProfileImages } = endpoints.images;
-  const queryKey = ["profilePhotos"];
-  const { data, status, updateFavoriteImages } = useImages(
-    () => getProfilePhotos(getProfileImages),
-    queryKey
-  );
+  const queryKey = ["profilePhotos", userName];
+  const url = `${getProfileImages}/${userName}`;
+  const { data, status, updateFavoriteImages } = useImages(() => getProfilePhotos(url), queryKey);
 
   const { images } = data || {};
 

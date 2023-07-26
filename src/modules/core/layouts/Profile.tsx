@@ -9,7 +9,7 @@ import { MemoizedNavbar } from "@/layouts";
 
 export const Profile = () => {
   const { userName } = useParams();
-  const dataPoints = [
+  const tabs = [
     {
       icon: <MdInsertPhoto />,
       title: "Photos",
@@ -31,9 +31,9 @@ export const Profile = () => {
       path: `/${userName}/stats`,
     },
   ];
+
   const { pathname } = useLocation();
-  const LSUserName = localStorage.getItem("userName");
-  const points = dataPoints.map(({ title, path, icon }) => {
+  const tabsData = tabs.map(({ title, path, icon }) => {
     const isActive = pathname === path;
     return (
       <NavLink
@@ -55,7 +55,7 @@ export const Profile = () => {
         <AiOutlineUser color="rgb(175, 175, 175)" className={sass.image} />
         <div className={sass.infoWrapper}>
           <div className={sass.info}>
-            <h1 className={sass.username}>{LSUserName}</h1>
+            <h1 className={sass.username}>{userName}</h1>
             <Link to="/account" style={{ textDecoration: "none" }}>
               <button className={sass.editBtn}>
                 <span>&#9998;</span>Edit profile
@@ -69,7 +69,7 @@ export const Profile = () => {
         </div>
       </div>
 
-      <nav className={sass.navigation}>{points}</nav>
+      <div className={sass.navigation}>{tabsData}</div>
       <hr />
 
       <Outlet />

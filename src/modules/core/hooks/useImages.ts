@@ -45,6 +45,7 @@ export const useImages = (
       ) {
         navigate("/login");
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("userName");
         return;
       }
 

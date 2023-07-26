@@ -7,18 +7,22 @@ import { endpoints } from "@/utils";
 import { PageWrapper } from "../../components";
 import { Loader } from "@/components";
 import { getProfilePhotos } from "../../services/images";
+import { useParams } from "react-router-dom";
+
+const { getFavoriteImages } = endpoints.images;
 
 export const Likes = () => {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
 
-  const queryKey = ["likes"];
-  const { getFavoriteImages } = endpoints.images;
-  const { data, status, updateFavoriteImages } = useImages(
-    () => getProfilePhotos(getFavoriteImages),
-    queryKey
-  );
+  const { userName } = useParams();
+  const queryKey = ["likes", userName];
+  const url = `${getFavoriteImages}/${userName}`;
+
+  const { data, status, updateFavoriteImages } = useImages(() => getProfilePhotos(url), queryKey);
   const { images } = data || {};
+
+  const onlyFavoriteImages = images?.filter((item) => item.favorite);
 
   return (
     <PageWrapper>
@@ -26,7 +30,7 @@ export const Likes = () => {
         <Loader style={{ margin: "0 auto" }} />
       ) : (
         <MasonryImages
-          data={images as Resources[]}
+          data={onlyFavoriteImages as Resources[]}
           updateFavImages={updateFavoriteImages}
           width={debouncedWidth}
           download={downloadImage}

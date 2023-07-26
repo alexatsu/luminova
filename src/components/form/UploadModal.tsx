@@ -167,10 +167,9 @@ export function UploadModal({
                   <div key={blob} className={sass.imageContainer}>
                     <li className={sass.imageItem}>
                       <img src={blob} width={230} height={200} alt="upload" />
-                      <button
-                        onClick={() => removeImage(blob)}
-                        children={<AiOutlineClose size={14} fontWeight={"bold"} />}
-                      />
+                      <button onClick={() => removeImage(blob)}>
+                        <AiOutlineClose size={14} fontWeight={"bold"} />
+                      </button>
                     </li>
                     {small ? (
                       <div className={sass.limit}>
