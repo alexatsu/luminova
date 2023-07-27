@@ -9,6 +9,8 @@ interface FormProps {
   autocomplete: string;
   attribute: string;
   placeholder: string;
+  value?: string;
+  setValue?: (value: string) => void;
 }
 
 export const FormInput: FC<FormProps> = ({
@@ -18,6 +20,8 @@ export const FormInput: FC<FormProps> = ({
   attribute,
   span,
   placeholder,
+  value,
+  setValue,
 }) => {
   return (
     <>
@@ -31,6 +35,8 @@ export const FormInput: FC<FormProps> = ({
           name={attribute}
           autoComplete={autocomplete}
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => setValue?.(e.target.value)}
         />
       </div>
     </>

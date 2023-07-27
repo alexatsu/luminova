@@ -6,7 +6,7 @@ import sass from "../sass/CollectionItem.module.scss";
 type CollectionItemProps = {
   count: number;
   name: string;
-  bg: string;
+  bg?: string;
 };
 
 export const CollectionItem: FC<CollectionItemProps> = ({ count, name, bg }) => {

@@ -19,7 +19,7 @@
       }
       .newCollectionButton {
         height: 70px;
-        
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -32,6 +32,64 @@
       .menuItem {
         padding: 0;
         margin-top: 5px;
+        button {
+          width: 100%;
+          cursor: pointer;
+          &:hover {
+            filter: brightness(0.95);
+          }
+        }
+      }
+      fieldset {
+        border: 1px solid #a5a5a5;
+        border-radius: 5px;
+        padding: 0 15px 20px 15px;
+        .textarea {
+          position: relative;
+          margin-top: 10px;
+          display: flex;
+          flex-direction: column;
+          textarea {
+            resize: none;
+            margin-top: 7px;
+            border-radius: 3px;
+            padding: 15px;
+            &:focus {
+              outline: none;
+              border: 1px solid #111;
+            }
+          }
+          .descrValue {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.8rem;
+            color: gray;
+          }
+        }
+        .buttons {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 25px;
+          button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          .cancel {
+            color: gray;
+            background: none;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+          .create {
+            color: #f1f1f1;
+            background-color: #111;
+          }
+        }
       }
     }
     .buttonHeart {
@@ -61,7 +119,6 @@
     }
     .downloadButton {
       @extend %btn;
-      position: absolute;
       right: 10px;
       bottom: 20px;
       background-color: #d9d8d8;
