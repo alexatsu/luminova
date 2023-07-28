@@ -1,4 +1,4 @@
-import { MemoizedNavbar} from "@/layouts";
+import { MemoizedNavbar, Footer } from "@/layouts";
 import { ProgressBar } from "@/components";
 import { ScrollTopButton } from "@/components";
 
@@ -209,6 +209,7 @@ export const Promotion = () => {
           </div>
         </div>
       </PromotionContainer>
+      <Footer />
 
       <ScrollTopButton />
       <ProgressBar />
