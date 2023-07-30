@@ -16,6 +16,7 @@ export function Home() {
   const queryKey = ["images", category];
   const { data, status, updateFavoriteImages } = useImages(() => getCorePhotos(category), queryKey);
   const { pagePreview, images } = data || {};
+console.log(data,'data')
 
   // TODO Make error component
   if (status === "error") {

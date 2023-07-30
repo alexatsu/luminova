@@ -3,30 +3,107 @@ import { FormInput } from "./FormInput";
 import { Menu } from "@mantine/core";
 
 import sass from "../sass/CollectionForm.module.scss";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { handleFetch } from "@/utils";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "@/main";
 
-type ICollections = {
-  count: number;
+type Collection = {
+  id: number;
   name: string;
   description: string;
-  bg?: string;
+  user_id: string;
+  collectionImages: { id: number; public_id: string }[];
+}[];
+
+type Response = {
+  collection: Collection;
+  message: string;
+  error: string;
 };
 
-export const CollectionForm = () => {
+export const CollectionForm = ({ public_id }: { public_id: string }) => {
   const [extend, setExtend] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [collections, setCollections] = useState<ICollections[]>([]);
+  const navigate = useNavigate();
 
-  const onClickCreate = () => {
-    setCollections((prev: ICollections[]) => [
-      ...prev,
-      { count: 1, name: name, description: description },
-    ]);
-    setExtend(false);
-    setName("");
-    setDescription("");
+  const queryKey = ["collections"];
+  const fetchData = async () => {
+    const response: Response = await handleFetch(`http://localhost:8080/collections/profile`);
+    const { collection, error } = response;
+
+    if (error === "Refresh token missing" || error === "User not found") {
+      navigate("/login");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
+      return;
+    }
+    return collection;
   };
+
+  const { data, status } = useQuery({
+    queryFn: fetchData,
+    queryKey: queryKey,
+  });
+
+  const { mutate: createCollection } = useMutation({
+    mutationFn: async () => {
+      const response: Response = await handleFetch(
+        `http://localhost:8080/collections/create`,
+        "POST",
+        { name: name, description: description }
+      );
+
+      const { collection, error } = response;
+
+      if (error === "Refresh token missing" || error === "User not found") {
+        navigate("/login");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userName");
+        return;
+      }
+      return collection;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    },
+
+    onError: (err) => {
+      console.log(err, "error creating collection");
+    },
+  });
+
+  console.log(data, "data");
+
+  type UpdateCollectionImg = {
+    collectionId: number;
+    public_id: string;
+  };
+  const { mutate: updateImageInCollection } = useMutation({
+    mutationFn: async ({ collectionId, public_id }: UpdateCollectionImg) => {
+      const response = await handleFetch(`http://localhost:8080/collections/updateimage`, "POST", {
+        collectionId: collectionId,
+        public_id: public_id,
+      });
+
+      if (response.error === "Refresh token missing" || response.error === "User not found") {
+        navigate("/login");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("userName");
+        return;
+      }
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKey });
+    },
+    onError: (err) => {
+      console.log(err, "error updating images in collection");
+    },
+  });
 
   const onClickCancel = () => {
     setExtend(false);
@@ -66,7 +143,7 @@ export const CollectionForm = () => {
               Cancel
             </button>
 
-            <button className={sass.create} onClick={onClickCreate}>
+            <button className={sass.create} onClick={() => createCollection()}>
               Create collection
             </button>
           </div>
@@ -77,21 +154,28 @@ export const CollectionForm = () => {
           closeMenuOnClick={false}
           onClick={() => setExtend((prev) => !prev)}
         >
-          <button className={sass.newCollectionButton}>Create a new collection</button>
+          <span className={sass.newCollectionButton}>Create a new collection</span>
         </Menu.Item>
       )}
 
-      {collections.map((item) => (
-        <Menu.Item className={sass.menuItem} key={item.name} closeMenuOnClick={false}>
-          <div
-            className={sass.collectionItems}
-            style={{ "--url": `url(${item.bg})` } as React.CSSProperties}
-          >
-            <p>
-              <span>{item.count}</span> photos
-            </p>
-            <h4>{item.name}</h4>
+      {status === "loading" && <p style={{ textAlign: "center" }}>Loading...</p>}
+      {data?.map(({ name, collectionImages }) => (
+        <Menu.Item className={sass.menuItem} key={name} closeMenuOnClick={false}>
+          {collectionImages.length > 0 ? (
+            <img
+              src={`http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996/${collectionImages[0].public_id}`}
+              alt=""
+            />
+          ) : (
+            <div style={{ height: "100px", backgroundColor: "black" }}>fallback</div>
+          )}
+          <div className={sass.createCollection}>
+            <div className={sass.text}>
+              <span>{collectionImages.length} photos</span>
+              <h4>{name}</h4>
+            </div>
             <AiOutlinePlus className={sass.plus} size={26} />
+            {/* <AiOutlineMinus className={sass.minus} size={26} /> */}
           </div>
         </Menu.Item>
       ))}

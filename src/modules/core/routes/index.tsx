@@ -2,7 +2,16 @@ import { RouteObject } from "react-router-dom";
 import { Home, Category, Join, Login, Promotion, Discover, Root } from "../pages";
 import { Profile, Account } from "../layouts";
 import { Error } from "../../../pages";
-import { CloseAccount, ChangePass, Collections, Edit, Likes, Photos, Stats } from "../pages/user";
+import {
+  CloseAccount,
+  ChangePass,
+  Collections,
+  Edit,
+  Likes,
+  Photos,
+  Stats,
+  CollectionById,
+} from "../pages/user";
 
 export const core: RouteObject[] = [
   {
@@ -57,6 +66,10 @@ export const core: RouteObject[] = [
         element: <Stats />,
       },
     ],
+  },
+  {
+    path: "collections/:collectionId",
+    element: <CollectionById />,
   },
   {
     path: "/account",

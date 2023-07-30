@@ -26,6 +26,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
         padding: "0 40px",
         "@media (max-width: 993px)": { padding: "0 15px" },
         "@media (max-width: 768px)": { padding: "0" },
+        marginBottom: "20px",
       }}
       variant={"masonry"}
       cols={width > 993 ? 3 : width > 768 ? 2 : 1}
@@ -61,9 +62,10 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
               <Menu
                 width={width > 424 ? 425 : 320}
                 shadow="md"
-                trigger="hover"
+                // trigger="hover"
                 openDelay={200}
                 closeDelay={100}
+                closeOnClickOutside={true}
               >
                 <Menu.Target>
                   <IconButton className={sass.collectionButton}>
@@ -72,7 +74,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
                 </Menu.Target>
                 <Menu.Dropdown className={sass.dropdown}>
                   <h3>Add to Collection</h3>
-                  <CollectionForm />
+                  <CollectionForm public_id={public_id}/>
                 </Menu.Dropdown>
               </Menu>
             </div>

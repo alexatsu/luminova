@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { FormInput } from "../../components/FormInput";
 
@@ -7,6 +7,7 @@ import sass from "../../sass/user/Edit.module.scss";
 export const Edit = () => {
   const [bioValue, setBioValue] = useState("");
   const maxLength = 250 - bioValue.length;
+
   return (
     <div className={sass.wrapper}>
       <h2>Edit Profile</h2>

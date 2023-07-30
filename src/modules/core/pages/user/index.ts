@@ -5,5 +5,6 @@ import { Stats } from "./Stats";
 import { Edit } from "./Edit";
 import { ChangePass } from "./ChangePass";
 import { CloseAccount } from "./CloseAccount";
+import { CollectionById } from "./CollectionById";
 
-export { Photos, Likes, Collections, Stats, Edit, ChangePass, CloseAccount };
+export { Photos, Likes, Collections, Stats, Edit, ChangePass, CloseAccount, CollectionById };
