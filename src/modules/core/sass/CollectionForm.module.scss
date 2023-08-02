@@ -6,6 +6,7 @@
   justify-content: center;
   padding: 15px 0px;
   color: gray;
+  // border: 1px dashed #18680186;
   border: 1px dashed #a5a5a5;
   border-radius: 5px;
   font-size: 1rem;
@@ -18,6 +19,19 @@
   position: relative;
   overflow-x: hidden;
 
+  .imageWrapper {
+    position: relative;
+
+    .greenOverlay {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100px;
+      background-color: #18680186;
+      position: absolute;
+    }
+  }
+
   & img {
     height: 100px;
     width: 100%;
@@ -25,7 +39,7 @@
   }
 }
 
-.createCollection {
+.collectionCard {
   width: 100%;
   position: absolute;
   padding: 20px 20px;
@@ -56,6 +70,9 @@
     top: 35%;
     right: 40px;
     transition: opacity 0.14s;
+  }
+  .minus {
+    @extend .plus;
   }
 }
 

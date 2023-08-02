@@ -76,16 +76,15 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
     },
   });
 
-  console.log(data, "data");
-
   type UpdateCollectionImg = {
-    collectionId: number;
+    id: number;
     public_id: string;
   };
   const { mutate: updateImageInCollection } = useMutation({
-    mutationFn: async ({ collectionId, public_id }: UpdateCollectionImg) => {
+    mutationFn: async ({ id, public_id }: UpdateCollectionImg) => {
+      console.log(id, public_id, "payload in update");
       const response = await handleFetch(`http://localhost:8080/collections/updateimage`, "POST", {
-        collectionId: collectionId,
+        collectionId: id,
         public_id: public_id,
       });
 
@@ -95,8 +94,10 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
         localStorage.removeItem("userName");
         return;
       }
+      console.log(response, "response");
       return response;
     },
+  
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKey });
     },
@@ -109,6 +110,9 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
     setExtend(false);
     setName("");
     setDescription("");
+  };
+  const checkIfImageIncollection = (collectionImages: { id: number; public_id: string }[]) => {
+    return collectionImages.some((img) => img.public_id === public_id);
   };
 
   return (
@@ -159,23 +163,37 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
       )}
 
       {status === "loading" && <p style={{ textAlign: "center" }}>Loading...</p>}
-      {data?.map(({ name, collectionImages }) => (
-        <Menu.Item className={sass.menuItem} key={name} closeMenuOnClick={false}>
-          {collectionImages.length > 0 ? (
-            <img
-              src={`http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996/${collectionImages[0].public_id}`}
-              alt=""
-            />
-          ) : (
-            <div style={{ height: "100px", backgroundColor: "black" }}>fallback</div>
-          )}
-          <div className={sass.createCollection}>
+      {data?.map(({ name, collectionImages, id }) => (
+        <Menu.Item className={sass.menuItem} key={id} closeMenuOnClick={false}>
+          <div className={sass.imageWrapper}>
+            {collectionImages.length > 0 ? (
+              <img
+                src={`http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996/${collectionImages[0].public_id}`}
+                alt=""
+              />
+            ) : (
+              <div style={{ height: "100px", backgroundColor: "black" }}>fallback</div>
+            )}
+            {checkIfImageIncollection(collectionImages) && <div className={sass.greenOverlay} />}
+          </div>
+          <div className={sass.collectionCard}>
             <div className={sass.text}>
               <span>{collectionImages.length} photos</span>
               <h4>{name}</h4>
             </div>
-            <AiOutlinePlus className={sass.plus} size={26} />
-            {/* <AiOutlineMinus className={sass.minus} size={26} /> */}
+            {checkIfImageIncollection(collectionImages) ? (
+              <AiOutlineMinus
+                className={sass.minus}
+                size={26}
+                onClick={() => updateImageInCollection({ id: id, public_id: public_id })}
+              />
+            ) : (
+              <AiOutlinePlus
+                className={sass.plus}
+                size={26}
+                onClick={() => updateImageInCollection({ id: id, public_id: public_id })}
+              />
+            )}
           </div>
         </Menu.Item>
       ))}

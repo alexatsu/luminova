@@ -5,6 +5,7 @@ import { downloadImage } from "../../utils";
 import { useImages } from "../../hooks";
 import { handleFetch } from "@/utils";
 import { ImageResources } from "@/types";
+import { MemoizedNavbar } from "@/layouts";
 
 type Collection = {
   id: number;
@@ -65,7 +66,12 @@ export function CollectionById() {
 
   return (
     <>
-      <div>Top block</div>
+      <header style={{marginBottom: "20px"}}>
+        <MemoizedNavbar />
+      </header>
+      <section>
+      
+      </section>
       <main>
         <MasonryImages
           width={debouncedWidth}
