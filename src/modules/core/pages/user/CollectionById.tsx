@@ -14,6 +14,7 @@ import sass from "../../sass/pages/CollectionById.module.scss";
 import { AiOutlineUser, AiOutlineShareAlt } from "react-icons/ai";
 import { Loader } from "@/components";
 import { ModalContainer } from "@/components/form";
+import { Xshape } from "@/components/icons";
 
 type Collection = {
   id: number;
@@ -99,30 +100,15 @@ export function CollectionById() {
             <div className={sass.profileWrapper}>
               <div className={sass.profileData}>
                 <Link to={`/${userName}`}>
-                  <AiOutlineUser color="rgb(175, 175, 175)" size={26} />
+                  <AiOutlineUser color="rgb(175, 175, 175)" size={28} />
                   <div className={sass.profileName}>{userName}</div>
                 </Link>
               </div>
 
               <div className={sass.profileButtons}>
                 <button onClick={handleOpen}>Edit</button>
-
                 <ModalContainer modalOpen={modalOpen}>
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "80%",
-                      backgroundColor: "white",
-                      position: "fixed",
-                      top: "50%",
-                      left: "50%",
-                      zIndex: "2",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  >
-                    hi hi
-                    <button onClick={handleClose}>Close</button>
-                  </div>
+                  <EditModal handleClose={handleClose} />
                 </ModalContainer>
 
                 <button>
@@ -153,5 +139,39 @@ export function CollectionById() {
       <section>recommendations</section>
       <footer>Here goes footer</footer>
     </>
+  );
+}
+
+export function EditModal({ handleClose }: { handleClose: () => void }) {
+  return (
+    <div className={sass.editModalWrapper}>
+      <div className={sass.editModal}>
+        <section className={sass.editForm}>
+          <h2>Edit Collection</h2>
+          <div className={sass.inputs}>
+            <div>
+              <label htmlFor="name">Name</label>
+              <input type="text" value={"Some collection"} />
+            </div>
+            <div>
+              <label htmlFor="Description (optional)">Description</label>
+              <textarea
+                name={"Data that i need to put in"}
+                cols={4}
+                rows={5}
+                maxLength={250}
+              ></textarea>
+            </div>
+          </div>
+          <div className={sass.editButtons}>
+            <button>Delete Collection</button>
+            <button>Save</button>
+          </div>
+        </section>
+        <button className={sass.closeButton} onClick={handleClose}>
+          <Xshape />
+        </button>
+      </div>
+    </div>
   );
 }
