@@ -1,0 +1,106 @@
+.topWrapper {
+  height: 280px;
+  position: relative;
+}
+
+.collectionInfo {
+  padding: 20px 10px;
+
+  .colName {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .colDescription {
+    font-size: 0.9rem;
+    margin: 10px 0;
+  }
+  @media screen and (min-width: 768px) {
+    padding: 20px;
+    .colName {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+    }
+    
+    .colDescription {
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.profileWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+  }
+
+  .profileData {
+    margin: 20px 0px;
+
+    & > a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-decoration: none;
+      color: black;
+    }
+  }
+  .profileButtons {
+    display: flex;
+    gap: 10px;
+
+    %buttons {
+        max-height: 40px;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 1px solid grey;
+      transition: border 0.1s ease-in-out, color 0.1s ease-in-out;
+      color: grey;
+      background-color: white;
+
+      &:hover {
+        color: black;
+        border: 1px solid black;
+      }
+    }
+
+    & button {
+      @extend %buttons;
+    }
+  }
+}
+.imagesCounter {
+  margin-left: 10px;
+  margin-bottom: 20px;
+  @media screen and (min-width: 768px) {
+    margin-left: 20px;
+  }
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  height: 280px;
+  width: 100%;
+  z-index: -1;
+  & > img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+  }
+}
+
+.whiteLayer {
+  position: absolute;
+  top: 0;
+  height: 280px;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.826), rgb(255, 255, 255));
+}

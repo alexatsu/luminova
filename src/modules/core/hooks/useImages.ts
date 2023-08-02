@@ -6,7 +6,7 @@ import { reuseAuth } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
 
 export const useImages = (
-  queryFunc: () => Promise<ImageResources>,
+  queryFunc: () => Promise<ImageResources | undefined>,
   key: (string | undefined)[]
 ) => {
   const navigate = useNavigate();

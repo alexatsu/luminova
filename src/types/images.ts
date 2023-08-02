@@ -5,6 +5,8 @@ type Resources = {
   favorite: boolean;
 };
 type ImageResources = {
+  collectionName: string;
+  collectionDescription: string;
   images: Resources[];
   pagePreview: PagePreview;
   text_for_page_preview: string;

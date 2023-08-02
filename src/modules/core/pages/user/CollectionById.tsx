@@ -1,11 +1,19 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MasonryImages } from "../../layouts";
-import { useDebounce, useResizeWidth } from "@/hooks";
-import { downloadImage } from "../../utils";
-import { useImages } from "../../hooks";
-import { handleFetch } from "@/utils";
-import { ImageResources } from "@/types";
 import { MemoizedNavbar } from "@/layouts";
+
+import { useDebounce, useModal, useResizeWidth } from "@/hooks";
+import { useImages } from "../../hooks";
+
+import { downloadImage } from "../../utils";
+import { handleFetch } from "@/utils";
+
+import { ImageResources } from "@/types";
+
+import sass from "../../sass/pages/CollectionById.module.scss";
+import { AiOutlineUser, AiOutlineShareAlt } from "react-icons/ai";
+import { Loader } from "@/components";
+import { ModalContainer } from "@/components/form";
 
 type Collection = {
   id: number;
@@ -23,24 +31,27 @@ type Collection = {
 
 export function CollectionById() {
   const width = useResizeWidth();
-  const navigate = useNavigate();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
+
+  const navigate = useNavigate();
   const { collectionId } = useParams();
+  const userName = localStorage.getItem("userName");
+  const { handleOpen, handleClose, modalOpen } = useModal();
 
   const queryKey = ["collectionById", collectionId];
   const { data, status, updateFavoriteImages } = useImages(
     () => fetchCollectionById(collectionId),
     queryKey
   );
+  const { images, collectionDescription, collectionName } = data || {};
 
-  const { images } = data || {};
-  console.log(data, "data");
+  console.log(images, "data");
 
   // TODO Make error component
   if (status === "error") {
     return <p>Error</p>;
   }
-  const fetchCollectionById = async (id: string | undefined): Promise<ImageResources> => {
+  const fetchCollectionById = async (id: string | undefined) => {
     const { collection, error }: { collection: Collection; error: string } = await handleFetch(
       `http://localhost:8080/collections/openbyid`,
       "POST",
@@ -51,35 +62,94 @@ export function CollectionById() {
       navigate("/login");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
-
-      throw new Error("Refresh token missing");
+      return;
     }
-
+    console.log(collection, "collection");
     const resources = collection.collectionImages.map((item) => {
       return {
         ...item,
         url: `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996/${item.public_id}`,
       };
     });
-    return { images: resources } as unknown as ImageResources;
+    const { name, description } = collection;
+
+    return {
+      images: resources,
+      collectionName: name,
+      collectionDescription: description,
+    } as unknown as ImageResources;
   };
 
   return (
     <>
-      <header style={{marginBottom: "20px"}}>
+      <header>
         <MemoizedNavbar />
       </header>
-      <section>
-      
-      </section>
-      <main>
-        <MasonryImages
-          width={debouncedWidth}
-          data={images || []}
-          updateFavImages={updateFavoriteImages}
-          download={downloadImage}
-        />
-      </main>
+
+      {status === "loading" ? (
+        <Loader style={{ margin: " auto " }} />
+      ) : (
+        <>
+          <section className={sass.topWrapper}>
+            <div className={sass.collectionInfo}>
+              <h1 className={sass.colName}>{collectionName}</h1>
+              <p className={sass.colDescription}>{collectionDescription}</p>
+            </div>
+
+            <div className={sass.profileWrapper}>
+              <div className={sass.profileData}>
+                <Link to={`/${userName}`}>
+                  <AiOutlineUser color="rgb(175, 175, 175)" size={26} />
+                  <div className={sass.profileName}>{userName}</div>
+                </Link>
+              </div>
+
+              <div className={sass.profileButtons}>
+                <button onClick={handleOpen}>Edit</button>
+
+                <ModalContainer modalOpen={modalOpen}>
+                  <div
+                    style={{
+                      width: "80%",
+                      height: "80%",
+                      backgroundColor: "white",
+                      position: "fixed",
+                      top: "50%",
+                      left: "50%",
+                      zIndex: "2",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  >
+                    hi hi
+                    <button onClick={handleClose}>Close</button>
+                  </div>
+                </ModalContainer>
+
+                <button>
+                  <AiOutlineShareAlt />
+                </button>
+              </div>
+            </div>
+
+            <div className={sass.imageOverlay}>
+              <img src={`${images && images[0].url}`} alt="colimage" />
+              <div className={sass.whiteLayer} />
+            </div>
+          </section>
+
+          <div className={sass.imagesCounter}>{images?.length} images</div>
+
+          <main>
+            <MasonryImages
+              width={debouncedWidth}
+              data={images || []}
+              updateFavImages={updateFavoriteImages}
+              download={downloadImage}
+            />
+          </main>
+        </>
+      )}
+
       <section>recommendations</section>
       <footer>Here goes footer</footer>
     </>
