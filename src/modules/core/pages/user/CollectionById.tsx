@@ -33,7 +33,6 @@ type Collection = {
 export function CollectionById() {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
-
   const navigate = useNavigate();
   const { collectionId } = useParams();
   const userName = localStorage.getItem("userName");
