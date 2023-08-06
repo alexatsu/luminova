@@ -148,14 +148,13 @@ export function EditModal({ handleClose }: { handleClose: () => void }) {
         
         <section className={sass.editForm}>
           <h2>Edit Collection</h2>
-
           <div className={sass.inputs}>
-            <div>
+            <div className={sass.nameInput}>
               <label htmlFor="name">Name</label>
               <input type="text" value={"Some collection"} />
             </div>
 
-            <div>
+            <div className={sass.descriptionInput}>
               <label htmlFor="Description (optional)">Description</label>
               <textarea
                 name={"Data that i need to put in"}
@@ -164,7 +163,6 @@ export function EditModal({ handleClose }: { handleClose: () => void }) {
                 maxLength={250}
               ></textarea>
             </div>
-
           </div>
 
           <div className={sass.editButtons}>
