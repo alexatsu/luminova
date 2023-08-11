@@ -7,6 +7,7 @@ type Resources = {
 type ImageResources = {
   collectionName: string;
   collectionDescription: string;
+  collectionId: string;
   images: Resources[];
   pagePreview: PagePreview;
   text_for_page_preview: string;

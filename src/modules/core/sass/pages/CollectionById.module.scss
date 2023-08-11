@@ -121,14 +121,16 @@
 
   .editModal {
     background-color: white;
-    width: 60%;
+
+    width: 70%;
     height: 80%;
     align-self: center;
-    border-radius: 10px;
+    border-radius: 3px;
     padding: 10px;
     position: relative;
-    padding: 40px;
+    padding: 30px;
 
+    max-width: 768px;
     @media screen and (max-width: 763px) {
       width: 100%;
       height: 100%;
@@ -139,8 +141,14 @@
       width: 90%;
       margin: auto;
 
+      @media screen and (max-width: 763px) {
+        width: 100%;
+      }
+
       & > h2 {
+        padding: 8px 10px 10px 0px;
         margin-bottom: 20px;
+        font-size: 0.9rem;
       }
 
       .inputs {
@@ -148,13 +156,12 @@
 
         .nameInput,
         .descriptionInput {
-          width: 90%;
           margin-bottom: 10px;
           display: flex;
           flex-direction: column;
 
           & > label {
-            margin-bottom: 5px;
+            margin-bottom: 10px;
           }
 
           & > input,
@@ -162,12 +169,50 @@
             border: 1px solid black;
             padding: 5px 10px;
           }
+
+          & > textarea {
+            resize: none;
+            height: 98px;
+            border-radius: 3px;
+          }
         }
 
         .nameInput {
+          margin-bottom: 25px;
           & > input {
-            height: 30px;
+            height: 40px;
+            border-radius: 3px;
           }
+        }
+      }
+
+      .editButtons {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .delete {
+          all: unset;
+          outline: none;
+          text-decoration: underline;
+          color: rgba(228, 41, 41, 0.841);
+          font-weight: 400;
+          cursor: pointer;
+          transition: 0.15s ease-in-out;
+          
+          &:hover {
+            color: rgb(255, 0, 0);
+          }
+        }
+
+        .save {
+          background-color: black;
+          color: white;
+          padding: 10px 15px;
+          outline: none;
+          border: none;
+          cursor: pointer;
+          border-radius: 3px;
         }
       }
     }
@@ -175,10 +220,17 @@
     .closeButton {
       position: absolute;
       right: 10px;
-      top: 10px;
+      top: 18px;
       cursor: pointer;
       border: none;
       background: none;
+      &:hover svg {
+        fill: rgb(36, 36, 36);
+      }
+      & > svg {
+        fill: grey;
+        transition: 0.15s ease-in-out;
+      }
     }
   }
 }

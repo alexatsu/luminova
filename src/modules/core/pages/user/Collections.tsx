@@ -35,8 +35,8 @@ export const Collections = () => {
         localStorage.removeItem("userName");
         return;
       }
-      setData(collection);
       console.log(collection, "collection");
+      setData(collection);
     };
 
     fetchData();

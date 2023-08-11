@@ -15,6 +15,8 @@ import { AiOutlineUser, AiOutlineShareAlt } from "react-icons/ai";
 import { Loader } from "@/components";
 import { ModalContainer } from "@/components/form";
 import { Xshape } from "@/components/icons";
+import { useState } from "react";
+import { queryClient } from "@/main";
 
 type Collection = {
   id: number;
@@ -51,6 +53,7 @@ export function CollectionById() {
   if (status === "error") {
     return <p>Error</p>;
   }
+  
   const fetchCollectionById = async (id: string | undefined) => {
     const { collection, error }: { collection: Collection; error: string } = await handleFetch(
       `http://localhost:8080/collections/openbyid`,
@@ -64,7 +67,8 @@ export function CollectionById() {
       localStorage.removeItem("userName");
       return;
     }
-    console.log(collection, "collection");
+
+    // console.log(collection, "collection");
     const resources = collection.collectionImages.map((item) => {
       return {
         ...item,
@@ -77,6 +81,7 @@ export function CollectionById() {
       images: resources,
       collectionName: name,
       collectionDescription: description,
+      collectionId: id,
     } as unknown as ImageResources;
   };
 
@@ -107,7 +112,7 @@ export function CollectionById() {
               <div className={sass.profileButtons}>
                 <button onClick={handleOpen}>Edit</button>
                 <ModalContainer modalOpen={modalOpen}>
-                  <EditModal handleClose={handleClose} />
+                  <EditModal handleClose={handleClose} collectionData={data} />
                 </ModalContainer>
 
                 <button>
@@ -141,33 +146,90 @@ export function CollectionById() {
   );
 }
 
-export function EditModal({ handleClose }: { handleClose: () => void }) {
+type EditModal = {
+  handleClose: () => void;
+  collectionData: ImageResources | undefined;
+};
+export function EditModal({ handleClose, collectionData }: EditModal) {
+  const { collectionName, collectionDescription, collectionId } = collectionData as ImageResources;
+  const [collection, setCollection] = useState({
+    name: collectionName,
+    description: collectionDescription,
+  });
+  const navigate = useNavigate();
+
+  type HandleCollection = (
+    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
+
+  const handleCollection: HandleCollection = (e) => {
+    const { name, value } = e.currentTarget;
+    setCollection((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleEditSubmit = async () => {
+    console.log(collection, "collection");
+    const { name, description } = collection;
+    const { error, message }: { error: string; message: string } = await handleFetch(
+      "http://localhost:8080/collections/edit",
+      "PUT",
+      { collectionId: collectionId, name: name, description: description }
+    );
+
+    if (error === "Refresh token missing") {
+      navigate("/login");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
+      return;
+    }
+    console.log(message, "message");
+    queryClient.invalidateQueries(["collectionById", collectionId]);
+    return message;
+  };
   return (
     <div className={sass.editModalWrapper}>
       <div className={sass.editModal}>
-        
         <section className={sass.editForm}>
           <h2>Edit Collection</h2>
+
           <div className={sass.inputs}>
             <div className={sass.nameInput}>
               <label htmlFor="name">Name</label>
-              <input type="text" value={"Some collection"} />
+              <input
+                type="text"
+                value={collection.name}
+                name="name"
+                onChange={handleCollection}
+              />
             </div>
 
             <div className={sass.descriptionInput}>
-              <label htmlFor="Description (optional)">Description</label>
+              <label htmlFor="Description (optional)">
+                Description <span style={{ color: "grey" }}>(optional)</span>
+              </label>
               <textarea
-                name={"Data that i need to put in"}
                 cols={4}
                 rows={5}
                 maxLength={250}
+                value={collection.description}
+                name={"description"}
+                onChange={handleCollection}
               ></textarea>
             </div>
           </div>
 
           <div className={sass.editButtons}>
-            <button>Delete Collection</button>
-            <button>Save</button>
+            <button className={sass.delete}>Delete Collection</button>
+            <button
+              className={sass.save}
+              type="submit"
+              onClick={(e) => {
+                e.preventDefault();
+                handleEditSubmit();
+              }}
+            >
+              Save
+            </button>
           </div>
         </section>
 
