@@ -6,18 +6,20 @@ import { downloadImage } from "../../utils";
 import { endpoints } from "@/utils";
 import { PageWrapper } from "../../components";
 import { Loader } from "@/components";
-import { getProfilePhotos } from "../../services/images";
+import { images } from "../../services/api";
 import { useParams } from "react-router-dom";
+
+const { profile } = endpoints.images;
+const { getProfileImages } = images;
 
 export const Photos = () => {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
   const { userName } = useParams();
 
-  const { getProfileImages } = endpoints.images;
   const queryKey = ["profilePhotos", userName];
-  const url = `${getProfileImages}/${userName}`;
-  const { data, status, updateFavoriteImages } = useImages(() => getProfilePhotos(url), queryKey);
+  const url = `${profile}/${userName}`;
+  const { data, status, updateFavoriteImages } = useImages(() => getProfileImages(url), queryKey);
 
   const { images } = data || {};
 

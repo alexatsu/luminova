@@ -1,7 +1,7 @@
 import { ImageResources } from "@/types";
 import { endpoints, handleFetch } from "@/utils";
 
-async function getCorePhotos(category: string | undefined): Promise<ImageResources> {
+async function getCoreImages(category: string | undefined): Promise<ImageResources> {
   const { forNonUser, forUser } = endpoints.images;
   const accessToken = localStorage.getItem("accessToken");
 
@@ -23,4 +23,4 @@ async function getCorePhotos(category: string | undefined): Promise<ImageResourc
   return fetchForUser;
 }
 
-export { getCorePhotos };
+export { getCoreImages};

@@ -2,15 +2,15 @@ import { ImageResources } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { endpoints, handleFetch } from "@/utils";
 import { queryClient } from "@/main";
-import { reuseAuth } from "@/services/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks";
 
 export const useImages = (
   queryFunc: () => Promise<ImageResources | undefined>,
   key: (string | undefined)[]
 ) => {
   const navigate = useNavigate();
-  const { refreshAccessToken } = reuseAuth();
+  const { refreshAccessToken } = useAuth();
 
   const accessToken = localStorage.getItem("accessToken");
   const queryKey = [key, queryFunc];

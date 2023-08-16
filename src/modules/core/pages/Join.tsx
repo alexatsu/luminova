@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
-import { reuseAuth } from "@/services/auth";
+import { useAuth } from "@/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -90,7 +90,7 @@ export function Join() {
   const { classes } = useStyles();
   const { form, title, text, link, image, input, paragraph, container, errorText } = classes;
   const navigate = useNavigate();
-  const { register } = reuseAuth();
+  const { register } = useAuth();
 
   const [error, setError] = useState("");
   const userForm = useForm({

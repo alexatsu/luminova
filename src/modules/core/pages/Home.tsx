@@ -5,8 +5,10 @@ import { useImages } from "../hooks";
 
 import { downloadImage } from "../utils";
 import { Resources } from "@/types";
-import { getCorePhotos } from "../services/images";
+import { images } from "../services/api";
 import { useResizeWidth, useDebounce } from "@/hooks";
+
+const { getCoreImages } = images;
 
 export function Home() {
   const width = useResizeWidth();
@@ -14,9 +16,9 @@ export function Home() {
 
   const category = "gallery";
   const queryKey = ["images", category];
-  const { data, status, updateFavoriteImages } = useImages(() => getCorePhotos(category), queryKey);
+  const { data, status, updateFavoriteImages } = useImages(() => getCoreImages(category), queryKey);
   const { pagePreview, images } = data || {};
-console.log(data,'data')
+  console.log(data, "data");
 
   // TODO Make error component
   if (status === "error") {

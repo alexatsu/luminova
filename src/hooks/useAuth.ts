@@ -1,5 +1,5 @@
 import { handleFetch, authEndpoints } from "@/utils";
-import { NavigateFunction } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 type LoginProps = (
   payload: { email: string; password: string },
@@ -17,7 +17,9 @@ type RefreshProps = (navigate: NavigateFunction) => Promise<void>;
 type LogoutProps = (token: string | null, navigate: NavigateFunction) => Promise<void>;
 type Fetch = { [key: string]: string };
 
-const reuseAuth = () => {
+const useAuth = () => {
+  const navigate = useNavigate();
+
   const register: RegisterProps = async (payload, navigate, setError) => {
     const { email, password, name } = payload;
     try {
@@ -73,7 +75,7 @@ const reuseAuth = () => {
       userName: name,
     });
 
-    if (error === "Refresh token missing") {
+    if (error === "Refresh token is missing") {
       navigate("/login");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
@@ -102,11 +104,22 @@ const reuseAuth = () => {
     }
   };
 
+  const handleFetchError = (error: string) => {
+    if (error === "Refresh token is missing" || error === "User not found") {
+      navigate("/login");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("userName");
+      return true;
+    }
+    return false;
+  };
+
   return {
     logoutUser,
     register,
     login,
     refreshAccessToken,
+    handleFetchError,
   };
 };
-export { reuseAuth };
+export { useAuth };

@@ -2,6 +2,7 @@ import { env } from "./env";
 
 const baseURL = env("BASE_URL");
 const images = `${baseURL}/images`;
+const collections = `${baseURL}/collections`;
 
 const endpoints = {
   images: {
@@ -10,8 +11,14 @@ const endpoints = {
     updateFavorites: `${images}/updatefavorites`,
     searchImages: `${images}/search`,
     upload: `${images}/upload`,
-    getProfileImages: `${images}/getprofileimages`,
-    getFavoriteImages: `${images}/getfavorites`,
+    profile: `${images}/getprofileimages`,
+    favorite: `${images}/getfavorites`,
+  },
+  collections: {
+    profile: `${collections}/profile`,
+    getCollectionById: `${collections}/openbyid`,
+    updateImg: `${collections}/updateimage`,
+    create: `${collections}/create`,
   },
 };
 

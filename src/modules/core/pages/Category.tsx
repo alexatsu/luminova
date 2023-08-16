@@ -10,7 +10,9 @@ import { downloadImage } from "../utils";
 import { useParams } from "react-router-dom";
 import { Resources } from "@/types";
 import { ModalContainer, UploadModal } from "@/components/form";
-import { getCorePhotos } from "../services/images";
+import { images } from "../services/api";
+
+const { getCoreImages } = images;
 
 export function Category() {
   const width = useResizeWidth();
@@ -22,7 +24,7 @@ export function Category() {
   const { name: title } = paths.find(({ path }) => path === category) || {};
 
   const queryKey = ["category", category];
-  const { data, status, updateFavoriteImages } = useImages(() => getCorePhotos(category), queryKey);
+  const { data, status, updateFavoriteImages } = useImages(() => getCoreImages(category), queryKey);
   const { images, pagePreview } = data || {};
 
   // TODO Make error component

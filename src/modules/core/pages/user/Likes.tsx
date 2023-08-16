@@ -6,10 +6,11 @@ import { downloadImage } from "../../utils";
 import { endpoints } from "@/utils";
 import { PageWrapper } from "../../components";
 import { Loader } from "@/components";
-import { getProfilePhotos } from "../../services/images";
+import { images } from "../../services/api";
 import { useParams } from "react-router-dom";
 
-const { getFavoriteImages } = endpoints.images;
+const { favorite} = endpoints.images;
+const { getProfileImages } = images;
 
 export const Likes = () => {
   const width = useResizeWidth();
@@ -17,9 +18,9 @@ export const Likes = () => {
 
   const { userName } = useParams();
   const queryKey = ["likes", userName];
-  const url = `${getFavoriteImages}/${userName}`;
+  const url = `${favorite}/${userName}`;
 
-  const { data, status, updateFavoriteImages } = useImages(() => getProfilePhotos(url), queryKey);
+  const { data, status, updateFavoriteImages } = useImages(() => getProfileImages(url), queryKey);
   const { images } = data || {};
 
   const onlyFavoriteImages = images?.filter((item) => item.favorite);

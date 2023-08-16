@@ -3,14 +3,14 @@ import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
 
-import { useResizeWidth, useModal, useDebounce } from "@/hooks";
+import { useResizeWidth, useModal, useDebounce, useAuth } from "@/hooks";
 import { navstyles } from "@/styles/navbar";
 
 import { Logo } from "@/components";
 import { SearchInput, ModalContainer, UploadModal } from "@/components/form";
 
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
-import { reuseAuth } from "@/services/auth";
+
 
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
@@ -21,7 +21,7 @@ export const MemoizedNavbar = memo(function Navbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const accessToken = localStorage.getItem("accessToken");
-  const { logoutUser } = reuseAuth();
+  const { logoutUser } = useAuth();
 
   return (
     <nav>

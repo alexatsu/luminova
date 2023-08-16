@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { FormInput } from "./FormInput";
-import { Menu } from "@mantine/core";
-
-import sass from "../sass/CollectionForm.module.scss";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
-import { handleFetch } from "@/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
 import { queryClient } from "@/main";
+import { useAuth } from "@/hooks";
+import { endpoints, handleFetch } from "@/utils";
+
+import { Menu } from "@mantine/core";
+import { FormInput } from "./FormInput";
+import sass from "../sass/CollectionForm.module.scss";
 
 type Collection = {
   id: number;
@@ -23,47 +24,36 @@ type Response = {
   error: string;
 };
 
+const cdnUrl = "https://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996";
+const { profile, updateImg, create } = endpoints.collections;
+
 export const CollectionForm = ({ public_id }: { public_id: string }) => {
   const [extend, setExtend] = useState(false);
+  const [collectionStatus, setCollectionStatus] = useState<{ [id: number]: boolean }>({});
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const navigate = useNavigate();
+  const { handleFetchError } = useAuth();
 
-  const queryKey = ["collections"];
-  const fetchData = async () => {
-    const response: Response = await handleFetch(`http://localhost:8080/collections/profile`);
-    const { collection, error } = response;
-
-    if (error === "Refresh token missing" || error === "User not found") {
-      navigate("/login");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("userName");
-      return;
-    }
+  
+  const getCollections = async () => {
+    const { collection, error }: Response = await handleFetch(profile);
+    
+    if (handleFetchError(error)) return;
     return collection;
   };
-
-  const { data, status } = useQuery({
-    queryFn: fetchData,
-    queryKey: queryKey,
-  });
+  
+  const queryKey = ["collections"];
+  const { data, status } = useQuery({ queryFn: getCollections, queryKey });
 
   const { mutate: createCollection } = useMutation({
     mutationFn: async () => {
-      const response: Response = await handleFetch(
-        `http://localhost:8080/collections/create`,
-        "POST",
-        { name: name, description: description }
-      );
+      const { collection, error }: Response = await handleFetch(create, "POST", {
+        name: name,
+        description: description,
+      });
 
-      const { collection, error } = response;
-
-      if (error === "Refresh token missing" || error === "User not found") {
-        navigate("/login");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userName");
-        return;
-      }
+      if (handleFetchError(error)) return;
+      setExtend(false);
       return collection;
     },
 
@@ -76,32 +66,27 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
     },
   });
 
-  type UpdateCollectionImg = {
-    id: number;
-    public_id: string;
-  };
   const { mutate: updateImageInCollection } = useMutation({
-    mutationFn: async ({ id, public_id }: UpdateCollectionImg) => {
-      console.log(id, public_id, "payload in update");
-      const response = await handleFetch(`http://localhost:8080/collections/updateimage`, "POST", {
+    mutationFn: async ({ id, public_id }: { id: number; public_id: string }) => {
+      setCollectionStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
+
+      const response = await handleFetch(updateImg, "POST", {
         collectionId: id,
         public_id: public_id,
       });
 
-      if (response.error === "Refresh token missing" || response.error === "User not found") {
-        navigate("/login");
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("userName");
-        return;
-      }
-      console.log(response, "response");
+      if (handleFetchError(response.error)) return;
       return response;
     },
-  
-    onSuccess: () => {
+
+    onSuccess: (data, { id }) => {
+      setCollectionStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
       queryClient.invalidateQueries({ queryKey: queryKey });
+      setTimeout(() => setCollectionStatus((prev) => ({ ...prev, [id]: false })), 500);
     },
-    onError: (err) => {
+
+    onError: (err, { id }) => {
+      setCollectionStatus((prevStatus) => ({ ...prevStatus, [id]: false }));
       console.log(err, "error updating images in collection");
     },
   });
@@ -111,9 +96,13 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
     setName("");
     setDescription("");
   };
-  const checkIfImageIncollection = (collectionImages: { id: number; public_id: string }[]) => {
+
+  const ifImageInCollection = (collectionImages: { id: number; public_id: string }[]) => {
     return collectionImages.some((img) => img.public_id === public_id);
   };
+
+  const sortDescending = (collections: Collection) => collections?.sort((a, b) => b.id - a.id);
+  const sortedCollections = sortDescending(data || []);
 
   return (
     <>
@@ -163,25 +152,28 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
       )}
 
       {status === "loading" && <p style={{ textAlign: "center" }}>Loading...</p>}
-      {data?.map(({ name, collectionImages, id }) => (
+
+      {sortedCollections?.map(({ name, collectionImages, id }) => (
         <Menu.Item className={sass.menuItem} key={id} closeMenuOnClick={false}>
           <div className={sass.imageWrapper}>
             {collectionImages.length > 0 ? (
-              <img
-                src={`http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996/${collectionImages[0].public_id}`}
-                alt=""
-              />
+              <img src={`${cdnUrl}/${collectionImages[0].public_id}`} alt="cdnUrl" />
             ) : (
               <div style={{ height: "100px", backgroundColor: "black" }}>fallback</div>
             )}
-            {checkIfImageIncollection(collectionImages) && <div className={sass.greenOverlay} />}
+
+            {ifImageInCollection(collectionImages) && <div className={sass.greenOverlay}></div>}
           </div>
+
           <div className={sass.collectionCard}>
             <div className={sass.text}>
               <span>{collectionImages.length} photos</span>
               <h4>{name}</h4>
             </div>
-            {checkIfImageIncollection(collectionImages) ? (
+
+            {collectionStatus[id] ? (
+              <div className={sass.spinner}></div>
+            ) : ifImageInCollection(collectionImages) ? (
               <AiOutlineMinus
                 className={sass.minus}
                 size={26}

@@ -1,10 +1,9 @@
-// import { reuseFetch } from "@/services/fetch";
+import { useAuth } from "@/hooks";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { reuseAuth } from "@/services/auth";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -77,7 +76,7 @@ export function Login() {
   const { form, title, text, link, wrapper, input, errorText } = classes;
   const navigate = useNavigate();
 
-  const { login } = reuseAuth();
+  const { login } = useAuth();
   const [error, setError] = useState("");
   const userForm = useForm({
     initialValues: { email: "", password: "" },

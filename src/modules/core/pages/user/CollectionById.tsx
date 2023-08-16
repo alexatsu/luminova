@@ -2,11 +2,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { MasonryImages } from "../../layouts";
 import { MemoizedNavbar } from "@/layouts";
 
-import { useDebounce, useModal, useResizeWidth } from "@/hooks";
+import { useAuth, useDebounce, useModal, useResizeWidth } from "@/hooks";
 import { useImages } from "../../hooks";
 
 import { downloadImage } from "../../utils";
-import { handleFetch } from "@/utils";
+import { endpoints, handleFetch } from "@/utils";
 
 import { ImageResources } from "@/types";
 
@@ -17,6 +17,7 @@ import { ModalContainer } from "@/components/form";
 import { Xshape } from "@/components/icons";
 import { useState } from "react";
 import { queryClient } from "@/main";
+import { useMutation } from "@tanstack/react-query";
 
 type Collection = {
   id: number;
@@ -32,50 +33,41 @@ type Collection = {
   }[];
 };
 
+const { getCollectionById } = endpoints.collections;
+const userName = localStorage.getItem("userName");
+
 export function CollectionById() {
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
-  const navigate = useNavigate();
-  const { collectionId } = useParams();
-  const userName = localStorage.getItem("userName");
+  const { handleFetchError } = useAuth();
   const { handleOpen, handleClose, modalOpen } = useModal();
 
+  const { collectionId } = useParams();
   const queryKey = ["collectionById", collectionId];
   const { data, status, updateFavoriteImages } = useImages(
-    () => fetchCollectionById(collectionId),
+    () => getCollectionImages(collectionId),
     queryKey
   );
   const { images, collectionDescription, collectionName } = data || {};
-
-  console.log(images, "data");
 
   // TODO Make error component
   if (status === "error") {
     return <p>Error</p>;
   }
-  
-  const fetchCollectionById = async (id: string | undefined) => {
-    const { collection, error }: { collection: Collection; error: string } = await handleFetch(
-      `http://localhost:8080/collections/openbyid`,
-      "POST",
-      { collectionId: id }
-    );
 
-    if (error === "Refresh token missing" || error === "User not found") {
-      navigate("/login");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("userName");
-      return;
-    }
-
-    // console.log(collection, "collection");
-    const resources = collection.collectionImages.map((item) => {
-      return {
-        ...item,
-        url: `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996/${item.public_id}`,
-      };
+  const getCollectionImages = async (id: string | undefined) => {
+    type Fetch = { collection: Collection; error: string };
+    const { collection, error }: Fetch = await handleFetch(getCollectionById, "POST", {
+      collectionId: id,
     });
     const { name, description } = collection;
+
+    if (handleFetchError(error)) return;
+
+    const resources = collection.collectionImages.map((item) => {
+      const url = `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996`;
+      return { ...item, url: `${url}/${item.public_id}` };
+    });
 
     return {
       images: resources,
@@ -111,9 +103,6 @@ export function CollectionById() {
 
               <div className={sass.profileButtons}>
                 <button onClick={handleOpen}>Edit</button>
-                <ModalContainer modalOpen={modalOpen}>
-                  <EditModal handleClose={handleClose} collectionData={data} />
-                </ModalContainer>
 
                 <button>
                   <AiOutlineShareAlt />
@@ -123,7 +112,7 @@ export function CollectionById() {
 
             <div className={sass.imageOverlay}>
               <img src={`${images && images[0].url}`} alt="colimage" />
-              <div className={sass.whiteLayer} />
+              <div className={sass.whiteLayer}></div>
             </div>
           </section>
 
@@ -137,6 +126,9 @@ export function CollectionById() {
               download={downloadImage}
             />
           </main>
+          <ModalContainer modalOpen={modalOpen}>
+            <EditModal handleClose={handleClose} collectionData={data} />
+          </ModalContainer>
         </>
       )}
 
@@ -150,42 +142,64 @@ type EditModal = {
   handleClose: () => void;
   collectionData: ImageResources | undefined;
 };
+
 export function EditModal({ handleClose, collectionData }: EditModal) {
   const { collectionName, collectionDescription, collectionId } = collectionData as ImageResources;
   const [collection, setCollection] = useState({
     name: collectionName,
     description: collectionDescription,
   });
+  const [confirmDeletion, setConfirmDeletion] = useState(false);
   const navigate = useNavigate();
+  const userName = localStorage.getItem("userName");
+  const { handleFetchError } = useAuth();
 
   type HandleCollection = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
 
-  const handleCollection: HandleCollection = (e) => {
+  const handleCollectionData: HandleCollection = (e) => {
     const { name, value } = e.currentTarget;
     setCollection((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleEditSubmit = async () => {
-    console.log(collection, "collection");
-    const { name, description } = collection;
-    const { error, message }: { error: string; message: string } = await handleFetch(
-      "http://localhost:8080/collections/edit",
-      "PUT",
-      { collectionId: collectionId, name: name, description: description }
-    );
+  const { mutate: editCollection } = useMutation({
+    mutationFn: async () => {
+      const { name, description } = collection;
+      const { error, message }: { error: string; message: string } = await handleFetch(
+        "http://localhost:8080/collections/edit",
+        "PUT",
+        { collectionId, name, description }
+      );
 
-    if (error === "Refresh token missing") {
-      navigate("/login");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("userName");
-      return;
-    }
-    console.log(message, "message");
-    queryClient.invalidateQueries(["collectionById", collectionId]);
-    return message;
-  };
+      if (handleFetchError(error)) return;
+
+      return message;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(["collectionById", collectionId]);
+      window.location.reload();
+    },
+  });
+
+  const { mutate: deleteCollection } = useMutation({
+    mutationFn: async () => {
+      const { error, message }: { error: string; message: string } = await handleFetch(
+        `http://localhost:8080/collections/delete/${collectionId}`,
+        "DELETE"
+      );
+
+      if (handleFetchError(error)) return;
+
+      return message;
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries(["collectionById", collectionId]);
+      navigate(`/${userName}/collections`);
+    },
+  });
   return (
     <div className={sass.editModalWrapper}>
       <div className={sass.editModal}>
@@ -199,7 +213,7 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
                 type="text"
                 value={collection.name}
                 name="name"
-                onChange={handleCollection}
+                onChange={handleCollectionData}
               />
             </div>
 
@@ -213,27 +227,34 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
                 maxLength={250}
                 value={collection.description}
                 name={"description"}
-                onChange={handleCollection}
+                onChange={handleCollectionData}
               ></textarea>
             </div>
           </div>
 
           <div className={sass.editButtons}>
-            <button className={sass.delete}>Delete Collection</button>
-            <button
-              className={sass.save}
-              type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                handleEditSubmit();
-              }}
-            >
+            {confirmDeletion ? (
+              <div className={sass.deleteConfirm}>
+                <span>Sure?</span>
+                <button className={sass.yesDelete} onClick={() => deleteCollection()}>
+                  Yes
+                </button>
+                <button className={sass.noDelete} onClick={() => setConfirmDeletion(false)}>
+                  no
+                </button>
+              </div>
+            ) : (
+              <button className={sass.delete} onClick={() => setConfirmDeletion(true)}>
+                Delete Collection
+              </button>
+            )}
+            <button className={sass.save} type="submit" onClick={() => editCollection()}>
               Save
             </button>
           </div>
         </section>
 
-        <button className={sass.closeButton} onClick={handleClose}>
+        <button className={sass.closeButton} onClick={() => handleClose()}>
           <Xshape />
         </button>
       </div>

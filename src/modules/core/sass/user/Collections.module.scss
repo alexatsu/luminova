@@ -33,6 +33,7 @@
     background-color: #000;
     grid-column: 1 / span 2;
     grid-row: 1 / span 2;
+    object-fit: cover;
     @media screen and (max-width: 468px) {
       width: 200px;
     }
