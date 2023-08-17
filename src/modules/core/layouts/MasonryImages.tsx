@@ -62,7 +62,6 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
               <Menu
                 width={width > 424 ? 425 : 320}
                 shadow="md"
-                // trigger="hover"
                 openDelay={200}
                 closeDelay={100}
                 closeOnClickOutside={true}

@@ -1,4 +1,4 @@
-import { MemoizedNavbar} from "@/layouts";
+import { MemoizedNavbar } from "@/layouts";
 import { ProgressBar } from "@/components";
 import { ScrollTopButton } from "@/components";
 
