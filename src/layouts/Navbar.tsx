@@ -24,7 +24,7 @@ export const MemoizedNavbar = memo(function Navbar() {
   const { logoutUser } = useAuth();
 
   return (
-    <nav>
+    <nav style={{paddingTop: "10px"}}>
       <Box sx={navstyles.container}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
           <Link to="/" style={{ marginRight: "1rem", marginBottom: "-5px" }}>
@@ -86,13 +86,6 @@ function PageButton({ path }: { path: string }) {
   );
 }
 
-// function UploadButton({ handleOpen }: { handleOpen: () => void }) {
-//   return (
-//     <Button className="button-upload" onClick={handleOpen} sx={{ width: "100%" }}>
-//       Upload a photo
-//     </Button>
-//   );
-// }
 
 function UserMenu({
   logoutUser,

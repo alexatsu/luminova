@@ -1,50 +1,88 @@
 .listItem {
+  justify-content: space-around;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  @media screen and (max-width: 958px) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-bottom: 30px;
+
+  @media screen and (max-width: 2560px) {
+    justify-content: center;
+    gap: 15px;
   }
 }
 
 .wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2px;
-  border-radius: 12px;
-  overflow: hidden;
-  max-width: 437px;
-  height: 300px;
-  height: 300px;
-  transition: all 0.1s ease-in-out;
-  margin-top: 30px;
-  @media screen and (max-width: 468px) {
-    height: 200px;
+  width: 100%;
+  padding: 10px;
+  flex-basis: 100%;
+
+  @media (min-width: 768px) {
+    flex-basis: 45%;
+    padding: 0;
   }
-  &:hover {
-    cursor: pointer;
-    filter: opacity(0.9);
+
+  @media (min-width: 1124px) {
+    flex-basis: 32%;
+    padding: 0;
   }
-  .firstImg {
-    width: 300px;
-    height: 100%;
-    background-color: #000;
-    grid-column: 1 / span 2;
-    grid-row: 1 / span 2;
-    object-fit: cover;
-    @media screen and (max-width: 468px) {
-      width: 200px;
-    }
-  }
-  .secondImg {
-    background-color: #000;
-  }
-  .thirdImg {
-    background-color: #000;
+  @media (min-width: 2560px) {
+    flex-basis: 25%;
+    padding: 0;
   }
 }
+
+.preview {
+  display: flex;
+  flex-direction: row;
+  height: 300px;
+  width: 100%;
+  -moz-column-gap: 2px;
+  column-gap: 2px;
+
+  .leftBlock {
+    height: 100%;
+    flex: 4;
+
+    & img {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+      height: 100%;
+      width: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+
+      @media screen and (max-width: 568px) {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+
+  .rightBlock {
+    height: 100%;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 568px) {
+      display: none;
+    }
+    & img {
+      width: 100%;
+      height: 50%;
+      -o-object-fit: cover;
+      object-fit: cover;
+
+      &:first-child {
+        border-bottom: 2px solid rgb(255, 255, 255);
+        border-top-right-radius: 5px;
+      }
+      &:nth-child(2) {
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+}
+
 .title {
   display: inline-block;
   margin-top: 15px;
@@ -55,6 +93,7 @@
   &:hover {
     cursor: pointer;
     .wrapper {
+      -webkit-filter: opacity(0.9);
       filter: opacity(0.9);
     }
   }
