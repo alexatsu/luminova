@@ -33,7 +33,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
       gap={8}
     >
       <>
-        {data?.map(({ public_id, url, filename, favorite }) => (
+        {data?.map(({ public_id, url, filename, favorite, inCollection }) => (
           <ImageListItem
             className={sass.imageListItem}
             key={public_id}
@@ -67,13 +67,17 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
                 closeOnClickOutside={true}
               >
                 <Menu.Target>
-                  <IconButton className={sass.collectionButton}>
+                  <IconButton
+                    className={
+                      inCollection ? sass.collectionButtonActive : sass.collectionButton
+                    }
+                  >
                     <AiOutlinePlus size={20} />
                   </IconButton>
                 </Menu.Target>
                 <Menu.Dropdown className={sass.dropdown}>
                   <h3>Add to Collection</h3>
-                  <CollectionForm public_id={public_id}/>
+                  <CollectionForm public_id={public_id} />
                 </Menu.Dropdown>
               </Menu>
             </div>

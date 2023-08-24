@@ -54,11 +54,25 @@
     }
     .collectionButton {
       @extend %btn;
-      right: 70px;
+      right: 65px;
       top: 10px;
       background-color: #d9d8d8;
+
       &:hover {
         background-color: #f2f2f2;
+      }
+    }
+    
+    .collectionButtonActive {
+      @extend .collectionButton;
+      background-color: #3cb46e;
+      transition: 0.15s ease-in-out;
+
+      &:hover {
+        background-color: #35a263;
+      }
+      & svg {
+        fill: white;
       }
     }
   }

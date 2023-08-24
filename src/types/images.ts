@@ -3,7 +3,9 @@ type Resources = {
   url: string;
   filename: string;
   favorite: boolean;
+  inCollection: boolean;
 };
+
 type ImageResources = {
   collectionName: string;
   collectionDescription: string;
@@ -12,8 +14,10 @@ type ImageResources = {
   pagePreview: PagePreview;
   text_for_page_preview: string;
 };
+
 type PagePreview = {
   img: string;
   description: string;
 };
+
 export type { ImageResources, Resources };
