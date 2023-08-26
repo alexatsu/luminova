@@ -1,4 +1,4 @@
-import { MasonryImages, Footer, PagePreview } from "../layouts";
+import { MasonryImages, PagePreview } from "../layouts";
 import { PageWrapper } from "../components";
 import { Loader } from "@/components";
 import { useImages } from "../hooks";
@@ -44,7 +44,6 @@ export function Home() {
           />
         </>
       )}
-      <Footer />
     </PageWrapper>
   );
 }

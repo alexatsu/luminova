@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { Footer } from "./Footer";
+import { Footer } from "@/layouts";
 
 import sass from "../sass/layouts/Account.module.scss";
 import { MemoizedNavbar } from "@/layouts";

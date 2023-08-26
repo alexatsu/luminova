@@ -1,4 +1,4 @@
-import { MasonryImages, Footer, PagePreview } from "../layouts";
+import { MasonryImages, PagePreview } from "../layouts";
 import { useImages } from "../hooks";
 import { useDebounce, useModal, useResizeWidth } from "@/hooks";
 import { Loader } from "@/components";
@@ -53,7 +53,6 @@ export function Category() {
         </>
       )}
 
-      <Footer />
       <ModalContainer modalOpen={modalOpen}>
         <UploadModal handleClose={handleClose} category={category} title={title} />
       </ModalContainer>
