@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
-import { FormInput } from "../../components/FormInput";
+import { FormInput } from "../../../components/FormInput";
 
-import sass from "../../sass/user/Edit.module.scss";
+import sass from "../../../sass/pages/user/Edit.module.scss";
 
 export const Edit = () => {
   const [bioValue, setBioValue] = useState("");

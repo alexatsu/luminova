@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import sass from "../sass/user/FormInput.module.scss";
+import sass from "../sass/components/FormInput.module.scss";
 
 interface FormProps {
   label: string;

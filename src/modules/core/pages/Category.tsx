@@ -2,7 +2,7 @@ import { MasonryImages, PagePreview } from "../layouts";
 import { useImages } from "../hooks";
 import { useDebounce, useModal, useResizeWidth } from "@/hooks";
 import { Loader } from "@/components";
-import { PageWrapper } from "../components";
+import { PageWrapper } from "../layouts";
 
 import { paths } from "@/utils";
 import { downloadImage } from "../utils";

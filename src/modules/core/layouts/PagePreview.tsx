@@ -2,6 +2,7 @@ import { SearchInput } from "@/components/form";
 import { Button } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import sass from "../sass/layouts/PagePreview.module.scss"
 
 type PagePreviewProps = {
   imgURL: string | undefined;
@@ -15,7 +16,7 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
   const handleImageLoad = () => setImgLoaded(true);
 
   return (
-    <div className="page-preview-container">
+    <div className={sass.pagePreviewContainer}>
       <img
         src={imgURL}
         alt="giga"
@@ -25,9 +26,9 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
       />
       {imgLoaded && (
         <>
-          <section className="main-text-section">
-            <h1 className="text-header">{title}</h1>
-            <p className="text-description">{description}</p>
+          <section className={sass.mainTextSection }>
+            <h1 className={sass.textHeader}>{title}</h1>
+            <p className={sass.textDescription}>{description}</p>
 
             {title === "Luminova" ? (
               <SearchInput className="search-page-preview" />
@@ -43,7 +44,7 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
               </Button>
             )}
           </section>
-          <section className="license-text-section">
+          <section className={sass.licenseTextSection}>
             <span>
               Read more about the <Link to={"/tos/license"}>Luminova License</Link>
             </span>

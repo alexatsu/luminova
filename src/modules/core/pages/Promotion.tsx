@@ -2,7 +2,7 @@ import { MemoizedNavbar, Footer  } from "@/layouts";
 import { ProgressBar } from "@/components";
 import { ScrollTopButton } from "@/components";
 
-import sass from "../sass/Promotion.module.scss";
+import sass from "../sass/pages/Promotion.module.scss";
 
 export const Promotion = () => {
   const dataBrands = [

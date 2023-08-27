@@ -1,8 +1,9 @@
 .wrapper {
-  padding: 40px;
+  padding: 20px 40px;
   min-height: 310px;
-  @media screen and (max-width: 767px) {
-    padding: 0 20px 40px 20px;
+
+  @media screen and (max-width: 768px) {
+    padding: 20px 10px;
   }
   hr {
     margin-top: 20px;

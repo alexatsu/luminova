@@ -1,6 +1,6 @@
 
 
-.page-preview-container {
+.pagePreviewContainer {
   display: block;
   position: relative;
   margin-bottom: 2rem;
@@ -12,7 +12,7 @@
     filter: brightness(60%);
   }
 
-  .main-text-section {
+  .mainTextSection {
     position: absolute;
     top: 25%;
     left: 0;
@@ -24,7 +24,7 @@
       top: 20%;
     }
 
-    .text-header {
+    .textHeader {
       font-size: 3.5rem;
       font-weight: bold;
       margin-bottom: 1rem;
@@ -33,7 +33,7 @@
       }
     }
 
-    .text-description {
+    .textDescription {
       line-height: 1.7rem;
       font-size: 1.2rem;
       word-break: break-word;
@@ -46,7 +46,7 @@
     }
   }
 
-  .license-text-section {
+  .licenseTextSection {
     position: absolute;
     bottom: 20px;
     color: grey;

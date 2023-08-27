@@ -4,10 +4,10 @@ import { AiOutlineUser } from "react-icons/ai";
 import { MdInsertPhoto, MdFavorite, MdCollections, MdBarChart } from "react-icons/md";
 import { Logo } from "@/components";
 
-import sass from "../sass/layouts/Profile.module.scss";
+import sass from "../../sass/pages/user/ProfileRoot.module.scss";
 import { MemoizedNavbar } from "@/layouts";
 
-export const Profile = () => {
+export const ProfileRoot = () => {
   const { userName } = useParams();
   const tabs = [
     {
@@ -33,19 +33,6 @@ export const Profile = () => {
   ];
 
   const { pathname } = useLocation();
-  const tabsData = tabs.map(({ title, path, icon }) => {
-    const isActive = pathname === path;
-    return (
-      <NavLink
-        key={path}
-        to={path}
-        style={isActive ? { color: "#111", borderBottom: "2px solid #111" } : { color: "gray" }}
-      >
-        {icon}
-        {title}
-      </NavLink>
-    );
-  });
 
   return (
     <div className={sass.profile}>
@@ -63,13 +50,29 @@ export const Profile = () => {
             </Link>
           </div>
           <p style={{ fontSize: "0.9rem" }}>
-            Download free, beautiful high-quality photos curated by USERNAME
+            Download free, beautiful high-quality photos curated by {userName}
           </p>
           <span style={{ color: "grey" }}>&#10006; Not avalible for hire</span>
         </div>
       </div>
 
-      <div className={sass.navigation}>{tabsData}</div>
+      <div className={sass.navigation}>
+        {tabs.map(({ title, path, icon }) => {
+          const isActive = pathname === path;
+          return (
+            <NavLink
+              key={path}
+              to={path}
+              style={
+                isActive ? { color: "#111", borderBottom: "2px solid #111" } : { color: "gray" }
+              }
+            >
+              {icon}
+              {title}
+            </NavLink>
+          );
+        })}
+      </div>
       <hr />
 
       <Outlet />

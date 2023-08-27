@@ -1,6 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MasonryImages } from "../../layouts";
-import { MemoizedNavbar } from "@/layouts";
+import { Footer, MemoizedNavbar } from "@/layouts";
 
 import { useAuth, useDebounce, useModal, useResizeWidth } from "@/hooks";
 import { useImages } from "../../hooks";
@@ -37,6 +37,7 @@ const { getCollectionById } = endpoints.collections;
 const userName = localStorage.getItem("userName");
 
 export function CollectionById() {
+  const [copied, setCopied] = useState(false);
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
   const { handleFetchError } = useAuth();
@@ -45,7 +46,7 @@ export function CollectionById() {
   const { collectionId } = useParams();
   const queryKey = ["collectionById", collectionId];
   const { data, status, updateFavoriteImages } = useImages(
-    () => getCollectionImages(collectionId),
+    () => getCollectionImagesById(collectionId),
     queryKey
   );
   const { images, collectionDescription, collectionName } = data || {};
@@ -55,7 +56,7 @@ export function CollectionById() {
     return <p>Error</p>;
   }
 
-  const getCollectionImages = async (id: string | undefined) => {
+  const getCollectionImagesById = async (id: string | undefined) => {
     type Fetch = { collection: Collection; error: string };
     const { collection, error }: Fetch = await handleFetch(getCollectionById, "POST", {
       collectionId: id,
@@ -77,6 +78,18 @@ export function CollectionById() {
     } as unknown as ImageResources;
   };
 
+  const copyCurrentPathToClipboard = async () => {
+    setCopied(true);
+
+    const timeout = setTimeout(() => {
+      const text = window.location.href;
+      navigator.clipboard.writeText(text);
+      setCopied(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  };
+  
   return (
     <>
       <header>
@@ -104,9 +117,13 @@ export function CollectionById() {
               <div className={sass.profileButtons}>
                 <button onClick={handleOpen}>Edit</button>
 
-                <button>
-                  <AiOutlineShareAlt />
-                </button>
+                {copied ? (
+                  <button>Copied!</button>
+                ) : (
+                  <button onClick={copyCurrentPathToClipboard}>
+                    <AiOutlineShareAlt />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -132,8 +149,7 @@ export function CollectionById() {
         </>
       )}
 
-      <section>recommendations</section>
-      <footer>Here goes footer</footer>
+      <Footer />
     </>
   );
 }

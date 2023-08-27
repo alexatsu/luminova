@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import { Home, Category, Join, Login, Promotion, Discover, Root } from "../pages";
-import { Profile, Account } from "../layouts";
+import { ProfileRoot } from "../pages/user";
+import { Account } from "../layouts";
 import { Error } from "../../../pages";
 import {
   CloseAccount,
@@ -47,7 +48,7 @@ export const core: RouteObject[] = [
   },
   {
     path: "/:userName",
-    element: <Profile />,
+    element: <ProfileRoot />,
     children: [
       {
         index: true,

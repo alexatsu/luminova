@@ -1,5 +1,5 @@
 import { MasonryImages, PagePreview } from "../layouts";
-import { PageWrapper } from "../components";
+import { PageWrapper } from "../layouts";
 import { Loader } from "@/components";
 import { useImages } from "../hooks";
 

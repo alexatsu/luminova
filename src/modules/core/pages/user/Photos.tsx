@@ -4,7 +4,7 @@ import { useDebounce, useResizeWidth } from "@/hooks";
 import { MasonryImages } from "../../layouts";
 import { downloadImage } from "../../utils";
 import { endpoints } from "@/utils";
-import { PageWrapper } from "../../components";
+import { PageWrapper } from "../../layouts";
 import { Loader } from "@/components";
 import { images } from "../../services/api";
 import { useParams } from "react-router-dom";

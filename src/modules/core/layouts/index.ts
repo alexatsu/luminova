@@ -1,6 +1,4 @@
-import { MasonryImages } from "./MasonryImages";
-import { Profile } from "./Profile";
-import { PagePreview } from "./PagePreview";
-import { Account } from "./Account";
-
-export { MasonryImages, Profile, PagePreview, Account };
+export { MasonryImages } from "./MasonryImages";
+export { PagePreview } from "./PagePreview";
+export { Account } from "../pages/user/Account/Account";
+export { PageWrapper } from "./PageWrapper";

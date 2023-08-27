@@ -11,7 +11,6 @@ import { SearchInput, ModalContainer, UploadModal } from "@/components/form";
 
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
-
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 import { memo } from "react";
@@ -24,7 +23,7 @@ export const MemoizedNavbar = memo(function Navbar() {
   const { logoutUser } = useAuth();
 
   return (
-    <nav style={{paddingTop: "10px"}}>
+    <nav style={{ paddingTop: "10px" }}>
       <Box sx={navstyles.container}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
           <Link to="/" style={{ marginRight: "1rem", marginBottom: "-5px" }}>
@@ -86,7 +85,6 @@ function PageButton({ path }: { path: string }) {
   );
 }
 
-
 function UserMenu({
   logoutUser,
   accessToken,
@@ -116,8 +114,12 @@ function UserMenu({
         <Link to={`/${userName}`} style={{ textDecoration: "none" }}>
           <Menu.Item>View Profile</Menu.Item>
         </Link>
-        <Menu.Item>Stats</Menu.Item>
-        <Menu.Item>Account settings</Menu.Item>
+        <Link to={`/${userName}/stats`} style={{ textDecoration: "none" }}>
+          <Menu.Item>Stats</Menu.Item>
+        </Link>
+        <Link to={`/account`} style={{ textDecoration: "none" }}>
+          <Menu.Item>Account settings</Menu.Item>
+        </Link>
         <Menu.Divider />
         <Menu.Item onClick={() => logoutUser(accessToken!, navigate)}>Logout @{userName}</Menu.Item>
       </Menu.Dropdown>

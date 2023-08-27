@@ -1,6 +1,6 @@
-import { FormInput } from "../../components/FormInput";
+import { FormInput } from "../../../components/FormInput";
 
-import sass from "../../sass/user/CloseAccount.module.scss";
+import sass from "../../../sass/pages/user/CloseAccount.module.scss";
 
 export const CloseAccount = () => {
   return (

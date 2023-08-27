@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import sass from "../../sass/user/Collections.module.scss";
+import sass from "../../sass/pages/user/Collections.module.scss";
 import { Link } from "react-router-dom";
 import { endpoints, handleFetch } from "@/utils";
 import { useAuth } from "@/hooks";
@@ -23,19 +23,18 @@ export const Collections = () => {
   const [data, setData] = useState<Collection>([]);
   const userName = localStorage.getItem("userName");
   const { handleFetchError } = useAuth();
-  
 
   const fetchErrorRef = useRef((error: string) => handleFetchError(error));
 
+  const getCollections = async () => {
+    type Fetch = { collection: Collection; error: string };
+    const { collection, error }: Fetch = await handleFetch(profile);
+
+    if (fetchErrorRef.current(error)) return;
+    setData(collection);
+  };
+
   useEffect(() => {
-    const getCollections = async () => {
-      type Fetch = { collection: Collection; error: string };
-      const { collection, error }: Fetch = await handleFetch(profile);
-
-      if (fetchErrorRef.current(error)) return;
-      setData(collection);
-    };
-
     getCollections();
   }, []);
 

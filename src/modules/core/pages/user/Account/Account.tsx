@@ -2,7 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { Footer } from "@/layouts";
 
-import sass from "../sass/layouts/Account.module.scss";
+import sass from "../../../sass/pages/user/Account.module.scss";
 import { MemoizedNavbar } from "@/layouts";
 
 const dataPoints = [
@@ -22,16 +22,6 @@ const dataPoints = [
 
 export const Account = () => {
   const { pathname } = useLocation();
-  const points = dataPoints.map(({ title, path }) => {
-    const isActive = pathname === path;
-    return (
-      <li key={title}>
-        <NavLink to={path} style={isActive ? { color: "#111", textDecoration: "none" } : undefined}>
-          {title}
-        </NavLink>
-      </li>
-    );
-  });
 
   return (
     <div className={sass.container}>
@@ -40,7 +30,21 @@ export const Account = () => {
       <div className={sass.wrapper}>
         <div className={sass.sidebar}>
           <h2>Account settings</h2>
-          <ul>{points}</ul>
+          <ul>
+            {dataPoints.map(({ title, path }) => {
+              const isActive = pathname === path;
+              return (
+                <li key={title}>
+                  <NavLink
+                    to={path}
+                    style={isActive ? { color: "#111", textDecoration: "none" } : undefined}
+                  >
+                    {title}
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
         </div>
         <main>
           <Outlet />

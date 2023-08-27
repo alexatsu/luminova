@@ -1,6 +1,6 @@
-import { FormInput } from "../../components/FormInput";
+import { FormInput } from "../../../components/FormInput";
 
-import sass from "../../sass/user/ChangePass.module.scss";
+import sass from "../../../sass/pages/user/ChangePass.module.scss";
 
 export const ChangePass = () => {
   return (

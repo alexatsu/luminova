@@ -1,3 +1,1 @@
-import { PageWrapper } from "./PageWrapper";
-
-export { PageWrapper };
+export { FormInput } from "./FormInput";
