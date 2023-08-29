@@ -3,7 +3,7 @@ import { Button, Menu, Text, useMantineTheme } from "@mantine/core";
 export function MenuList() {
   const theme = useMantineTheme();
   return (
-    <>
+    <div>
       <Menu
         transitionProps={{ transition: "pop-top-right" }}
         position="top-end"
@@ -70,6 +70,6 @@ export function MenuList() {
           </Menu.Item>
         </Menu.Dropdown>
       </Menu>
-    </>
+    </div>
   );
 }

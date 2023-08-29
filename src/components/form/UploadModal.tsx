@@ -114,7 +114,7 @@ export function UploadModal({
   containerRef.current
     ? containerRef.current.style.setProperty("--top", `calc(50% + ${window.scrollY}px)`)
     : null;
-
+//TODO, forgot to add inner wrapper
   return (
     <div ref={containerRef} className={sass.modalContainer}>
       <section className={sass.sectionTop}>
@@ -137,7 +137,7 @@ export function UploadModal({
       ) : loading ? (
         <Loader style={{ margin: "auto" }} />
       ) : (
-        <>
+        <div>
           <form className={sass.sectionForm} encType="multipart/form-data">
             <input
               id="upload"
@@ -150,16 +150,16 @@ export function UploadModal({
             />
 
             {width < 768 && (
-              <>
+              <div>
                 {imageUrls.length < 10 && (
                   <Uploader className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn} />
                 )}
-              </>
+              </div>
             )}
 
             <ul className={sass.imageList}>
               {width >= 768 && (
-                <>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</>
+                <div>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</div>
               )}
 
               {imageUrls.map(({ blob, small }) => {
@@ -213,7 +213,7 @@ export function UploadModal({
               Read the <Link to={"/tos/license"}>Luminova License</Link>
             </p>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
@@ -221,11 +221,11 @@ export function UploadModal({
 
 function Uploader({ className }: { className: string }) {
   return (
-    <>
+    <div>
       <label htmlFor="upload" className={className}>
         <img src={uploadImg} alt="upload" />
         <div>Add your photos here</div>
       </label>
-    </>
+    </div>
   );
 }

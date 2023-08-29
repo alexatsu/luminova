@@ -36,7 +36,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
       cols={width > 993 ? 3 : width >= 768 ? 2 : 1}
       gap={8}
     >
-      <>
+      <div>
         {data?.map(({ public_id, url, filename, favorite, inCollection }) => (
           <ImageListItem
             className={sass.imageListItem}
@@ -87,7 +87,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
             </div>
           </ImageListItem>
         ))}
-      </>
+      </div>
     </ImageList>
   );
 }
@@ -187,7 +187,7 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
   const sortedCollections = sortDescending(data || []);
 
   return (
-    <>
+    <div>
       {extend ? (
         <fieldset>
           <FormInput
@@ -271,6 +271,6 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
           </div>
         </Menu.Item>
       ))}
-    </>
+    </div>
   );
 };

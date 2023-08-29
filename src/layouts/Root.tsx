@@ -4,10 +4,10 @@ import { Footer } from "./Footer";
 
 export function Root() {
   return (
-    <>
+    <div>
       <MemoizedNavbar />
       <Outlet />
       <Footer />
-    </>
+    </div>
   );
 }

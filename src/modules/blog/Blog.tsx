@@ -106,7 +106,7 @@ const Blog = () => {
   ]);
 
   return (
-    <>
+    <div>
       <nav className={"navigation"}>
         <Link to="/">
           <h1 className={"logo"}>Luminova</h1>
@@ -165,7 +165,7 @@ const Blog = () => {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 };
 

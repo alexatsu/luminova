@@ -24,7 +24,7 @@ export const FormInput: FC<FormProps> = ({
   setValue,
 }) => {
   return (
-    <>
+    <div>
       <div className={sass.form} style={{ marginTop: "20px" }}>
         <label htmlFor={attribute}>
           {label} <span>{span}</span>
@@ -39,6 +39,6 @@ export const FormInput: FC<FormProps> = ({
           onChange={(e) => setValue?.(e.target.value)}
         />
       </div>
-    </>
+    </div>
   );
 };

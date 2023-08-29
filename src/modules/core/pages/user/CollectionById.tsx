@@ -89,9 +89,9 @@ export function CollectionById() {
 
     return () => clearTimeout(timeout);
   };
-  
+
   return (
-    <>
+    <div>
       <header>
         <MemoizedNavbar />
       </header>
@@ -99,7 +99,7 @@ export function CollectionById() {
       {status === "loading" ? (
         <Loader style={{ margin: " auto " }} />
       ) : (
-        <>
+        <div>
           <section className={sass.topWrapper}>
             <div className={sass.collectionInfo}>
               <h1 className={sass.colName}>{collectionName}</h1>
@@ -146,11 +146,11 @@ export function CollectionById() {
           <ModalContainer modalOpen={modalOpen}>
             <EditModal handleClose={handleClose} collectionData={data} />
           </ModalContainer>
-        </>
+        </div>
       )}
 
       <Footer />
-    </>
+    </div>
   );
 }
 

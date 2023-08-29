@@ -5,13 +5,13 @@ import { Footer, MemoizedNavbar } from "@/layouts";
 
 export function Root() {
   return (
-    <>
+    <div>
       <MemoizedNavbar />
       <AssistNav />
       <Outlet />
       <ScrollTopButton />
       <Footer />
       <ProgressBar />
-    </>
+    </div>
   );
 }

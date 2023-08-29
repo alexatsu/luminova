@@ -8,7 +8,7 @@ type IBlogCardProps = {
 
 const BlogCard = (props: IBlogCardProps) => {
     return (
-        <>
+        <div>
             <div className="post-card">
                 <a href="#" className="post-card__link" title="Read: Somthing"></a>
                 <div className="post-card__img-container">
@@ -26,7 +26,7 @@ const BlogCard = (props: IBlogCardProps) => {
                     </span>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

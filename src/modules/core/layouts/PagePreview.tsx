@@ -25,7 +25,7 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
         onLoad={handleImageLoad}
       />
       {imgLoaded && (
-        <>
+        <div>
           <section className={sass.mainTextSection }>
             <h1 className={sass.textHeader}>{title}</h1>
             <p className={sass.textDescription}>{description}</p>
@@ -49,7 +49,7 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
               Read more about the <Link to={"/tos/license"}>Luminova License</Link>
             </span>
           </section>
-        </>
+        </div>
       )}
     </div>
   );

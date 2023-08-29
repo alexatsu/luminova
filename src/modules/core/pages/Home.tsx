@@ -30,7 +30,7 @@ export function Home() {
       {status === "loading" ? (
         <Loader style={{ margin: " auto " }} />
       ) : (
-        <>
+        <div>
           <PagePreview
             imgURL={pagePreview?.img}
             title={"Luminova"}
@@ -42,7 +42,7 @@ export function Home() {
             updateFavImages={updateFavoriteImages}
             download={downloadImage}
           />
-        </>
+        </div>
       )}
     </PageWrapper>
   );

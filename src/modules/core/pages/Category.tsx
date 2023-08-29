@@ -37,7 +37,7 @@ export function Category() {
       {status === "loading" ? (
         <Loader style={{ margin: " auto " }} />
       ) : (
-        <>
+        <div>
           <PagePreview
             imgURL={pagePreview?.img}
             title={title}
@@ -50,7 +50,7 @@ export function Category() {
             updateFavImages={updateFavoriteImages}
             download={downloadImage}
           />
-        </>
+        </div>
       )}
 
       <ModalContainer modalOpen={modalOpen}>
