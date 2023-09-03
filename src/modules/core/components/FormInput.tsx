@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import sass from "../sass/components/FormInput.module.scss";
-
+//todo, remove it
 interface FormProps {
   label: string;
   span?: string;
