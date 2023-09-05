@@ -19,6 +19,11 @@ const endpoints = {
     getCollectionById: `${collections}/openbyid`,
     updateImg: `${collections}/updateimage`,
     create: `${collections}/create`,
+    edit: `${collections}/edit`,
+    delete: `${collections}/delete`,
+  },
+  cdn: {
+    cloudinary: `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996`,
   },
 };
 

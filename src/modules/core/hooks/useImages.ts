@@ -15,7 +15,7 @@ export const useImages = (
   const accessToken = localStorage.getItem("accessToken");
   const queryKey = [key, queryFunc];
 
-  const { data, status } = useQuery({
+  const { data, status, error } = useQuery({
     queryKey: queryKey,
     queryFn: queryFunc,
     refetchOnWindowFocus: false,
@@ -80,7 +80,7 @@ export const useImages = (
     },
   });
 
-  return { data, status, updateFavoriteImages };
+  return { data, error, status, updateFavoriteImages };
 };
 
 export type UseImagesReturn = ReturnType<typeof useImages>;

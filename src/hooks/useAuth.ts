@@ -105,6 +105,7 @@ const useAuth = () => {
   };
 
   const handleFetchError = (error: string) => {
+    console.log("im called")
     if (error === "Refresh token is missing" || error === "User not found") {
       navigate("/login");
       localStorage.removeItem("accessToken");

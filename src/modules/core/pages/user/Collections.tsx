@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-
 import sass from "../../sass/pages/user/Collections.module.scss";
 import { Link } from "react-router-dom";
 import { endpoints, handleFetch } from "@/utils";
 import { useAuth } from "@/hooks";
 import greyBack from "@/assets/greyBack.jpg";
+import { useCollections } from "../../hooks";
 
 type Collection = {
   id: number;
@@ -14,37 +13,38 @@ type Collection = {
   collectionImages: { id: number; public_id: string }[];
 }[];
 
-const { profile } = endpoints.collections;
 const { listItem, preview, rightBlock, leftBlock, title, info, wrapper } = sass;
-const url = `https://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996`;
 const fallBack = <img src={greyBack} alt={"fallBack"} />;
+const { cdn, collections } = endpoints;
+const userName = localStorage.getItem("userName") || undefined;
 
 export const Collections = () => {
-  const [data, setData] = useState<Collection>([]);
-  const userName = localStorage.getItem("userName");
   const { handleFetchError } = useAuth();
-
-  const fetchErrorRef = useRef((error: string) => handleFetchError(error));
 
   const getCollections = async () => {
     type Fetch = { collection: Collection; error: string };
-    const { collection, error }: Fetch = await handleFetch(profile);
+    const { collection, error }: Fetch = await handleFetch(collections.profile);
 
-    if (fetchErrorRef.current(error)) return;
-    setData(collection);
+    if (handleFetchError(error)) return;
+    return collection;
   };
 
-  useEffect(() => {
-    getCollections();
-  }, []);
+  const queryKey = ["collections", userName];
+  const {
+    getCollections: { data, status },
+  } = useCollections(queryKey, () => getCollections());
 
   const filterEmptyCollections = data?.filter((item) => item.collectionImages.length > 0);
 
+  if (status === "error") {
+    return <p>Error</p>;
+  }
+
   return (
     <div className={listItem}>
-      {filterEmptyCollections.map(({ name, id, collectionImages }) => {
+      {filterEmptyCollections?.map(({ name, id, collectionImages }) => {
         const { length } = collectionImages;
-        const img = collectionImages.map(({ public_id }) => `${url}/${public_id}`);
+        const img = collectionImages.map(({ public_id }) => `${cdn.cloudinary}/${public_id}`);
 
         return (
           <div key={name} className={wrapper}>

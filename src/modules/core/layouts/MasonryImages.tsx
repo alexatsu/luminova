@@ -1,4 +1,4 @@
-import { UseMutateFunction, useMutation, useQuery } from "@tanstack/react-query";
+import { UseMutateFunction } from "@tanstack/react-query";
 import { Menu } from "@mantine/core";
 import { IconButton, ImageList, ImageListItem } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
@@ -6,10 +6,8 @@ import { Resources } from "@/types";
 
 import sass from "../sass/layouts/MasonryImages.module.scss";
 import { useAuth } from "@/hooks";
-import { queryClient } from "@/main";
 import { endpoints, handleFetch } from "@/utils";
-import { useState } from "react";
-import { FormInput } from "../components";
+import { useCollections } from "../hooks";
 
 type MasonryImagesProps = {
   width: number;
@@ -72,9 +70,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
               >
                 <Menu.Target>
                   <IconButton
-                    className={
-                      inCollection ? sass.collectionButtonActive : sass.collectionButton
-                    }
+                    className={inCollection ? sass.collectionButtonActive : sass.collectionButton}
                   >
                     <AiOutlinePlus size={20} />
                   </IconButton>
@@ -92,7 +88,6 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
   );
 }
 
-
 type Collection = {
   id: number;
   name: string;
@@ -107,77 +102,26 @@ type Response = {
   error: string;
 };
 
-const cdnUrl = "https://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996";
-const { profile, updateImg, create } = endpoints.collections;
+const { collections, cdn } = endpoints;
 
 export const CollectionForm = ({ public_id }: { public_id: string }) => {
-  const [extend, setExtend] = useState(false);
-  const [collectionStatus, setCollectionStatus] = useState<{ [id: number]: boolean }>({});
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const { handleFetchError } = useAuth();
 
   const getCollections = async () => {
-    const { collection, error }: Response = await handleFetch(profile);
+    const { collection, error }: Response = await handleFetch(collections.profile);
 
     if (handleFetchError(error)) return;
     return collection;
   };
 
   const queryKey = ["collections"];
-  const { data, status } = useQuery({ queryFn: getCollections, queryKey });
+  const {
+    getCollections: { data, status },
+    createCollections: { createCollection, collectionData, setCollectionData },
+    updateImagesInCollection: { updateImageInCollection, collectionStatus },
+  } = useCollections(queryKey, () => getCollections());
 
-  const { mutate: createCollection } = useMutation({
-    mutationFn: async () => {
-      const { collection, error }: Response = await handleFetch(create, "POST", {
-        name: name,
-        description: description,
-      });
-
-      if (handleFetchError(error)) return;
-      setExtend(false);
-      return collection;
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKey });
-    },
-
-    onError: (err) => {
-      console.log(err, "error creating collection");
-    },
-  });
-
-  const { mutate: updateImageInCollection } = useMutation({
-    mutationFn: async ({ id, public_id }: { id: number; public_id: string }) => {
-      setCollectionStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
-
-      const response = await handleFetch(updateImg, "POST", {
-        collectionId: id,
-        public_id: public_id,
-      });
-
-      if (handleFetchError(response.error)) return;
-      return response;
-    },
-
-    onSuccess: (data, { id }) => {
-      setCollectionStatus((prevStatus) => ({ ...prevStatus, [id]: true }));
-      queryClient.invalidateQueries({ queryKey: queryKey });
-      setTimeout(() => setCollectionStatus((prev) => ({ ...prev, [id]: false })), 500);
-    },
-
-    onError: (err, { id }) => {
-      setCollectionStatus((prevStatus) => ({ ...prevStatus, [id]: false }));
-      console.log(err, "error updating images in collection");
-    },
-  });
-
-  const onClickCancel = () => {
-    setExtend(false);
-    setName("");
-    setDescription("");
-  };
+  const onClickCancel = () => setCollectionData({ name: "", description: "", extend: false });
 
   const ifImageInCollection = (collectionImages: { id: number; public_id: string }[]) => {
     return collectionImages.some((img) => img.public_id === public_id);
@@ -188,17 +132,20 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
 
   return (
     <div>
-      {extend ? (
+      {collectionData.extend ? (
         <fieldset>
-          <FormInput
-            label={"Collection name"}
-            type={"text"}
-            attribute={"name"}
-            autocomplete="off"
-            placeholder="Limitnova"
-            value={name}
-            setValue={setName}
-          />
+          <div className={sass.form} style={{ marginTop: "20px" }}>
+            <label htmlFor={"name"}>{"Collection name"}</label>
+            <input
+              type={"text"}
+              id={"name"}
+              name={"name"}
+              autoComplete={"off"}
+              placeholder={"Limitnova"}
+              value={collectionData.name}
+              onChange={(e) => setCollectionData((prev) => ({ ...prev, name: e.target.value }))}
+            />
+          </div>
 
           <div className={sass.textarea}>
             <label htmlFor="descr-collection">Description</label>
@@ -208,8 +155,10 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
               rows={5}
               autoComplete="on"
               placeholder=""
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={collectionData.description}
+              onChange={(e) =>
+                setCollectionData((prev) => ({ ...prev, description: e.target.value }))
+              }
             />
           </div>
 
@@ -227,7 +176,7 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
         <Menu.Item
           className={sass.menuItem}
           closeMenuOnClick={false}
-          onClick={() => setExtend((prev) => !prev)}
+          onClick={() => setCollectionData((prev) => ({ ...prev, extend: !prev.extend }))}
         >
           <span className={sass.newCollectionButton}>Create a new collection</span>
         </Menu.Item>
@@ -239,7 +188,7 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
         <Menu.Item className={sass.menuItem} key={id} closeMenuOnClick={false}>
           <div className={sass.imageWrapper}>
             {collectionImages.length > 0 ? (
-              <img src={`${cdnUrl}/${collectionImages[0].public_id}`} alt="cdnUrl" />
+              <img src={`${cdn.cloudinary}/${collectionImages[0].public_id}`} alt="cdnUrl" />
             ) : (
               <div style={{ height: "100px", backgroundColor: "black" }}>fallback</div>
             )}

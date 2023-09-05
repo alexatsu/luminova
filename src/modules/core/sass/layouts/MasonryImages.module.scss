@@ -1,3 +1,5 @@
+@use "../components/CollectionForm.module.scss";
+
 %btn {
   border-radius: 5px;
   width: 3rem;
@@ -91,5 +93,37 @@
   }
   &:hover button {
     opacity: 1;
+  }
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  @media screen and (max-width: 768px) {
+    &:nth-child(2) {
+      margin-top: 20px;
+    }
+  }
+  label {
+    margin-bottom: 7px;
+    span {
+      color: gray;
+    }
+  }
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgb(116, 116, 116);
+    border-radius: 3px;
+    transition: all 0.1s ease-in-out;
+    &:focus {
+      outline: none;
+      border: 1px solid rgb(36, 36, 36);
+    }
+  }
+  &:first-child {
+    margin-right: 20px;
   }
 }

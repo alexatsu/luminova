@@ -114,7 +114,7 @@ export function UploadModal({
   containerRef.current
     ? containerRef.current.style.setProperty("--top", `calc(50% + ${window.scrollY}px)`)
     : null;
-//TODO, forgot to add inner wrapper
+  //TODO, forgot to add inner wrapper
   return (
     <div ref={containerRef} className={sass.modalContainer}>
       <section className={sass.sectionTop}>
@@ -137,95 +137,90 @@ export function UploadModal({
       ) : loading ? (
         <Loader style={{ margin: "auto" }} />
       ) : (
-        <div>
-          <form className={sass.sectionForm} encType="multipart/form-data">
-            <input
-              id="upload"
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              multiple
-              onChange={handleFileUpload}
-              disabled={imageUrls.length >= 10}
-            />
+        <form className={sass.sectionForm} encType="multipart/form-data">
+          <input
+            id="upload"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            multiple
+            onChange={handleFileUpload}
+            disabled={imageUrls.length >= 10}
+          />
 
-            {width < 768 && (
-              <div>
-                {imageUrls.length < 10 && (
-                  <Uploader className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn} />
-                )}
-              </div>
-            )}
-
-            <ul className={sass.imageList}>
-              {width >= 768 && (
-                <div>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</div>
+          {width < 768 && (
+            <div style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
+              {imageUrls.length < 10 && (
+                <Uploader className={imageUrls.length > 0 ? sass.filledImages : sass.uploadBtn} />
               )}
+            </div>
+          )}
 
-              {imageUrls.map(({ blob, small }) => {
-                return (
-                  <div key={blob} className={sass.imageContainer}>
-                    <li className={sass.imageItem}>
-                      <img src={blob} width={230} height={200} alt="upload" />
-                      <button onClick={() => removeImage(blob)}>
-                        <AiOutlineClose size={14} fontWeight={"bold"} />
-                      </button>
-                    </li>
-                    {small ? (
-                      <div className={sass.limit}>
-                        Current file did not meet the minimum size. Please upload images over
-                        2000x2000px. Please, provide better quality images or remove them.
-                      </div>
-                    ) : (
-                      <section className={sass.additionals}>
-                        <input type="text" placeholder="Add a tag" />
-                        <textarea
-                          rows={3}
-                          maxLength={600}
-                          placeholder="Add a description (optional)"
-                        />
-                      </section>
-                    )}
-                  </div>
-                );
-              })}
-            </ul>
-          </form>
-
-          <div className={sass.sumbitContainer}>
-            {imageUrls.length < 10 && (
-              <div style={{ padding: "10px" }}>
-                {filterSmallImages(imageUrls).length} images will be uploaded
-              </div>
+          <ul className={sass.imageList}>
+            {width >= 768 && (
+              <div>{imageUrls.length < 10 && <Uploader className={sass.uploadInList} />}</div>
             )}
 
-            {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
-            <button
-              onClick={(e) => onClickSubmit(e)}
-              className={
-                filterSmallImages(imageUrls).length < 1 ? sass.submitBtn : sass.submitBtnFilled
-              }
-            >
-              <span>Submit to Luminova</span>
-            </button>
-
-            <p className={sass.licenseText}>
-              Read the <Link to={"/tos/license"}>Luminova License</Link>
-            </p>
-          </div>
-        </div>
+            {imageUrls.map(({ blob, small }) => {
+              return (
+                <div key={blob} className={sass.imageContainer}>
+                  <li className={sass.imageItem}>
+                    <img src={blob} width={230} height={200} alt="upload" />
+                    <button onClick={() => removeImage(blob)}>
+                      <AiOutlineClose size={14} fontWeight={"bold"} />
+                    </button>
+                  </li>
+                  {small ? (
+                    <div className={sass.limit}>
+                      Current file did not meet the minimum size. Please upload images over
+                      2000x2000px. Please, provide better quality images or remove them.
+                    </div>
+                  ) : (
+                    <section className={sass.additionals}>
+                      <input type="text" placeholder="Add a tag" />
+                      <textarea
+                        rows={3}
+                        maxLength={600}
+                        placeholder="Add a description (optional)"
+                      />
+                    </section>
+                  )}
+                </div>
+              );
+            })}
+          </ul>
+        </form>
       )}
+      <div className={sass.sumbitContainer}>
+        {imageUrls.length < 10 && (
+          <div style={{ padding: "10px" }}>
+            {filterSmallImages(imageUrls).length} images will be uploaded
+          </div>
+        )}
+
+        {imageUrls.length >= 10 && <div style={{ color: "red" }}>Max 10 images</div>}
+        <button
+          onClick={(e) => onClickSubmit(e)}
+          className={
+            filterSmallImages(imageUrls).length < 1 ? sass.submitBtn : sass.submitBtnFilled
+          }
+        >
+          <span>Submit to Luminova</span>
+        </button>
+
+        <p className={sass.licenseText}>
+          Read the <Link to={"/tos/license"}>Luminova License</Link>
+        </p>
+      </div>
     </div>
   );
 }
 
 function Uploader({ className }: { className: string }) {
   return (
-    <div>
-      <label htmlFor="upload" className={className}>
-        <img src={uploadImg} alt="upload" />
-        <div>Add your photos here</div>
-      </label>
-    </div>
+    <label htmlFor="upload" className={className}>
+      <img src={uploadImg} alt="upload" />
+      <div>Add your photos here</div>
+    </label>
   );
 }

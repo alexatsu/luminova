@@ -33,7 +33,7 @@ type Collection = {
   }[];
 };
 
-const { getCollectionById } = endpoints.collections;
+const { collections, cdn } = endpoints;
 const userName = localStorage.getItem("userName");
 
 export function CollectionById() {
@@ -45,38 +45,40 @@ export function CollectionById() {
 
   const { collectionId } = useParams();
   const queryKey = ["collectionById", collectionId];
+
+  const getCollectionImagesById = async (id: string | undefined) => {
+    type Fetch = { collection: Collection; error: string };
+    const { collection, error }: Fetch = await handleFetch(collections.getCollectionById, "POST", {
+      collectionId: id,
+    });
+
+    if (handleFetchError(error)) return;
+
+    const { name, description } = collection;
+
+    const resources = collection.collectionImages.map((item) => {
+      return { ...item, url: `${cdn.cloudinary}/${item.public_id}` };
+    });
+
+    return {
+      collectionName: name,
+      collectionDescription: description,
+      images: resources,
+      collectionId: id,
+    } as unknown as ImageResources | undefined;
+  };
+
   const { data, status, updateFavoriteImages } = useImages(
     () => getCollectionImagesById(collectionId),
     queryKey
   );
+
   const { images, collectionDescription, collectionName } = data || {};
 
   // TODO Make error component
   if (status === "error") {
     return <p>Error</p>;
   }
-
-  const getCollectionImagesById = async (id: string | undefined) => {
-    type Fetch = { collection: Collection; error: string };
-    const { collection, error }: Fetch = await handleFetch(getCollectionById, "POST", {
-      collectionId: id,
-    });
-    const { name, description } = collection;
-
-    if (handleFetchError(error)) return;
-
-    const resources = collection.collectionImages.map((item) => {
-      const url = `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996`;
-      return { ...item, url: `${url}/${item.public_id}` };
-    });
-
-    return {
-      images: resources,
-      collectionName: name,
-      collectionDescription: description,
-      collectionId: id,
-    } as unknown as ImageResources;
-  };
 
   const copyCurrentPathToClipboard = async () => {
     setCopied(true);
@@ -161,14 +163,15 @@ type EditModal = {
 
 export function EditModal({ handleClose, collectionData }: EditModal) {
   const { collectionName, collectionDescription, collectionId } = collectionData as ImageResources;
-  const [collection, setCollection] = useState({
-    name: collectionName,
-    description: collectionDescription,
-  });
   const [confirmDeletion, setConfirmDeletion] = useState(false);
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
   const { handleFetchError } = useAuth();
+
+  const [collection, setCollection] = useState({
+    name: collectionName,
+    description: collectionDescription,
+  });
 
   type HandleCollection = (
     e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
@@ -179,11 +182,12 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
     setCollection((prev) => ({ ...prev, [name]: value }));
   };
 
-  const { mutate: editCollection } = useMutation({
+  const queryKey = ["collectionById", collectionId];
+  const { mutate: editCollectionById } = useMutation({
     mutationFn: async () => {
       const { name, description } = collection;
       const { error, message }: { error: string; message: string } = await handleFetch(
-        "http://localhost:8080/collections/edit",
+        collections.edit,
         "PUT",
         { collectionId, name, description }
       );
@@ -194,15 +198,15 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries(["collectionById", collectionId]);
+      queryClient.invalidateQueries(queryKey);
       window.location.reload();
     },
   });
 
-  const { mutate: deleteCollection } = useMutation({
+  const { mutate: deleteCollectionById } = useMutation({
     mutationFn: async () => {
       const { error, message }: { error: string; message: string } = await handleFetch(
-        `http://localhost:8080/collections/delete/${collectionId}`,
+        `${collections.delete}/${collectionId}`,
         "DELETE"
       );
 
@@ -212,10 +216,11 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries(["collectionById", collectionId]);
+      queryClient.invalidateQueries(queryKey);
       navigate(`/${userName}/collections`);
     },
   });
+
   return (
     <div className={sass.editModalWrapper}>
       <div className={sass.editModal}>
@@ -252,7 +257,7 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
             {confirmDeletion ? (
               <div className={sass.deleteConfirm}>
                 <span>Sure?</span>
-                <button className={sass.yesDelete} onClick={() => deleteCollection()}>
+                <button className={sass.yesDelete} onClick={() => deleteCollectionById()}>
                   Yes
                 </button>
                 <button className={sass.noDelete} onClick={() => setConfirmDeletion(false)}>
@@ -264,7 +269,7 @@ export function EditModal({ handleClose, collectionData }: EditModal) {
                 Delete Collection
               </button>
             )}
-            <button className={sass.save} type="submit" onClick={() => editCollection()}>
+            <button className={sass.save} type="submit" onClick={() => editCollectionById()}>
               Save
             </button>
           </div>

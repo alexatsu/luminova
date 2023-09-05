@@ -25,7 +25,7 @@
   transform: translate3d(-50%, -50%, 0);
   background-color: rgb(255, 255, 255);
   flex-direction: column;
-  @include flex(center, center);
+  @include flex(space-around, center);
 
   .section {
     &Top {
