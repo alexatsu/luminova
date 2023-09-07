@@ -61,7 +61,7 @@ export function EditProfile() {
             placeholder={"https://"}
           />
           <div className={sass.formAbout}>
-            <div className={sass.textarea} style={{ marginTop: "20px" }}>
+            <div className={sass.bio} style={{ marginTop: "20px" }}>
               <label htmlFor="bio">Bio</label>
               <textarea
                 id="bio"
@@ -76,15 +76,8 @@ export function EditProfile() {
                 {maxLength}
               </span>
             </div>
-            <FormInput
-              label={"Interests"}
-              span={"(maximum 5)"}
-              type={"text"}
-              attribute={"tags"}
-              autocomplete={"on"}
-              placeholder={"add a tag"}
-            />
-            <div className={sass.form} style={{ marginTop: "20px" }}>
+
+            <div className={sass.interests} style={{ marginTop: "20px" }}>
               <label htmlFor={"Interests"}>{"Interests"}</label>
               <input
                 type={"text"}
@@ -98,25 +91,29 @@ export function EditProfile() {
         </fieldset>
       </div>
       <div className={sass.section}>
-        <h2>Social</h2>
-        <fieldset>
-          <div className={sass.form}>
-            <FormInput
-              label={"Instagram username"}
+        <h2 style={{marginBottom: "20px"}}>Social</h2>
+        <div className={sass.socials}>
+          <div className={sass.inputs}>
+            <label htmlFor={"Instagram"}>{"Instagram"}</label>
+            <input
               type={"text"}
-              attribute={"instagram"}
-              autocomplete={"on"}
+              id={"tags"}
+              name={"tags"}
+              autoComplete={"on"}
               placeholder={"instagram"}
             />
-            <FormInput
-              label={"Twitter username"}
+          </div>
+          <div className={sass.inputs}>
+            <label htmlFor={"Twitter"}>{"Twitter"}</label>
+            <input
               type={"text"}
-              attribute={"twitter"}
-              autocomplete={"on"}
-              placeholder={"twitter"}
+              id={"tags"}
+              name={"tags"}
+              autoComplete={"on"}
+              placeholder={"Twitter"}
             />
           </div>
-        </fieldset>
+        </div>
       </div>
       <button type="submit">Update account</button>
     </div>
