@@ -114,7 +114,7 @@ export function UploadModal({
   containerRef.current
     ? containerRef.current.style.setProperty("--top", `calc(50% + ${window.scrollY}px)`)
     : null;
-  //TODO, forgot to add inner wrapper
+    
   return (
     <div ref={containerRef} className={sass.modalContainer}>
       <section className={sass.sectionTop}>

@@ -46,7 +46,7 @@ export const Account = () => {
             })}
           </ul>
         </div>
-        <main>
+        <main className={sass.main}>
           <Outlet />
         </main>
       </div>

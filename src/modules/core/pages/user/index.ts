@@ -1,11 +1,13 @@
-export { Photos } from "./Photos";
-export { Likes } from "./Likes";
-export { Collections } from "./Collections";
-export { Stats } from "./Stats";
-export { Edit } from "./Account/Edit";
-export { ChangePass } from "./Account/ChangePass";
-export { CloseAccount } from "./Account/CloseAccount";
-export { CollectionById } from "./CollectionById";
-export { ProfileRoot } from "./ProfileRoot";
-export { Account } from "./Account/Account";
+import { Photos } from "./Photos";
+import { Likes } from "./Likes";
+import { Collections } from "./Collections";
+import { CollectionById } from "./CollectionById";
+import { ProfileRoot } from "./ProfileRoot";
 
+export const userPages = {
+  Photos,
+  Likes,
+  Collections,
+  CollectionById,
+  ProfileRoot,
+};

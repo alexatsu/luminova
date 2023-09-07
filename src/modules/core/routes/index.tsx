@@ -1,18 +1,12 @@
 import { RouteObject } from "react-router-dom";
-import { Home, Category, Join, Login, Promotion, Discover, Root } from "../pages";
-import { ProfileRoot } from "../pages/user";
-import { Account } from "../layouts";
+
 import { Error } from "../../../pages";
-import {
-  CloseAccount,
-  ChangePass,
-  Collections,
-  Edit,
-  Likes,
-  Photos,
-  Stats,
-  CollectionById,
-} from "../pages/user";
+import { Home, Category, Join, Login, Promotion, Discover, Root } from "../pages";
+import { userPages } from "../pages/user";
+import { accountPages } from "../pages/user/account";
+
+const { Account, ChangePass, CloseAccount, EditProfile } = accountPages;
+const { Photos, Likes, Collections, CollectionById, ProfileRoot } = userPages;
 
 export const core: RouteObject[] = [
   {
@@ -46,6 +40,7 @@ export const core: RouteObject[] = [
     path: "discover",
     element: <Discover />,
   },
+
   {
     path: "/:userName",
     element: <ProfileRoot />,
@@ -62,23 +57,20 @@ export const core: RouteObject[] = [
         path: "collections",
         element: <Collections />,
       },
-      {
-        path: "stats",
-        element: <Stats />,
-      },
     ],
   },
   {
     path: "collections/:collectionId",
     element: <CollectionById />,
   },
+
   {
     path: "/account",
     element: <Account />,
     children: [
       {
         index: true,
-        element: <Edit />,
+        element: <EditProfile />,
       },
       {
         path: "password",

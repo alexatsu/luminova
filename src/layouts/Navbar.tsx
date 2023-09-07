@@ -114,9 +114,7 @@ function UserMenu({
         <Link to={`/${userName}`} style={{ textDecoration: "none" }}>
           <Menu.Item>View Profile</Menu.Item>
         </Link>
-        <Link to={`/${userName}/stats`} style={{ textDecoration: "none" }}>
-          <Menu.Item>Stats</Menu.Item>
-        </Link>
+
         <Link to={`/account`} style={{ textDecoration: "none" }}>
           <Menu.Item>Account settings</Menu.Item>
         </Link>

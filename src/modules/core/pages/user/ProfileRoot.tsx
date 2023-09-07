@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom";
 
 import { AiOutlineUser } from "react-icons/ai";
-import { MdInsertPhoto, MdFavorite, MdCollections, MdBarChart } from "react-icons/md";
+import { MdInsertPhoto, MdFavorite, MdCollections} from "react-icons/md";
 import { Logo } from "@/components";
 
 import sass from "../../sass/pages/user/ProfileRoot.module.scss";
@@ -25,11 +25,6 @@ export const ProfileRoot = () => {
       title: "Collections",
       path: `/${userName}/collections`,
     },
-    {
-      icon: <MdBarChart />,
-      title: "Stats",
-      path: `/${userName}/stats`,
-    },
   ];
 
   const { pathname } = useLocation();
@@ -52,7 +47,6 @@ export const ProfileRoot = () => {
           <p style={{ fontSize: "0.9rem" }}>
             Download free, beautiful high-quality photos curated by {userName}
           </p>
-          <span style={{ color: "grey" }}>&#10006; Not avalible for hire</span>
         </div>
       </div>
 

@@ -4,7 +4,7 @@ import { FormInput } from "../../../components/FormInput";
 
 import sass from "../../../sass/pages/user/Edit.module.scss";
 
-export const Edit = () => {
+export function EditProfile() {
   const [bioValue, setBioValue] = useState("");
   const maxLength = 250 - bioValue.length;
 
@@ -84,6 +84,16 @@ export const Edit = () => {
               autocomplete={"on"}
               placeholder={"add a tag"}
             />
+            <div className={sass.form} style={{ marginTop: "20px" }}>
+              <label htmlFor={"Interests"}>{"Interests"}</label>
+              <input
+                type={"text"}
+                id={"tags"}
+                name={"tags"}
+                autoComplete={"on"}
+                placeholder={"add a tag"}
+              />
+            </div>
           </div>
         </fieldset>
       </div>
@@ -111,4 +121,4 @@ export const Edit = () => {
       <button type="submit">Update account</button>
     </div>
   );
-};
+}

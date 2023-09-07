@@ -6,23 +6,25 @@
 
   .wrapper {
     display: flex;
-    margin-top: 50px;
-    padding: 0 100px;
-    @media screen and (max-width: 1440px) {
-      padding: 0 100px;
-    }
-    @media screen and (max-width: 935px) {
-      padding: 0 20px;
-    }
+    padding: 20px 40px;
     @media screen and (max-width: 768px) {
-      display: block;
+      padding: 0;
     }
     .sidebar {
       min-width: 230px;
-      margin-bottom: 50px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+
       ul {
         li {
           margin-top: 15px;
+          margin-bottom: 20px;
           list-style-type: none;
           a {
             text-decoration: none;
@@ -41,9 +43,12 @@
         font-weight: 600;
       }
     }
-    main {
+    .main {
       width: 100%;
-      padding-bottom: 40px;
+      padding: 0 5%;
+      @media screen and (max-width: 768px) {
+        padding: 20px 10px;
+      }
     }
   }
 }
