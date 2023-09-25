@@ -3,7 +3,7 @@
     font-weight: 600;
     font-size: 1.1rem;
   }
-  p {
+  .warning {
     margin-top: 20px;
     span {
       color: rgb(224, 94, 77);
@@ -13,8 +13,28 @@
   fieldset {
     border: 0;
   }
+  .form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    & > input {
+      width: 100%;
+      margin-top: 7px;
+      margin-bottom: 5px;
+      padding: 10px 12px;
+      border: 1px solid rgb(116, 116, 116);
+      border-radius: 3px;
+      transition: all 0.1s ease-in-out;
+
+      &:focus {
+        outline: none;
+        border: 1px solid rgb(36, 36, 36);
+      }
+    }
+  }
   button {
     margin-top: 20px;
+    margin-bottom: 10px;
     width: 200px;
     height: 45px;
     border: none;
@@ -29,5 +49,9 @@
     &:hover {
       background-color: rgb(207, 80, 63);
     }
+  }
+  .errorMessage {
+    color: red;
+    text-align: center;
   }
 }

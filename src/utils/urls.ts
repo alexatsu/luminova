@@ -3,6 +3,7 @@ import { env } from "./env";
 const baseURL = env("BASE_URL");
 const images = `${baseURL}/images`;
 const collections = `${baseURL}/collections`;
+const user = `${baseURL}/user`;
 
 const endpoints = {
   images: {
@@ -21,6 +22,12 @@ const endpoints = {
     create: `${collections}/create`,
     edit: `${collections}/edit`,
     delete: `${collections}/delete`,
+  },
+  user: {
+    getProfileData: `${user}/getprofiledata`,
+    updateProfileData: `${user}/updateprofiledata`,
+    changePassword: `${user}/changepassword`,
+    closeAccount: `${user}/closeaccount`,
   },
   cdn: {
     cloudinary: `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996`,

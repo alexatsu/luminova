@@ -8,6 +8,9 @@ import uploadImg from "@/assets/uploadImg.jpg";
 import sass from "@/styles/components/UploadModal.module.scss";
 import { Loader } from "../Loader";
 
+
+const userName = localStorage.getItem("userName") as string;
+
 type UploadProps = {
   handleClose: () => void;
   category?: string | undefined;
@@ -130,7 +133,7 @@ export function UploadModal({
             <AiOutlineCheck className={sass.uploadedIcon} />
           </div>
           <p>Uploaded {filterSmallImages(imageUrls).length} images</p>
-          <Link to="/profile">
+          <Link to={`/${userName}`}>
             <button onClick={handleClose}>View your profile</button>
           </Link>
         </div>

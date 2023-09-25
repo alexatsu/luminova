@@ -1,63 +1,106 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
+import { useQuery } from "@tanstack/react-query";
+
+import { queryClient } from "@/main";
+import { endpoints, handleFetch } from "@/utils";
+import { Loader } from "@/components";
+import { useAuth } from "@/hooks";
 
 import sass from "../../../sass/pages/user/Edit.module.scss";
-import { useQuery } from "@tanstack/react-query";
-import { handleFetch } from "@/utils";
 
 type PersonalData = {
+  email: string;
+  name: string;
   personalInfo: {
-    id: number;
-    user_id: string;
-    firstName: string | null;
-    lastName: string | null;
-    personalSite: string | null;
-    bio: string | null;
-    instagram: string | null;
-    twitter: string | null;
-  };
-  email: string | null;
-  name: string | null;
+    firstName: string;
+    lastName: string;
+    personalSite: string;
+    bio: string;
+    instagram: string;
+    twitter: string;
+  } | null;
 };
 
 type HandleInput = (
   e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
 ) => void;
 
+const { user } = endpoints;
+
 export function EditProfile() {
+  const { handleFetchError } = useAuth();
+  const [updating, setUpdating] = useState(false);
+
   const { data, status } = useQuery({
     queryKey: ["profileData"],
     queryFn: async () => {
-      const { data }: { data: PersonalData } = await handleFetch(
-        "http://localhost:8080/user/getprofiledata"
+      const { data, error }: { data: PersonalData; error: string } = await handleFetch(
+        user.getProfileData
       );
+
+      if (handleFetchError(error)) return;
       return data;
     },
   });
 
-  const { personalInfo, email, name } = data || {};
-  const { firstName, lastName, personalSite, bio, instagram, twitter } = personalInfo || {};
   const [form, setForm] = useState({
-    firstName,
-    lastName,
-    personalSite,
-    bio,
-    instagram,
-    twitter,
-    email,
-    name,
+    firstName: "",
+    lastName: "",
+    personalSite: "",
+    bio: "",
+    instagram: "",
+    twitter: "",
   });
 
-  const maxLength = form.bio && 250 - form.bio.length;
+  const bio = form.bio;
+  const maxLength = bio && 250 - bio.length;
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-
-  const handleInputChange: HandleInput = (e) => {
+  const handleInputChange: HandleInput = (e): void => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
+
+  useEffect(() => {
+    const { firstName, lastName, personalSite, bio, instagram, twitter } = data?.personalInfo || {};
+    if (data) {
+      setForm((prev) => ({
+        ...prev,
+        firstName: firstName || "",
+        lastName: lastName || "",
+        personalSite: personalSite || "",
+        bio: bio || "",
+        instagram: instagram || "",
+        twitter: twitter || "",
+        email: data.email,
+        name: data.name,
+      }));
+    }
+  }, [data]);
+
+  const submitUpdatedProfile = async (form: PersonalData["personalInfo"]) => {
+    setUpdating(true);
+
+    const { firstName, lastName, personalSite, bio, instagram, twitter } = form || {};
+    const response = await handleFetch(user.updateProfileData, "PUT", {
+      firstName,
+      lastName,
+      personalSite,
+      bio,
+      instagram,
+      twitter,
+      email: data?.email,
+    });
+
+    queryClient.invalidateQueries(["profileData"]);
+    setUpdating(false);
+    return response;
+  };
+
+  if (status === "loading") {
+    return <Loader style={{ margin: "0 auto" }} />;
+  }
+
   return (
     <div className={sass.wrapper}>
       <h2>Edit Profile</h2>
@@ -76,20 +119,20 @@ export function EditProfile() {
                 name={"firstName"}
                 autoComplete={"given-name"}
                 placeholder={"First name"}
-                value={form.firstName || ""}
+                value={form.firstName}
                 onChange={handleInputChange}
               />
             </div>
 
             <div>
-              <label htmlFor={"last-name"}>{"Last name"}</label>
+              <label htmlFor={"lastName"}>{"Last name"}</label>
               <input
                 type={"text"}
-                id={"last-name"}
-                name={"last-name"}
+                id={"lastName"}
+                name={"lastName"}
                 autoComplete={"family-name"}
                 placeholder={"Last name"}
-                value={form.lastName || ""}
+                value={form.lastName}
                 onChange={handleInputChange}
               />
             </div>
@@ -104,8 +147,8 @@ export function EditProfile() {
                 name={"email"}
                 autoComplete={"email"}
                 placeholder={"Email"}
-                value={form.email || ""}
-                onChange={handleInputChange}
+                value={data?.email}
+                disabled
               />
             </div>
 
@@ -117,8 +160,8 @@ export function EditProfile() {
                 name={"username"}
                 autoComplete={"username"}
                 placeholder={"Username"}
-                value={form.name || ""}
-                onChange={handleInputChange}
+                value={data?.name}
+                disabled
               />
             </div>
           </div>
@@ -129,17 +172,17 @@ export function EditProfile() {
         <h2 style={{ marginBottom: "10px" }}>About</h2>
         <fieldset>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <label style={{ marginBottom: "7px" }} htmlFor={"site"}>
+            <label style={{ marginBottom: "7px" }} htmlFor={"personalSite"}>
               {"Personal site/portfolio"}
             </label>
             <input
               type={"text"}
-              id={"site"}
-              name={"site"}
+              id={"personalSite"}
+              name={"personalSite"}
               autoComplete={"url"}
               placeholder={"Link"}
               style={{ padding: "10px 12px" }}
-              value={form.personalSite || ""}
+              value={form.personalSite}
               onChange={handleInputChange}
             />
           </div>
@@ -151,7 +194,7 @@ export function EditProfile() {
               rows={5}
               autoComplete="on"
               placeholder=""
-              value={form.bio || ""}
+              value={form.bio}
               onChange={handleInputChange}
             />
             <span
@@ -168,32 +211,39 @@ export function EditProfile() {
         <h2 style={{ marginBottom: "20px" }}>Social</h2>
         <div className={sass.socials}>
           <div className={sass.inputs}>
-            <label htmlFor={"Instagram"}>{"Instagram"}</label>
+            <label htmlFor={"instagram"}>{"Instagram"}</label>
             <input
               type={"text"}
-              id={"tags"}
-              name={"tags"}
+              id={"instagram"}
+              name={"instagram"}
               autoComplete={"on"}
               placeholder={"instagram"}
-              value={form.instagram || ""}
+              value={form.instagram}
               onChange={handleInputChange}
             />
           </div>
           <div className={sass.inputs}>
-            <label htmlFor={"Twitter"}>{"Twitter"}</label>
+            <label htmlFor={"twitter"}>{"Twitter"}</label>
             <input
               type={"text"}
-              id={"tags"}
-              name={"tags"}
+              id={"twitter"}
+              name={"twitter"}
               autoComplete={"on"}
-              placeholder={"Twitter"}
-              value={form.twitter || ""}
+              placeholder={"twitter"}
+              value={form.twitter}
               onChange={handleInputChange}
             />
           </div>
         </div>
       </div>
-      <button type="submit">Update account</button>
+      <button
+        type="submit"
+        onClick={() => submitUpdatedProfile(form)}
+        className={updating ? sass.submitBtnUploading : sass.submitBtn}
+        disabled={updating}
+      >
+        {updating ? "Updating..." : "Update profile"}
+      </button>
     </div>
   );
 }

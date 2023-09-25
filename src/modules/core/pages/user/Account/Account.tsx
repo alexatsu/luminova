@@ -31,19 +31,16 @@ export const Account = () => {
         <div className={sass.sidebar}>
           <h2>Account settings</h2>
           <ul>
-            {dataPoints.map(({ title, path }) => {
-              const isActive = pathname === path;
-              return (
-                <li key={title}>
-                  <NavLink
-                    to={path}
-                    style={isActive ? { color: "#111", textDecoration: "none" } : undefined}
-                  >
-                    {title}
-                  </NavLink>
-                </li>
-              );
-            })}
+            {dataPoints.map(({ title, path }) => (
+              <li key={title}>
+                <NavLink
+                  to={path}
+                  style={pathname === path ? { color: "#111", textDecoration: "none" } : undefined}
+                >
+                  {title}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
 

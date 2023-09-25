@@ -26,7 +26,7 @@ export const MemoizedNavbar = memo(function Navbar() {
     <nav style={{ paddingTop: "10px" }}>
       <Box sx={navstyles.container}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <Link to="/" style={{ marginRight: "1rem", marginBottom: "-5px" }}>
+          <Link to="/" style={{ marginRight: "1rem"}}>
             <Logo />
           </Link>
 
