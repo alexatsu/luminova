@@ -1,7 +1,7 @@
-import BlogCard from "@/components/BlogCard";
+import BlogCard from "@/shared/components/BlogCard";
 import { useState } from "react";
 import "./Blog.scss";
-import { MenuList } from "@/components/MenuList";
+import { MenuList } from "@/shared/components/MenuList";
 import { Link } from "react-router-dom";
 
 const Blog = () => {
@@ -169,4 +169,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export { Blog };

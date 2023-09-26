@@ -1,20 +1,20 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { MasonryImages } from "../../layouts";
-import { Footer, MemoizedNavbar } from "@/layouts";
+import { Footer, MemoizedNavbar } from "@/shared/layouts";
 
-import { useAuth, useDebounce, useModal, useResizeWidth } from "@/hooks";
+import { useAuth, useDebounce, useModal, useResizeWidth } from "@/shared/hooks";
 import { useImages } from "../../hooks";
 
 import { downloadImage } from "../../utils";
-import { endpoints, handleFetch } from "@/utils";
+import { endpoints, handleFetch } from "@/shared/utils";
 
-import { ImageResources } from "@/types";
+import { ImageResources } from "@/shared/types";
 
 import sass from "../../sass/pages/CollectionById.module.scss";
 import { AiOutlineUser, AiOutlineShareAlt } from "react-icons/ai";
-import { Loader } from "@/components";
-import { ModalContainer } from "@/components/form";
-import { Xshape } from "@/components/icons";
+import { Loader } from "@/shared/components";
+import { ModalContainer } from "@/shared/components/form";
+import { Xshape } from "@/shared/components/icons";
 import { useState } from "react";
 import { queryClient } from "@/main";
 import { useMutation } from "@tanstack/react-query";

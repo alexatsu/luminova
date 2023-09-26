@@ -1,17 +1,17 @@
 import { Outlet } from "react-router-dom";
 
-import { AssistNav, ProgressBar, ScrollTopButton } from "@/components";
-import { Footer, MemoizedNavbar } from "@/layouts";
+import { AssistNav, ProgressBar, ScrollTopButton } from "@/shared/components";
+import { Footer, MemoizedNavbar } from "@/shared/layouts";
 
 export function Root() {
   return (
-    <div>
+    <main>
       <MemoizedNavbar />
       <AssistNav />
       <Outlet />
       <ScrollTopButton />
       <Footer />
       <ProgressBar />
-    </div>
+    </main>
   );
 }

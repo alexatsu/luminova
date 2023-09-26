@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { Footer } from "@/layouts";
+import { Footer } from "@/shared/layouts";
 
 import sass from "../../../sass/pages/user/Account.module.scss";
-import { MemoizedNavbar } from "@/layouts";
+import { MemoizedNavbar } from "@/shared/layouts";
 
 const dataPoints = [
   {

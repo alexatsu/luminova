@@ -1,6 +1,6 @@
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/shared/hooks";
 import { queryClient } from "@/main";
-import { endpoints, handleFetch } from "@/utils";
+import { endpoints, handleFetch } from "@/shared/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 

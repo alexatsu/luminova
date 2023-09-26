@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { paths } from "@/utils";
-import "@/styles/assistNav.scss";
+import { paths } from "@/shared/utils";
+import "@/shared/styles/assistNav.scss";
 
 export function AssistNav() {
   const categoriesList = paths.map(({ name, path }) => {

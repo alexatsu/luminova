@@ -1,15 +1,15 @@
 import { MasonryImages, PagePreview } from "../layouts";
 import { useImages } from "../hooks";
-import { useDebounce, useModal, useResizeWidth } from "@/hooks";
-import { Loader } from "@/components";
-import { PageWrapper } from "../layouts";
+import { useDebounce, useModal, useResizeWidth } from "@/shared/hooks";
+import { Loader } from "@/shared/components";
+import { PageWrapper } from "@/shared/layouts";
 
-import { paths } from "@/utils";
+import { paths } from "@/shared/utils";
 import { downloadImage } from "../utils";
 
 import { useParams } from "react-router-dom";
-import { Resources } from "@/types";
-import { ModalContainer, UploadModal } from "@/components/form";
+import { Resources } from "@/shared/types";
+import { ModalContainer, UploadModal } from "@/shared/components/form";
 import { images } from "../services/api";
 
 const { getCoreImages } = images;

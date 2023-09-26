@@ -1,12 +1,12 @@
 import { MasonryImages, PagePreview } from "../layouts";
-import { PageWrapper } from "../layouts";
-import { Loader } from "@/components";
+import { PageWrapper } from "@/shared/layouts";
+import { Loader } from "@/shared/components";
 import { useImages } from "../hooks";
 
 import { downloadImage } from "../utils";
-import { Resources } from "@/types";
+import { Resources } from "@/shared/types";
 import { images } from "../services/api";
-import { useResizeWidth, useDebounce } from "@/hooks";
+import { useResizeWidth, useDebounce } from "@/shared/hooks";
 
 const { getCoreImages } = images;
 

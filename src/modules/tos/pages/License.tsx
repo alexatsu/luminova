@@ -1,4 +1,4 @@
-import { reuseContentful } from "@/services/contentful";
+import { reuseContentful } from "@/shared/services/contentful";
 import { useToS } from "../hooks";
 
 export function License() {

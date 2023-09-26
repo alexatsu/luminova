@@ -3,9 +3,9 @@ import { AiOutlineUser } from "react-icons/ai";
 import { useQuery } from "@tanstack/react-query";
 
 import { queryClient } from "@/main";
-import { endpoints, handleFetch } from "@/utils";
-import { Loader } from "@/components";
-import { useAuth } from "@/hooks";
+import { endpoints, handleFetch } from "@/shared/utils";
+import { Loader } from "@/shared/components";
+import { useAuth } from "@/shared/hooks";
 
 import sass from "../../../sass/pages/user/Edit.module.scss";
 

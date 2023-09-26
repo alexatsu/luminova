@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "@/hooks";
-import { handleFetch, endpoints } from "@/utils";
+import { useAuth } from "@/shared/hooks";
+import { handleFetch, endpoints } from "@/shared/utils";
 
 import sass from "../../../sass/pages/user/ChangePass.module.scss";
 

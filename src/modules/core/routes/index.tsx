@@ -1,6 +1,5 @@
 import { RouteObject } from "react-router-dom";
 
-import { Error } from "../../../pages";
 import { Home, Category, Join, Login, Promotion, Discover, Root } from "../pages";
 import { userPages } from "../pages/user";
 import { accountPages } from "../pages/user/account";
@@ -12,7 +11,6 @@ export const core: RouteObject[] = [
   {
     path: "/",
     element: <Root />,
-    errorElement: <Error />,
     children: [
       {
         index: true,

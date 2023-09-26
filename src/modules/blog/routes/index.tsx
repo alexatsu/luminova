@@ -1,9 +1,9 @@
 import { RouteObject } from "react-router-dom";
-import Blog from "../Blog";
+const { Blog } = await import("../Blog");
 
 export const blog: RouteObject[] = [
   {
     path: "blog",
-    element: <Blog />,
+    lazy: async () => ({ Component: Blog }),
   },
 ];

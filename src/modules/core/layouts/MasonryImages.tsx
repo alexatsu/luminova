@@ -2,11 +2,11 @@ import { UseMutateFunction } from "@tanstack/react-query";
 import { Menu } from "@mantine/core";
 import { IconButton, ImageList, ImageListItem } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Resources } from "@/types";
+import { Resources } from "@/shared/types";
 
 import sass from "../sass/layouts/MasonryImages.module.scss";
-import { useAuth } from "@/hooks";
-import { endpoints, handleFetch } from "@/utils";
+import { useAuth } from "@/shared/hooks";
+import { endpoints, handleFetch } from "@/shared/utils";
 import { useCollections } from "../hooks";
 
 type MasonryImagesProps = {

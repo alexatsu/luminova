@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Logo } from "@/components";
+import { Logo } from "@/shared/components";
 
-import sass from "@/styles/Footer.module.scss";
+import sass from "../styles/Footer.module.scss";
 
 export const Footer = () => {
   const mainList = [

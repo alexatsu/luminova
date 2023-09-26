@@ -1,5 +1,5 @@
-import { ImageResources } from "@/types";
-import { endpoints, handleFetch } from "@/utils";
+import { ImageResources } from "@/shared/types";
+import { endpoints, handleFetch } from "@/shared/utils";
 
 async function getCoreImages(category: string | undefined): Promise<ImageResources> {
   const { forNonUser, forUser } = endpoints.images;

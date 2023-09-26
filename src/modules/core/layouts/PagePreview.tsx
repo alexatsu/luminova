@@ -1,4 +1,4 @@
-import { SearchInput } from "@/components/form";
+import { SearchInput } from "@/shared/components/form";
 import { Button } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,7 +14,6 @@ type PagePreviewProps = {
 export function PagePreview({ imgURL, description, title, handleOpenModal }: PagePreviewProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const handleImageLoad = () => setImgLoaded(true);
-console.log(imgURL, "imgURL");
   return (
     <div className={sass.pagePreviewContainer}>
       <img

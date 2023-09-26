@@ -1,8 +1,8 @@
 import sass from "../../sass/pages/user/Collections.module.scss";
 import { Link } from "react-router-dom";
-import { endpoints, handleFetch } from "@/utils";
-import { useAuth } from "@/hooks";
-import greyBack from "@/assets/greyBack.jpg";
+import { endpoints, handleFetch } from "@/shared/utils";
+import { useAuth } from "@/shared/hooks";
+import greyBack from "@/shared/assets/greyBack.jpg";
 import { useCollections } from "../../hooks";
 
 type Collection = {

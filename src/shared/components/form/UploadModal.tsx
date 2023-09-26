@@ -1,11 +1,11 @@
-import { useResizeWidth } from "@/hooks";
-import { endpoints } from "@/utils";
+import { useResizeWidth } from "@/shared/hooks";
+import { endpoints } from "@/shared/utils";
 import { useState, useRef } from "react";
 import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Xshape } from "../icons";
-import uploadImg from "@/assets/uploadImg.jpg";
-import sass from "@/styles/components/UploadModal.module.scss";
+import uploadImg from "@/shared/assets/uploadImg.jpg";
+import sass from "@/shared/styles/components/UploadModal.module.scss";
 import { Loader } from "../Loader";
 
 

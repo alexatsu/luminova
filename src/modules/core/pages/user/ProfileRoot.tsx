@@ -2,10 +2,10 @@ import { Link, NavLink, Outlet, useLocation, useParams } from "react-router-dom"
 
 import { AiOutlineUser } from "react-icons/ai";
 import { MdInsertPhoto, MdFavorite, MdCollections} from "react-icons/md";
-import { Logo } from "@/components";
+import { Logo } from "@/shared/components";
 
 import sass from "../../sass/pages/user/ProfileRoot.module.scss";
-import { MemoizedNavbar } from "@/layouts";
+import { MemoizedNavbar } from "@/shared/layouts";
 
 export const ProfileRoot = () => {
   const { userName } = useParams();

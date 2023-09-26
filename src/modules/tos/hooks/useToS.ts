@@ -1,4 +1,4 @@
-import { client } from "@/services/contentful";
+import { client } from "@/shared/services/contentful";
 import { useEffect, useState } from "react";
 import { Document } from "@contentful/rich-text-types";
 

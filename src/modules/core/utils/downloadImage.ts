@@ -1,4 +1,4 @@
-import { Resources } from "@/types";
+import { Resources } from "@/shared/types";
 
 type Props = (
   url: Resources["url"],

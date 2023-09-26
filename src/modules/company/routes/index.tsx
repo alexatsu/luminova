@@ -1,6 +1,5 @@
 import { RouteObject } from "react-router-dom";
 import { Root } from "../layouts/Root";
-import { Error } from "@/pages";
 import {
   About,
   ContactUs,
@@ -14,7 +13,6 @@ export const company: RouteObject[] = [
   {
     path: "company",
     element: <Root />,
-    errorElement: <Error />,
     children: [
       {
         path: "about",

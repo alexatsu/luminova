@@ -1,9 +1,9 @@
-import { ImageResources } from "@/types";
+import { ImageResources } from "@/shared/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { endpoints, handleFetch } from "@/utils";
+import { endpoints, handleFetch } from "@/shared/utils";
 import { queryClient } from "@/main";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/shared/hooks";
 
 export const useImages = (
   queryFunc: () => Promise<ImageResources | undefined>,

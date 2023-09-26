@@ -1,6 +1,6 @@
-import { MemoizedNavbar, Footer  } from "@/layouts";
-import { ProgressBar } from "@/components";
-import { ScrollTopButton } from "@/components";
+import { MemoizedNavbar, Footer  } from "@/shared/layouts";
+import { ProgressBar } from "@/shared/components";
+import { ScrollTopButton } from "@/shared/components";
 
 import sass from "../sass/pages/Promotion.module.scss";
 

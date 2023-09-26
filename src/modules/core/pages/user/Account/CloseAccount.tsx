@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { endpoints, handleFetch } from "@/utils";
-import { useAuth } from "@/hooks";
+import { endpoints, handleFetch } from "@/shared/utils";
+import { useAuth } from "@/shared/hooks";
 import { useNavigate } from "react-router-dom";
 
 import sass from "../../../sass/pages/user/CloseAccount.module.scss";

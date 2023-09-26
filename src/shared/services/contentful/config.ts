@@ -1,4 +1,4 @@
-import { env } from "@/utils";
+import { env } from "@/shared/utils";
 import * as contentful from "contentful";
 
 const client = contentful.createClient({

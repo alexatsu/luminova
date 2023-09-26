@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/shared/hooks";
 
 const useStyles = createStyles((theme) => ({
   container: {

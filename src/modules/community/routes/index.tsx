@@ -1,6 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import { Root } from "@/layouts";
-import { Error } from "@/pages";
+import { Root } from "@/shared/layouts";
 import {
   Awards,
   Collection,
@@ -14,7 +13,6 @@ export const community: RouteObject[] = [
   {
     path: "community",
     element: <Root />,
-    errorElement: <Error />,
     children: [
       {
         path: "awards",

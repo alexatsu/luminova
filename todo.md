@@ -9,12 +9,12 @@
 - Test JWT auth (register, login, protected, refresh, logout) (done)
 - Add to favorites(done)
 - Add validation to signing(done)
+- (optional) Add photo from a local machine (done)
 
 - Create search functionality + debounce 
 - Drop Mantine or Mui
 - Add skeleton when images are loading, when backend is ready
-- Switch to scss for scalability
-
+- Switch to scss modules for scalability
 - (optional) ai image generator
-- (optional) Add photo from a local machine
+
 

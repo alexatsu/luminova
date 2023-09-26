@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/shared/hooks";
 import { createStyles, TextInput, PasswordInput, Button, Title, rem, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";

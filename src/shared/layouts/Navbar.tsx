@@ -3,11 +3,11 @@ import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
 
-import { useResizeWidth, useModal, useDebounce, useAuth } from "@/hooks";
-import { navstyles } from "@/styles/navbar";
+import { useResizeWidth, useModal, useDebounce, useAuth } from "@/shared/hooks";
+import { navstyles } from "@/shared/styles/navbar";
 
-import { Logo } from "@/components";
-import { SearchInput, ModalContainer, UploadModal } from "@/components/form";
+import { Logo } from "@/shared/components";
+import { SearchInput, ModalContainer, UploadModal } from "@/shared/components/form";
 
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 
@@ -15,30 +15,26 @@ import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 import { memo } from "react";
 
+const accessToken = localStorage.getItem("accessToken");
+
 export const MemoizedNavbar = memo(function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const accessToken = localStorage.getItem("accessToken");
   const { logoutUser } = useAuth();
 
   return (
     <nav style={{ paddingTop: "10px" }}>
       <Box sx={navstyles.container}>
         <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <Link to="/" style={{ marginRight: "1rem"}}>
+          <Link to="/" style={{ marginRight: "1rem" }}>
             <Logo />
           </Link>
 
           <SearchInput className="search-navbar" />
         </Box>
 
-        <Box
-          sx={{
-            "@media (max-width: 993px)": { display: "none" },
-            display: "flex",
-          }}
-        >
+        <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
           {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
           {pathname !== "/advertise" && <PageButton path="advertise" />}
         </Box>
@@ -52,7 +48,7 @@ export const MemoizedNavbar = memo(function Navbar() {
           <Button
             className="button-upload"
             onClick={handleOpen}
-            sx={{ width: "100%", "@media (max-width: 768px)": { display: "none" } }}
+            sx={{ width: "100%", "@media (max-width: 767px)": { display: "none" } }}
           >
             Upload a photo
           </Button>
@@ -66,7 +62,7 @@ export const MemoizedNavbar = memo(function Navbar() {
           >
             Upload a photo
           </Button>
-          {!accessToken ? <PageButton path="login" /> : null}
+          {accessToken === "" ? <PageButton path="login" /> : null}
         </HamburgerMenu>
       </Box>
       <ModalContainer modalOpen={modalOpen}>

@@ -1,4 +1,4 @@
-import { handleFetch, authEndpoints } from "@/utils";
+import { handleFetch, authEndpoints } from "@/shared/utils";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 type LoginProps = (

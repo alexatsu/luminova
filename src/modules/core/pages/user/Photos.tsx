@@ -1,11 +1,11 @@
-import { Resources } from "@/types";
+import { Resources } from "@/shared/types";
 import { useImages } from "../../hooks";
-import { useDebounce, useResizeWidth } from "@/hooks";
+import { useDebounce, useResizeWidth } from "@/shared/hooks";
 import { MasonryImages } from "../../layouts";
 import { downloadImage } from "../../utils";
-import { endpoints } from "@/utils";
-import { PageWrapper } from "../../layouts";
-import { Loader } from "@/components";
+import { endpoints } from "@/shared/utils";
+import { PageWrapper } from "@shared/layouts";
+import { Loader } from "@/shared/components";
 import { images } from "../../services/api";
 import { useParams } from "react-router-dom";
 

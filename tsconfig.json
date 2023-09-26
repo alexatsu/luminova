@@ -18,17 +18,8 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"],
-      "assets/*": ["src/assets/*"],
-      "components/*": ["src/components/*"],
-      "hooks/*": ["src/hooks/*"],
-      "layouts/*": ["src/layouts/*"],
-      "pages/*": ["src/pages/*"],
-      "routes/*": ["src/routes/*"],
-      "services/*": ["src/services/*"],
-      "store/*": ["src/store/*"],
-      "styles/*": ["src/styles/*"],
-      "types/*": ["src/types/*"],
-      "utils/*": ["src/utils/*"]
+      "@shared/*": ["src/shared/*"],
+      "@module/*": ["src/module/*"],      
     }
   },
   "references": [{ "path": "./tsconfig.node.json" }],
