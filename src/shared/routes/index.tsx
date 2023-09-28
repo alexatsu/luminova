@@ -7,12 +7,7 @@ import { blog } from "@/modules/blog/routes";
 
 import { Error, InteractiveSearch } from "../pages";
 
-export const routes = createBrowserRouter([
-  ...core,
-  ...blog,
-  ...tos,
-  ...company,
-  ...community,
+const shared = [
   {
     path: "search",
     element: <InteractiveSearch />,
@@ -35,4 +30,13 @@ export const routes = createBrowserRouter([
     path: "*",
     element: <Error />,
   },
+];
+
+export const routes = createBrowserRouter([
+  ...core,
+  ...blog,
+  ...tos,
+  ...company,
+  ...community,
+  ...shared,
 ]);

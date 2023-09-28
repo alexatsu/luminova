@@ -13,61 +13,148 @@ import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-d
 
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
-import { memo } from "react";
+import { MouseEventHandler, memo, useEffect, useRef, useState } from "react";
+import { handleFetch } from "../utils";
 
 const accessToken = localStorage.getItem("accessToken");
 
 export const MemoizedNavbar = memo(function Navbar() {
-  const { modalOpen, handleOpen, handleClose } = useModal();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const { modalOpen, handleOpen, handleClose } = useModal();
   const { logoutUser } = useAuth();
+
+  //hook
+  const [input, setInput] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
+  const ulRef = useRef<HTMLUListElement>(null);
+  //hook
+  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    if (e.target.value === "") setSuggestions([]);
+  };
+  //hook
+  const { debouncedValue: debouncedQuery } = useDebounce(input, 400);
+
+  //hook
+  useEffect(() => {
+    const requestSuggestions = async () => {
+      const url = "http://localhost:8080/search/suggestions";
+      const query = `?query=${debouncedQuery}`;
+
+      if (debouncedQuery === "") return;
+
+      const { suggestions } = (await handleFetch(`${url}/${query}`)) as {
+        suggestions: string[];
+      };
+      const limit = 5;
+      setSuggestions(suggestions.slice(0, limit));
+    };
+
+    requestSuggestions();
+  }, [debouncedQuery]);
+  //hook
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        !ulRef.current?.contains(e.target as Node) &&
+        !document.querySelector(".search-navbar")!.contains(e.target as Node)
+      ) {
+        setIsSuggestionsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
 
   return (
     <nav style={{ paddingTop: "10px" }}>
-      <Box sx={navstyles.container}>
-        <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-          <Link to="/" style={{ marginRight: "1rem" }}>
-            <Logo />
-          </Link>
+      <section>
+        <Box sx={navstyles.container}>
+          <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+            <Link to="/" style={{ marginRight: "1rem" }}>
+              <Logo />
+            </Link>
 
-          <SearchInput className="search-navbar" />
+            <div style={{ width: "100%", position: "relative" }}>
+              <SearchInput
+                className="search-navbar"
+                value={input}
+                changeHandler={inputChange}
+                setIsOpen={
+                  setIsSuggestionsOpen as unknown as MouseEventHandler<HTMLInputElement> | undefined
+                }
+              />
+
+              {isSuggestionsOpen && (
+                <ul
+                  ref={ulRef}
+                  style={{
+                    backgroundColor: "#fff",
+                    position: "absolute",
+                    width: "100%",
+                    zIndex: 1,
+                    border: "1px solid #e1e1e1",
+                    marginTop: "10px",
+                  }}
+                >
+                  {suggestions.length === 0 ? (
+                    <li style={{ listStyle: "none", margin: "15px 20px", marginLeft: "10px" }}>
+                      No results
+                    </li>
+                  ) : (
+                    suggestions.map((suggestion, index) => (
+                      <li
+                        style={{ listStyle: "none", margin: "15px 20px", marginLeft: "10px" }}
+                        key={index}
+                      >
+                        {suggestion}
+                      </li>
+                    ))
+                  )}
+                </ul>
+              )}
+            </div>
+          </Box>
+
+          <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
+            {pathname !== "/advertise" && <PageButton path="advertise" />}
+          </Box>
+
+          <Box sx={{ display: "flex" }}>
+            {accessToken ? (
+              <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
+            ) : (
+              <PageButton path="login" />
+            )}
+            <Button
+              className="button-upload"
+              onClick={handleOpen}
+              sx={{ width: "100%", "@media (max-width: 767px)": { display: "none" } }}
+            >
+              Upload a photo
+            </Button>
+          </Box>
+
+          <HamburgerMenu>
+            <Button
+              className="button-upload"
+              onClick={handleOpen}
+              sx={{ width: "100%", "@media (min-width: 768px)": { display: "none" } }}
+            >
+              Upload a photo
+            </Button>
+            {accessToken === "" ? <PageButton path="login" /> : null}
+          </HamburgerMenu>
         </Box>
-
-        <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
-          {accessToken ? <PageButton path="blog" /> : <PageButton path="discover" />}
-          {pathname !== "/advertise" && <PageButton path="advertise" />}
-        </Box>
-
-        <Box sx={{ display: "flex" }}>
-          {accessToken ? (
-            <UserMenu logoutUser={logoutUser} accessToken={accessToken} navigate={navigate} />
-          ) : (
-            <PageButton path="login" />
-          )}
-          <Button
-            className="button-upload"
-            onClick={handleOpen}
-            sx={{ width: "100%", "@media (max-width: 767px)": { display: "none" } }}
-          >
-            Upload a photo
-          </Button>
-        </Box>
-
-        <HamburgerMenu>
-          <Button
-            className="button-upload"
-            onClick={handleOpen}
-            sx={{ width: "100%", "@media (min-width: 768px)": { display: "none" } }}
-          >
-            Upload a photo
-          </Button>
-          {accessToken === "" ? <PageButton path="login" /> : null}
-        </HamburgerMenu>
-      </Box>
-      <ModalContainer modalOpen={modalOpen}>
-        <UploadModal handleClose={handleClose} />
-      </ModalContainer>
+        <ModalContainer modalOpen={modalOpen}>
+          <UploadModal handleClose={handleClose} />
+        </ModalContainer>
+      </section>
     </nav>
   );
 });
@@ -166,7 +253,9 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
 
   const { company, terms, community } = listData;
 
-  const setItems = (list: any) =>
+  const setItems = (
+    list: (typeof company)["list"] | (typeof terms)["list"] | (typeof community)["list"]
+  ) =>
     list.map(({ title, path }: any, index: number) => {
       return (
         <Link

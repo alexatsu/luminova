@@ -1,10 +1,12 @@
 import { Footer, MemoizedNavbar, PageWrapper } from "../layouts";
+import { Outlet } from "react-router-dom";
 
 export function InteractiveSearch() {
   return (
     <PageWrapper>
       <MemoizedNavbar />
-      <main>Here goes the content</main>
+      <div>here will be the tabs</div>
+      <Outlet />
       <Footer />
     </PageWrapper>
   );
