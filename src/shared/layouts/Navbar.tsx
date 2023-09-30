@@ -2,19 +2,18 @@ import Fade from "@mui/material/Fade";
 import Tooltip from "@mui/material/Tooltip";
 import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
-
-import { useResizeWidth, useModal, useDebounce, useAuth } from "@/shared/hooks";
-import { navstyles } from "@/shared/styles/navbar";
-
-import { Logo } from "@/shared/components";
-import { SearchInput, ModalContainer, UploadModal } from "@/shared/components/form";
-
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
-
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
 import { MouseEventHandler, memo, useEffect, useRef, useState } from "react";
+
 import { handleFetch } from "../utils";
+
+import { useResizeWidth, useModal, useDebounce, useAuth } from "@/shared/hooks";
+import { navstyles } from "@/shared/styles/navbar";
+import { Logo } from "@/shared/components";
+import { SearchInput, ModalContainer, UploadModal } from "@/shared/components/form";
+import sass from "../styles/layouts/Navbar.module.scss";
 
 const accessToken = localStorage.getItem("accessToken");
 
@@ -70,7 +69,6 @@ export const MemoizedNavbar = memo(function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-
   return (
     <nav style={{ paddingTop: "10px" }}>
       <section>
@@ -91,27 +89,12 @@ export const MemoizedNavbar = memo(function Navbar() {
               />
 
               {isSuggestionsOpen && (
-                <ul
-                  ref={ulRef}
-                  style={{
-                    backgroundColor: "#fff",
-                    position: "absolute",
-                    width: "100%",
-                    zIndex: 1,
-                    border: "1px solid #e1e1e1",
-                    marginTop: "10px",
-                  }}
-                >
+                <ul ref={ulRef} className={sass.suggestions}>
                   {suggestions.length === 0 ? (
-                    <li style={{ listStyle: "none", margin: "15px 20px", marginLeft: "10px" }}>
-                      No results
-                    </li>
+                    <li className={sass.list}>No results</li>
                   ) : (
                     suggestions.map((suggestion, index) => (
-                      <li
-                        style={{ listStyle: "none", margin: "15px 20px", marginLeft: "10px" }}
-                        key={index}
-                      >
+                      <li className={sass.list} key={index}>
                         {suggestion}
                       </li>
                     ))
@@ -122,6 +105,7 @@ export const MemoizedNavbar = memo(function Navbar() {
           </Box>
 
           <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>
+            {accessToken ? <PageButton path="blog" /> : null}
             {pathname !== "/advertise" && <PageButton path="advertise" />}
           </Box>
 

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "luminova",
+			"path": "."
+		},
+		{
+			"name": "luminova-backend",
+			"path": "../luminova-backend"
+		}
+	],
+	"settings": {}
+}
