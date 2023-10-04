@@ -1,4 +1,4 @@
 import { Error } from "./Error";
-import { InteractiveSearch } from "./InteractiveSearch";
+import { interactiveSearch } from "./interactiveSearch";
 
-export { Error, InteractiveSearch };
+export { Error, interactiveSearch };

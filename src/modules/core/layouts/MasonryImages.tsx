@@ -36,11 +36,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
     >
       <div>
         {data?.map(({ public_id, url, filename, favorite, inCollection }) => (
-          <ImageListItem
-            className={sass.imageListItem}
-            key={public_id}
-            onClick={() => console.log(public_id, filename)}
-          >
+          <ImageListItem className={sass.imageListItem} key={public_id}>
             <img
               className={sass.image}
               src={url}

@@ -5,7 +5,7 @@ import { Footer, MemoizedNavbar } from "@/shared/layouts";
 import { useAuth, useDebounce, useModal, useResizeWidth } from "@/shared/hooks";
 import { useImages } from "../../hooks";
 
-import { downloadImage } from "../../utils";
+import { downloadImage } from "@/shared/utils";
 import { endpoints, handleFetch } from "@/shared/utils";
 
 import { ImageResources } from "@/shared/types";

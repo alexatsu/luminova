@@ -1,15 +1,16 @@
-import { Resources } from "@/shared/types";
-import { useImages } from "../../hooks";
-import { useDebounce, useResizeWidth } from "@/shared/hooks";
-import { MasonryImages } from "../../layouts";
-import { downloadImage } from "../../utils";
-import { endpoints } from "@/shared/utils";
-import { PageWrapper } from "@/shared/layouts";
-import { Loader } from "@/shared/components";
-import { images } from "../../services/api";
 import { useParams } from "react-router-dom";
 
-const { favorite} = endpoints.images;
+import { Resources } from "@/shared/types";
+import { useDebounce, useResizeWidth } from "@/shared/hooks";
+import { endpoints, downloadImage } from "@/shared/utils";
+import { PageWrapper } from "@/shared/layouts";
+import { Loader } from "@/shared/components";
+
+import { useImages } from "../../hooks";
+import { MasonryImages } from "../../layouts";
+import { images } from "../../services/api";
+
+const { favorite } = endpoints.images;
 const { getProfileImages } = images;
 
 export const Likes = () => {

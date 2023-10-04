@@ -7,8 +7,9 @@ type SearchInput = {
   value?: string;
   changeHandler?: ChangeEventHandler<HTMLInputElement>;
   setIsOpen?: MouseEventHandler<HTMLInputElement>;
+  search?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 };
-export function SearchInput({ className, value, changeHandler, setIsOpen }: SearchInput) {
+export function SearchInput({ className, value, changeHandler, setIsOpen, search }: SearchInput) {
   return (
     <TextInput
       className={className}
@@ -18,6 +19,7 @@ export function SearchInput({ className, value, changeHandler, setIsOpen }: Sear
       value={value}
       onChange={changeHandler}
       onClick={setIsOpen}
+      onKeyDown={search}
     />
   );
 }

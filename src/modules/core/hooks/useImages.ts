@@ -5,8 +5,8 @@ import { queryClient } from "@/main";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/shared/hooks";
 
-export const useImages = (
-  queryFunc: () => Promise<ImageResources | undefined>,
+export const useImages = <T>(
+  queryFunc: () => Promise<T | undefined>,
   key: (string | undefined)[]
 ) => {
   const navigate = useNavigate();

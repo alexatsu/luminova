@@ -5,7 +5,7 @@ import { Loader } from "@/shared/components";
 import { PageWrapper } from "@/shared/layouts";
 
 import { paths } from "@/shared/utils";
-import { downloadImage } from "../utils";
+import { downloadImage } from "@/shared/utils";
 
 import { useParams } from "react-router-dom";
 import { Resources } from "@/shared/types";

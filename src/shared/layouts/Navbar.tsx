@@ -48,6 +48,7 @@ export const MemoizedNavbar = memo(function Navbar() {
       const { suggestions } = (await handleFetch(`${url}/${query}`)) as {
         suggestions: string[];
       };
+
       const limit = 5;
       setSuggestions(suggestions.slice(0, limit));
     };
@@ -69,6 +70,36 @@ export const MemoizedNavbar = memo(function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const highlightMatchedWords = (suggestion: string) => {
+    const split = suggestion.split(" ");
+
+    const highlightMatch = split.map((word) => {
+      const trimmedWord = word.trim();
+
+      if (trimmedWord.includes(input)) {
+        return (
+          <span key={crypto.randomUUID()} style={{ backgroundColor: "rgb(196 244 224)" }}>
+            {" "}
+            {word}
+          </span>
+        );
+      }
+
+      return <span key={crypto.randomUUID()}> {word} </span>;
+    });
+
+    return highlightMatch;
+  };
+
+  const sendSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (input === "") return;
+
+    if (event.key === "Enter") {
+      navigate("/search/images/" + input);
+      return;
+    }
+  };
+
   return (
     <nav style={{ paddingTop: "10px" }}>
       <section>
@@ -83,6 +114,7 @@ export const MemoizedNavbar = memo(function Navbar() {
                 className="search-navbar"
                 value={input}
                 changeHandler={inputChange}
+                search={sendSearch}
                 setIsOpen={
                   setIsSuggestionsOpen as unknown as MouseEventHandler<HTMLInputElement> | undefined
                 }
@@ -93,11 +125,14 @@ export const MemoizedNavbar = memo(function Navbar() {
                   {suggestions.length === 0 ? (
                     <li className={sass.list}>No results</li>
                   ) : (
-                    suggestions.map((suggestion, index) => (
-                      <li className={sass.list} key={index}>
-                        {suggestion}
-                      </li>
-                    ))
+                    suggestions.map((suggestion, index) => {
+                      const removeCategory = (suggestion: string) => suggestion.split("/")[1];
+                      return (
+                        <li key={index} className={sass.list}>
+                          {highlightMatchedWords(removeCategory(suggestion))}
+                        </li>
+                      );
+                    })
                   )}
                 </ul>
               )}

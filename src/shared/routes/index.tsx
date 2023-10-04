@@ -5,16 +5,18 @@ import { company } from "@/modules/company/routes";
 import { community } from "@/modules/community/routes";
 import { blog } from "@/modules/blog/routes";
 
-import { Error, InteractiveSearch } from "../pages";
+import { Error, interactiveSearch } from "../pages";
+
+const { Root: RootSearch, Images } = interactiveSearch;
 
 const shared = [
   {
     path: "search",
-    element: <InteractiveSearch />,
+    element: <RootSearch />,
     children: [
       {
         path: "images/:query",
-        element: <div>SearchImages</div>,
+        element: <Images />,
       },
       {
         path: "collections/:query",
