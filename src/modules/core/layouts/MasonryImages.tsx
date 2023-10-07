@@ -8,7 +8,7 @@ import sass from "../sass/layouts/MasonryImages.module.scss";
 import { useAuth } from "@/shared/hooks";
 import { endpoints, handleFetch } from "@/shared/utils";
 import { useCollections } from "../hooks";
-
+//prevent images from shifting
 type MasonryImagesProps = {
   width: number;
   data: Resources[];
@@ -43,6 +43,8 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
               alt={filename}
               loading={"lazy"}
               title={filename}
+              width={"100%"}
+              height={"100%"}
             />
 
             <div className={sass.imageTools}>

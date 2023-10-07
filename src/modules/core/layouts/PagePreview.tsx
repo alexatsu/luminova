@@ -22,7 +22,7 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
         src={imgURL || ""}
         alt="page preview"
         style={{ userSelect: "none" }}
-        loading={"lazy"}
+        loading={"eager"}
         onLoad={handleImageLoad}
       />
 
