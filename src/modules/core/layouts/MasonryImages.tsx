@@ -33,6 +33,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
       variant={"masonry"}
       cols={width > 993 ? 3 : width >= 768 ? 2 : 1}
       gap={8}
+      rowHeight={300}
     >
       <div>
         {data?.map(({ public_id, url, filename, favorite, inCollection }) => (
