@@ -4,11 +4,13 @@ import { IconButton, ImageList, ImageListItem } from "@mui/material";
 import { AiFillHeart, AiOutlineDownload, AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { Resources } from "@/shared/types";
 
-import sass from "../sass/layouts/MasonryImages.module.scss";
+import sass from "@shared/styles/layouts/MasonryImages.module.scss";
 import { useAuth } from "@/shared/hooks";
 import { endpoints, handleFetch } from "@/shared/utils";
-import { useCollections } from "../hooks";
-//prevent images from shifting
+import { useCollections } from "../../modules/core/hooks";
+
+
+//rewrite it custom or use masonry mui components
 type MasonryImagesProps = {
   width: number;
   data: Resources[];
@@ -33,7 +35,7 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
       variant={"masonry"}
       cols={width > 993 ? 3 : width >= 768 ? 2 : 1}
       gap={8}
-      rowHeight={300}
+      rowHeight={500}
     >
       <div>
         {data?.map(({ public_id, url, filename, favorite, inCollection }) => (

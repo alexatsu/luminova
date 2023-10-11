@@ -3,11 +3,10 @@ import { useParams } from "react-router-dom";
 import { Resources } from "@/shared/types";
 import { useDebounce, useResizeWidth } from "@/shared/hooks";
 import { endpoints, downloadImage } from "@/shared/utils";
-import { PageWrapper } from "@/shared/layouts";
+import { PageWrapper, MasonryImages } from "@/shared/layouts";
 import { Loader } from "@/shared/components";
 
 import { useImages } from "../../hooks";
-import { MasonryImages } from "../../layouts";
 import { images } from "../../services/api";
 
 const { favorite } = endpoints.images;

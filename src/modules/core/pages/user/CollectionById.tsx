@@ -1,6 +1,5 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { MasonryImages } from "../../layouts";
-import { Footer, MemoizedNavbar } from "@/shared/layouts";
+import { Footer, MemoizedNavbar, MasonryImages } from "@/shared/layouts";
 
 import { useAuth, useDebounce, useModal, useResizeWidth } from "@/shared/hooks";
 import { useImages } from "../../hooks";

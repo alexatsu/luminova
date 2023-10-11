@@ -4,6 +4,7 @@ const baseURL = env("BASE_URL");
 const images = `${baseURL}/images`;
 const collections = `${baseURL}/collections`;
 const user = `${baseURL}/user`;
+const search = `${baseURL}/search`;
 
 const endpoints = {
   images: {
@@ -31,6 +32,9 @@ const endpoints = {
   },
   cdn: {
     cloudinary: `http://res.cloudinary.com/dkdkbllwf/image/upload/v1690037996`,
+  },
+  search: {
+    images: `${search}/images`,
   },
 };
 
