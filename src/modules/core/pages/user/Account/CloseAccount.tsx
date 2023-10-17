@@ -33,9 +33,9 @@ export const CloseAccount = () => {
     }
 
     if (message === "Account closed successfully") {
-      navigate("/");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
+      navigate("/");
       return;
     }
   };

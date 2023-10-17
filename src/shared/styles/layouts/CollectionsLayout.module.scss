@@ -37,6 +37,7 @@
   width: 100%;
   -moz-column-gap: 2px;
   column-gap: 2px;
+  margin-bottom: 15px;
 
   .leftBlock {
     height: 100%;
@@ -82,22 +83,31 @@
     }
   }
 }
-
 .title {
-  display: inline-block;
-  margin-top: 15px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #111;
-  text-decoration: none;
-  &:hover {
-    cursor: pointer;
-    .wrapper {
-      -webkit-filter: opacity(0.9);
-      filter: opacity(0.9);
-    }
+  padding: 36px 48px;
+  font-size: 2.5rem;
+
+  @media screen and (max-width: 992px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 1.8rem;
+    padding: 36px 10px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 1.5rem;
+    padding: 24px 10px;
   }
 }
+
+.link {
+  text-decoration: none;
+  &:visited {
+    text-decoration: none;
+    color: black;
+  }
+}
+
 .info {
   display: flex;
   margin-top: 5px;

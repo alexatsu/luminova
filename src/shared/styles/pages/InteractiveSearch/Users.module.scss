@@ -1,0 +1,56 @@
+.containerWrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  .title {
+    padding: 36px 48px;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+
+    @media screen and (max-width: 992px) {
+      padding: 10px;
+    }
+    @media screen and (max-width: 768px) {
+      font-size: 1.8rem;
+      padding: 36px 10px;
+    }
+    @media screen and (max-width: 425px) {
+      font-size: 1.5rem;
+      padding: 24px 10px;
+    }
+  }
+
+  .cardWrapper {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+}
+
+.cardPaper {
+  border: 1px solid lightgrey;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 250px;
+  min-height: 150px;
+
+  .userName {
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%;
+    word-break: break-word;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+  }
+}

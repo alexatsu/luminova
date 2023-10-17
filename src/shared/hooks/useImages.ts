@@ -43,9 +43,9 @@ export const useImages = <T>(
         error === "Unauthorized" ||
         error === "Invalid Access Token"
       ) {
-        navigate("/login");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("userName");
+        navigate("/login");
         return;
       }
 

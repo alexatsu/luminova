@@ -9,7 +9,6 @@ import { useAuth } from "@/shared/hooks";
 import { endpoints, handleFetch } from "@/shared/utils";
 import { useCollections } from "../../modules/core/hooks";
 
-
 //rewrite it custom or use masonry mui components
 type MasonryImagesProps = {
   width: number;
@@ -189,7 +188,10 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
         <Menu.Item className={sass.menuItem} key={id} closeMenuOnClick={false}>
           <div className={sass.imageWrapper}>
             {collectionImages.length > 0 ? (
-              <img src={`${cdn.cloudinary}/${collectionImages[0].public_id}`} alt="cdnUrl" />
+              <img
+                src={`${cdn.cloudinary}/${collectionImages[collectionImages.length - 1].public_id}`}
+                alt="cdnUrl"
+              />
             ) : (
               <div style={{ height: "100px", backgroundColor: "black" }}>fallback</div>
             )}

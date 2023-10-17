@@ -1,0 +1,51 @@
+%Faded {
+  transition: 0.15s color ease-in-out;
+  color: lightgrey;
+}
+
+.ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+  border-bottom: 1px solid grey;
+
+  @media screen and (max-width: 425px) {
+    gap: 5px;
+  }
+}
+
+.list {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  cursor: pointer;
+  padding: 20px;
+
+  @media screen and (max-width: 425px) {
+    gap: 5px;
+    padding: 15px;
+  }
+
+  .title {
+    color: black;
+    &Faded {
+      @extend %Faded;
+    }
+  }
+
+  .icon {
+    color: black;
+    &Faded {
+      @extend %Faded;
+    }
+  }
+}
+
+a {
+  &:hover li {
+    .titleFaded,
+    .iconFaded {
+      color: black;
+    }
+  }
+}

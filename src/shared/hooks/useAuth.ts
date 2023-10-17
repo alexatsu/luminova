@@ -37,8 +37,8 @@ const useAuth = () => {
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("userName", userName);
-
       navigate("/");
+
     } catch (error) {
       console.log(error, "error register");
     }
@@ -76,9 +76,9 @@ const useAuth = () => {
     });
 
     if (error === "Refresh token is missing") {
-      navigate("/login");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
+      navigate("/login");
       return;
     }
 
@@ -98,18 +98,18 @@ const useAuth = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      navigate("/login");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
+      navigate("/login");
     }
   };
 
   const handleFetchError = (error: string) => {
     console.log("im called")
     if (error === "Refresh token is missing" || error === "User not found") {
-      navigate("/login");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("userName");
+      navigate("/login");
       return true;
     }
     return false;

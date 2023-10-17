@@ -3,10 +3,9 @@ import { useParams } from "react-router-dom";
 import { Resources } from "@/shared/types";
 import { PageWrapper, MasonryImages } from "@/shared/layouts";
 import { downloadImage, handleFetch, endpoints } from "@/shared/utils";
-import { useDebounce, useResizeWidth } from "@/shared/hooks";
-
-import { useImages } from "@/modules/core/hooks"; //change position of this file to shared
+import { useDebounce, useResizeWidth, useImages } from "@/shared/hooks";
 import { Loader, NoResults } from "@/shared/components";
+
 import sass from "@shared/styles/pages/InteractiveSearch/Images.module.scss";
 
 const { search } = endpoints;
@@ -15,18 +14,18 @@ export function Images() {
   const { query } = useParams();
   const width = useResizeWidth();
   const { debouncedValue: debouncedWidth } = useDebounce<number>(width, 400);
-  const queryKey = ["searchData", query];
+  const queryKey = ["searchImages", query];
 
   const searchImages = async (): Promise<{ images: Resources[] } | undefined> => {
     const url = search.images;
 
-    const { suggestions } = (await handleFetch(`${url}/?query=${query}`)) as {
-      suggestions: Resources[];
+    const { images } = (await handleFetch(`${url}/?query=${query}`)) as {
+      images: Resources[];
       error: string;
       message: string;
     };
 
-    return { images: suggestions };
+    return { images };
   };
 
   const { data, status, updateFavoriteImages } = useImages(() => searchImages(), queryKey);

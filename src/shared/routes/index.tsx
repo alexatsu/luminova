@@ -7,7 +7,7 @@ import { blog } from "@/modules/blog/routes";
 
 import { Error, interactiveSearch } from "../pages";
 
-const { Root: RootSearch, Images } = interactiveSearch;
+const { Root: RootSearch, Images, Collections, Users } = interactiveSearch;
 
 const shared = [
   {
@@ -20,11 +20,11 @@ const shared = [
       },
       {
         path: "collections/:query",
-        element: <div>SearchCollections</div>,
+        element: <Collections />,
       },
       {
         path: "users/:query",
-        element: <div>SearchUsers</div>,
+        element: <Users />,
       },
     ],
   },

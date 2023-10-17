@@ -4,20 +4,24 @@ import { endpoints, handleFetch } from "@/shared/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 
-type Collection = {
+type Collections = {
   id: number;
   name: string;
-  description: string;
   user_id: string;
-  collectionImages: { id: number; public_id: string }[];
+  description: string;
+  collectionImages: {
+    id: number;
+    public_id: string;
+    collection_id: number;
+  }[];
 }[];
 
 type Props = (
   queryKey: (string | undefined)[],
-  queryFunction: () => Promise<Collection | undefined>
+  queryFunction: () => Promise<Collections | undefined>
 ) => {
   getCollections: {
-    data: Collection | undefined;
+    data: Collections | undefined;
     status: "error" | "success" | "loading";
   };
   createCollections: {
@@ -42,7 +46,7 @@ type Props = (
 };
 
 type Response = {
-  collection: Collection;
+  collection: Collections;
   message: string;
   error: string;
 };

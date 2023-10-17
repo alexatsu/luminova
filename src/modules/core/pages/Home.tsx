@@ -2,9 +2,8 @@ import { PageWrapper, MasonryImages } from "@/shared/layouts";
 import { Loader } from "@/shared/components";
 import { downloadImage } from "@/shared/utils";
 import { Resources } from "@/shared/types";
-import { useResizeWidth, useDebounce } from "@/shared/hooks";
+import { useResizeWidth, useDebounce, useImages } from "@/shared/hooks";
 
-import { useImages } from "../hooks";
 import { PagePreview } from "../layouts";
 import { images } from "../services/api";
 

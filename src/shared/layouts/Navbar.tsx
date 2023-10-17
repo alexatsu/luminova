@@ -128,9 +128,15 @@ export const MemoizedNavbar = memo(function Navbar() {
                     suggestions.map((suggestion, index) => {
                       const removeCategory = (suggestion: string) => suggestion.split("/")[1];
                       return (
-                        <li key={index} className={sass.list}>
-                          {highlightMatchedWords(removeCategory(suggestion))}
-                        </li>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          key={index}
+                          to={`/search/images/${removeCategory(suggestion)}`}
+                        >
+                          <li className={sass.list}>
+                            {highlightMatchedWords(removeCategory(suggestion))}
+                          </li>
+                        </Link>
                       );
                     })
                   )}

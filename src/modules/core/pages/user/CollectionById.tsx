@@ -1,22 +1,21 @@
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Footer, MemoizedNavbar, MasonryImages } from "@/shared/layouts";
+import { AiOutlineUser, AiOutlineShareAlt } from "react-icons/ai";
+import { useMutation } from "@tanstack/react-query";
 
-import { useAuth, useDebounce, useModal, useResizeWidth } from "@/shared/hooks";
-import { useImages } from "../../hooks";
+import { queryClient } from "@/main";
 
-import { downloadImage } from "@/shared/utils";
-import { endpoints, handleFetch } from "@/shared/utils";
+import { useAuth, useDebounce, useModal, useResizeWidth, useImages } from "@/shared/hooks";
 
+import { endpoints, handleFetch, downloadImage } from "@/shared/utils";
 import { ImageResources } from "@/shared/types";
 
-import sass from "../../sass/pages/CollectionById.module.scss";
-import { AiOutlineUser, AiOutlineShareAlt } from "react-icons/ai";
+import { Footer, MemoizedNavbar, MasonryImages } from "@/shared/layouts";
 import { Loader } from "@/shared/components";
 import { ModalContainer } from "@/shared/components/form";
 import { Xshape } from "@/shared/components/icons";
-import { useState } from "react";
-import { queryClient } from "@/main";
-import { useMutation } from "@tanstack/react-query";
+
+import sass from "../../sass/pages/CollectionById.module.scss";
 
 type Collection = {
   id: number;

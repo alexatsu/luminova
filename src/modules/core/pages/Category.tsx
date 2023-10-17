@@ -1,16 +1,14 @@
 import { useParams } from "react-router-dom";
 
-import { useDebounce, useModal, useResizeWidth } from "@/shared/hooks";
+import { useDebounce, useModal, useResizeWidth, useImages } from "@/shared/hooks";
 import { Loader } from "@/shared/components";
 import { PageWrapper, MasonryImages } from "@/shared/layouts";
 
-import { paths } from "@/shared/utils";
-import { downloadImage } from "@/shared/utils";
+import { downloadImage, paths } from "@/shared/utils";
 import { Resources } from "@/shared/types";
 
 import { ModalContainer, UploadModal } from "@/shared/components/form";
 
-import { useImages } from "../hooks";
 import { PagePreview } from "../layouts";
 import { images } from "../services/api";
 
