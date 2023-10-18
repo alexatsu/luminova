@@ -37,6 +37,7 @@ const endpoints = {
     images: `${search}/images`,
     collections: `${search}/collections`,
     users: `${search}/users`,
+    suggestions: `${search}/suggestions`,
   },
 };
 

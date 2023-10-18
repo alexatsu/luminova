@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 
-import { SearchInput } from "@/shared/components/form";
+import { Search } from "@/shared/components/form";
 import sass from "../sass/layouts/PagePreview.module.scss";
 
 type PagePreviewProps = {
@@ -33,7 +33,7 @@ export function PagePreview({ imgURL, description, title, handleOpenModal }: Pag
             <p className={sass.textDescription}>{description}</p>
 
             {title === "Luminova" ? (
-              <SearchInput className="search-page-preview" />
+              <Search />
             ) : (
               <Button
                 onClick={handleOpenModal}

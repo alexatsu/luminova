@@ -4,30 +4,31 @@
   flex-direction: column;
   justify-content: flex-start;
 
-  .title {
-    padding: 36px 48px;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-
-    @media screen and (max-width: 992px) {
-      padding: 10px;
-    }
-    @media screen and (max-width: 768px) {
-      font-size: 1.8rem;
-      padding: 36px 10px;
-    }
-    @media screen and (max-width: 425px) {
-      font-size: 1.5rem;
-      padding: 24px 10px;
-    }
-  }
-
+  
   .cardWrapper {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 20px;
+  }
+}
+
+.title {
+  padding: 36px 48px;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+
+  @media screen and (max-width: 992px) {
+    padding: 10px;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 1.8rem;
+    padding: 36px 10px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 1.5rem;
+    padding: 24px 10px;
   }
 }
 

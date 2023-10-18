@@ -5,15 +5,12 @@ import { List, Menu, Text, Accordion } from "@mantine/core";
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
 import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
-import { MouseEventHandler, memo, useEffect, useRef, useState } from "react";
-
-import { handleFetch } from "../utils";
+import { memo } from "react";
 
 import { useResizeWidth, useModal, useDebounce, useAuth } from "@/shared/hooks";
 import { navstyles } from "@/shared/styles/navbar";
 import { Logo } from "@/shared/components";
-import { SearchInput, ModalContainer, UploadModal } from "@/shared/components/form";
-import sass from "../styles/layouts/Navbar.module.scss";
+import { Search, ModalContainer, UploadModal } from "@/shared/components/form";
 
 const accessToken = localStorage.getItem("accessToken");
 
@@ -24,82 +21,6 @@ export const MemoizedNavbar = memo(function Navbar() {
   const { modalOpen, handleOpen, handleClose } = useModal();
   const { logoutUser } = useAuth();
 
-  //hook
-  const [input, setInput] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false);
-  const ulRef = useRef<HTMLUListElement>(null);
-  //hook
-  const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-    if (e.target.value === "") setSuggestions([]);
-  };
-  //hook
-  const { debouncedValue: debouncedQuery } = useDebounce(input, 400);
-
-  //hook
-  useEffect(() => {
-    const requestSuggestions = async () => {
-      const url = "http://localhost:8080/search/suggestions";
-      const query = `?query=${debouncedQuery}`;
-
-      if (debouncedQuery === "") return;
-
-      const { suggestions } = (await handleFetch(`${url}/${query}`)) as {
-        suggestions: string[];
-      };
-
-      const limit = 5;
-      setSuggestions(suggestions.slice(0, limit));
-    };
-
-    requestSuggestions();
-  }, [debouncedQuery]);
-  //hook
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        !ulRef.current?.contains(e.target as Node) &&
-        !document.querySelector(".search-navbar")!.contains(e.target as Node)
-      ) {
-        setIsSuggestionsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const highlightMatchedWords = (suggestion: string) => {
-    const split = suggestion.split(" ");
-
-    const highlightMatch = split.map((word) => {
-      const trimmedWord = word.trim();
-
-      if (trimmedWord.includes(input)) {
-        return (
-          <span key={crypto.randomUUID()} style={{ backgroundColor: "rgb(196 244 224)" }}>
-            {" "}
-            {word}
-          </span>
-        );
-      }
-
-      return <span key={crypto.randomUUID()}> {word} </span>;
-    });
-
-    return highlightMatch;
-  };
-
-  const sendSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (input === "") return;
-
-    if (event.key === "Enter") {
-      navigate("/search/images/" + input);
-      return;
-    }
-  };
-
   return (
     <nav style={{ paddingTop: "10px" }}>
       <section>
@@ -109,40 +30,7 @@ export const MemoizedNavbar = memo(function Navbar() {
               <Logo />
             </Link>
 
-            <div style={{ width: "100%", position: "relative" }}>
-              <SearchInput
-                className="search-navbar"
-                value={input}
-                changeHandler={inputChange}
-                search={sendSearch}
-                setIsOpen={
-                  setIsSuggestionsOpen as unknown as MouseEventHandler<HTMLInputElement> | undefined
-                }
-              />
-
-              {isSuggestionsOpen && (
-                <ul ref={ulRef} className={sass.suggestions}>
-                  {suggestions.length === 0 ? (
-                    <li className={sass.list}>No results</li>
-                  ) : (
-                    suggestions.map((suggestion, index) => {
-                      const removeCategory = (suggestion: string) => suggestion.split("/")[1];
-                      return (
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          key={index}
-                          to={`/search/images/${removeCategory(suggestion)}`}
-                        >
-                          <li className={sass.list}>
-                            {highlightMatchedWords(removeCategory(suggestion))}
-                          </li>
-                        </Link>
-                      );
-                    })
-                  )}
-                </ul>
-              )}
-            </div>
+            <Search />
           </Box>
 
           <Box sx={{ "@media (max-width: 993px)": { display: "none" }, display: "flex" }}>

@@ -24,3 +24,24 @@
     @include mantine-input(0px);
   }
 }
+
+.suggestions {
+  background-color: #fff;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  border: 1px solid #e1e1e1;
+  margin-top: 10px;
+  color: black;
+  
+  .list {
+    list-style: none;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: 0.1s background-color ease-in-out;
+    
+    &:hover {
+      background-color: #f3f3f3;
+    }
+  }
+}
