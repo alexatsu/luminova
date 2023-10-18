@@ -15,7 +15,10 @@ export function useSearch() {
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-    if (e.target.value === "") setSuggestions([]);
+    if (e.target.value === "") {
+      setSuggestions([]);
+      return;
+    }
   };
 
   const { debouncedValue: debouncedQuery } = useDebounce(input, 400);
