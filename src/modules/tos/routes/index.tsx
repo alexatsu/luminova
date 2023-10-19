@@ -1,28 +1,29 @@
 import { RouteObject } from "react-router-dom";
-import { Root } from "@/shared/layouts";
-import { License, Conditions, Security, Privacy } from "../pages";
+import { Root, Render } from "../pages";
+
+const contentPath = "../src/modules/tos/content";
+const pages = [
+  {
+    path: "license",
+    queryKey: ["license"],
+    filePath: `${contentPath}/_license.md`,
+  },
+  {
+    path: "privacy",
+    queryKey: ["privacy"],
+    filePath: `${contentPath}/_privacy.md`,
+  },
+];
+
+const renderPages = pages.map(({ path, queryKey, filePath }) => ({
+  path,
+  element: <Render queryKey={queryKey} filePath={filePath} />,
+}));
 
 export const tos: RouteObject[] = [
   {
     path: "tos",
     element: <Root />,
-    children: [
-      {
-        path: "license",
-        element: <License />,
-      },
-      {
-        path: "privacy",
-        element: <Privacy />,
-      },
-      {
-        path: "conditions",
-        element: <Conditions />,
-      },
-      {
-        path: "security",
-        element: <Security />,
-      },
-    ],
+    children: [...renderPages],
   },
 ];

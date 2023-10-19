@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { MemoizedNavbar } from "./Navbar";
 import { Footer } from "./Footer";
+import { PageWrapper } from "./PageWrapper";
 
 export function Root() {
   return (
-    <div>
+    <PageWrapper>
       <MemoizedNavbar />
       <Outlet />
       <Footer />
-    </div>
+    </PageWrapper>
   );
 }
