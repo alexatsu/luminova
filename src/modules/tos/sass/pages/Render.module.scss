@@ -53,4 +53,18 @@
   em {
     font-style: italic;
   }
+
+  a {
+    text-decoration: underline;
+    color: rgb(93, 93, 93);
+    transition: color 0.15s ease-in-out;
+
+    &:visited {
+      color: rgb(93, 93, 93);
+    }
+
+    &:hover {
+      color: rgb(12, 12, 12);
+    }
+  }
 }

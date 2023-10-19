@@ -86,19 +86,19 @@ We will use, disclose or retain your personal information only for as long as ne
 
 Under certain circumstances and in accordance with the GDPR or other applicable data protection laws, you have the following rights:
 
-Access – ask if we are processing information and, if we are, request access to your personal information. This enables you to receive a copy of the personal information we hold and certain other information about you;
-Correction – request that any incomplete or inaccurate personal information about you that we hold be corrected;
-Erasure – ask us to delete or remove your personal information in certain circumstances. There are certain exceptions where we may refuse a request for erasure, for example, where the personal information is required for compliance with law or in connection with legal claims;
-Restriction – ask us to suspend the processing of your personal information, for example, to establish its accuracy or the reason for processing it;
-Transfer – request the transfer of certain personal information to another party;
-Objection – challenge our processing of personal information based on a legitimate interest (or those of a third party) or for direct marketing purposes. However, we may be entitled to continue processing information in certain circumstances;
-Automated decisions – contest any automated decision made where it has a legal or similar significant effect and ask for it to be reconsidered; and
-Consent – where we are processing personal information with consent, withdraw your consent.
+- A. Access – ask if we are processing information and, if we are, request access to your personal information. This enables you to receive a copy of the personal information we hold and certain other information about you;
+- B. Correction – request that any incomplete or inaccurate personal information about you that we hold be corrected;
+- C. Erasure – ask us to delete or remove your personal information in certain circumstances. There are certain exceptions where we may refuse a request for erasure, for example, where the personal information is required for compliance with law or in connection with legal claims;
+- D. Restriction – ask us to suspend the processing of your personal information, for example, to establish its accuracy or the reason for processing it;
+- E. Transfer – request the transfer of certain personal information to another party;
+- F. Objection – challenge our processing of personal information based on a legitimate interest (or those of a third party) or for direct marketing purposes. However, we may be entitled to continue processing information in certain circumstances;
+- G. Automated decisions – contest any automated decision made where it has a legal or similar significant effect and ask for it to be reconsidered; and
+- H. Consent – where we are processing personal information with consent, withdraw your consent.
+
 You also have a right to make a complaint with a data protection supervisory authority, in particular in the Country (as defined below) where you normally reside, where we are based or where an alleged infringement of data protection law has taken place.
 
-To exercise any of these rights, please contact us as set forth in the “Contact Us” section.
+### Direct Marketing
 
-Direct Marketing
 Subject to applicable laws and regulations, we may from time to time send direct marketing materials promoting services, products, facilities, or activities to you using information collected from you. If you no longer want to receive marketing-related communications from us, you may opt-out of such communications by clicking the “unsubscribe” link at the bottom of emails you receive from us. You may also opt-out by contacting us directly using the contact information in the “Contact Us” section below. We will endeavour to respond to your opt-out request promptly, but we ask that you please allow us reasonable time to process your request. We will not provide your information to third parties for direct marketing or other unrelated purposes without your written consent.
 
 Please note that if you opt-out from receiving marketing-related communications, we may still need to send you communications about your use of our products or services, or other matters, subject to applicable laws and regulations.

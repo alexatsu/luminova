@@ -13,6 +13,16 @@ const pages = [
     queryKey: ["privacy"],
     filePath: `${contentPath}/_privacy.md`,
   },
+  {
+    path: "cookies",
+    queryKey: ["cookies"],
+    filePath: `${contentPath}/_cookies.md`,
+  },
+  {
+    path: "terms",
+    queryKey: ["terms"],
+    filePath: `${contentPath}/_terms.md`,
+  },
 ];
 
 const renderPages = pages.map(({ path, queryKey, filePath }) => ({

@@ -5,7 +5,7 @@ export function Sidebar() {
   const paths = [
     { title: "License", path: "/tos/license" },
     { title: "Privacy Policy", path: "/tos/privacy" },
-    { title: "Cookie Policy", path: "/tos/cookie" },
+    { title: "Cookie Policy", path: "/tos/cookies" },
     { title: "Terms & Conditions", path: "/tos/terms" },
   ];
 
