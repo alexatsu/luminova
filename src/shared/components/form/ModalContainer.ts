@@ -17,5 +17,5 @@ export function ModalContainer({ modalOpen, children }: UploadModalProps) {
   }, [modalOpen]);
 
   const root = document.getElementById("root");
-  return modalOpen && createPortal(children, root as HTMLElement);
+  return modalOpen ? createPortal(children, root as HTMLElement) : null;
 }

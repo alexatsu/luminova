@@ -88,16 +88,20 @@ export function MasonryImages({ width, data, updateFavImages, download }: Masonr
   );
 }
 
-type Collection = {
+type Collections = {
   id: number;
   name: string;
-  description: string;
   user_id: string;
-  collectionImages: { id: number; public_id: string }[];
+  description: string;
+  collectionImages: {
+    id: number;
+    public_id: string;
+    collection_id: number;
+  }[];
 }[];
 
 type Response = {
-  collection: Collection;
+  collection: Collections;
   message: string;
   error: string;
 };
@@ -127,7 +131,7 @@ export const CollectionForm = ({ public_id }: { public_id: string }) => {
     return collectionImages.some((img) => img.public_id === public_id);
   };
 
-  const sortDescending = (collections: Collection) => collections?.sort((a, b) => b.id - a.id);
+  const sortDescending = (collections: Collections) => collections?.sort((a, b) => b.id - a.id);
   const sortedCollections = sortDescending(data || []);
 
   return (
