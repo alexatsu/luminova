@@ -1,6 +1,5 @@
 import { RouteObject } from "react-router-dom";
 
-
 export const blog: RouteObject[] = [
   {
     path: "blog",
@@ -8,6 +7,5 @@ export const blog: RouteObject[] = [
       const { Blog } = await import("../Blog");
       return { Component: Blog };
     },
-    
   },
 ];

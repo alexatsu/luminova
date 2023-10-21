@@ -1,10 +1,12 @@
-import BlogCard from "@/shared/components/BlogCard";
 import { useState } from "react";
-import "./Blog.scss";
-import { MenuList } from "@/shared/components/MenuList";
 import { Link } from "react-router-dom";
 
-const Blog = () => {
+import { BlogCard } from "./components/BlogCard";
+
+import "./Blog.scss";
+import { ProgressBar, ScrollTopButton } from "@/shared/components";
+
+export function Blog() {
   const post = {
     category: "Category 1",
     title: "Title 1",
@@ -108,25 +110,21 @@ const Blog = () => {
   return (
     <div>
       <nav className={"navigation"}>
-        <Link to="/">
-          <h1 className={"logo"}>Luminova</h1>
+        <Link to="/" style={{ textDecoration: "none", color: "grey" }}>
+          <h1 className={"logo"}>Luminova ↗</h1>
         </Link>
-
-        <div className="navWrap">
-          <MenuList />
-        </div>
       </nav>
 
       <div className={"header"}>
-        <h1 className={"title"}>Unsplash Blog</h1>
+        <h1 className={"title"}>Luminova Blog</h1>
         <h2 className={"subtitle"}>Stories from the community powering the internet’s visuals</h2>
       </div>
 
       <main>
         <div className="section">
           <div className="grid-container">
-            <h3 className="section__title">Feutured</h3>
-            <div className="grid-featured">
+            <h3 className="section__title">Featured</h3>
+            <div className="flexxy">
               <BlogCard {...post} />
               <BlogCard {...post} />
             </div>
@@ -147,12 +145,12 @@ const Blog = () => {
       <footer className="grid-container section--foter">
         <div className="footer">
           <div className="footer__logo">
-            <a href="#"></a>
+            <Link to={"/"}></Link>
             <span>Make something awesome</span>
           </div>
           <div className="footer__links">
             <ul>
-              <li>
+              {/* <li>
                 <a href="#">About</a>
               </li>
               <li>
@@ -160,13 +158,14 @@ const Blog = () => {
               </li>
               <li>
                 <a href="#">About</a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
       </footer>
+
+      <ScrollTopButton />
+      <ProgressBar />
     </div>
   );
-};
-
-export { Blog };
+}
