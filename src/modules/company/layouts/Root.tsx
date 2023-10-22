@@ -1,4 +1,4 @@
-import { MemoizedNavbar } from "@/shared/layouts";
+import { Footer, MemoizedNavbar } from "@/shared/layouts";
 import { Outlet } from "react-router-dom";
 
 export function Root() {
@@ -6,6 +6,7 @@ export function Root() {
     <div>
       <MemoizedNavbar />
       <Outlet />
+      <Footer />
     </div>
   );
 }

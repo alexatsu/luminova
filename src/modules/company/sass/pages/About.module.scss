@@ -1,0 +1,103 @@
+.container {
+  padding: 20px 10px;
+  margin: 20px 0;
+
+  section {
+    padding: 40px 0;
+  }
+}
+
+$paragraphLineHeight: 1.5;
+
+
+.headerSection {
+  display: flex;
+  justify-content: center;
+
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  & > div {
+    width: 50%;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  .headerText {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+
+      @media screen and (min-width: 767px) {
+        font-size: 3rem;
+      }
+    }
+
+    p {
+      max-width: 540px;
+      font-size: 18px;
+      line-height: $paragraphLineHeight;
+      margin-bottom: 20px;
+    }
+
+    .headerBtn {
+      button {
+        background-color: black;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    }
+  }
+  .headerImg {
+    margin: auto;
+  }
+}
+
+.heroTop {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  .heroTopText {
+    text-align: center;
+    font-size: 21px;
+    font-weight: 700;
+    width: 66%;
+    margin-bottom: 40px;
+
+    @media screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  .usableImagesPreview {
+    margin-bottom: 40px;
+    
+    & img {
+      margin-bottom: 32px;
+    }
+    h4 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    p {
+        line-height: $paragraphLineHeight;
+    }
+  }
+}
