@@ -82,9 +82,9 @@
     font-weight: 800;
   }
   .grid-container {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    
 
     .flexxy {
       display: flex;
@@ -93,8 +93,10 @@
       }
     }
     .grid-feed {
-      display: grid;
-      grid-gap: 24px;
+
+      flex: 1 1 30%;
+      display: flex;
+      flex-wrap: wrap;
     }
   }
   &:last-child {

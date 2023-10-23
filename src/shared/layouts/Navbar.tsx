@@ -4,7 +4,7 @@ import { Box, IconButton, Button } from "@mui/material";
 import { List, Menu, Text, Accordion } from "@mantine/core";
 import { Link, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu as Gigachamburger } from "react-icons/gi";
-import { AiOutlineHome, AiOutlineProfile, AiOutlineTeam, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineProfile,  AiOutlineUser } from "react-icons/ai";
 import { memo } from "react";
 
 import { useResizeWidth, useModal, useDebounce, useAuth } from "@/shared/hooks";
@@ -132,12 +132,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
       list: [
         { title: "About", path: "/company/about" },
         debouncedWidth < 993 ? { title: "Advertise", path: "/advertise" } : null,
-        { title: "History", path: "/company/history" },
         debouncedWidth < 993 ? { title: "Blog", path: "/blog" } : null,
-        { title: "Join the team", path: "/company/jointheteam" },
-        { title: "Press", path: "/company/press" },
-        { title: "Contact us", path: "/company/contactus" },
-        { title: "Help Center", path: "/company/helpcenter" },
       ].filter((item) => item !== null),
     },
     terms: {
@@ -150,25 +145,11 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
         { title: "Security", path: "/tos/security" },
       ],
     },
-    community: {
-      header: "Community",
-      icon: <AiOutlineTeam style={{ marginRight: "4px" }} />,
-      list: [
-        { title: "Become a Contributor", path: "/community/contributor" },
-        { title: "Topics", path: "/community/topics" },
-        { title: "Collection", path: "/community/collection" },
-        { title: "Trends", path: "/community/trends" },
-        { title: "Luminova Awards", path: "/community/awards" },
-        { title: "Stats", path: "/community/stats" },
-      ],
-    },
   };
 
-  const { company, terms, community } = listData;
+  const { company, terms } = listData;
 
-  const setItems = (
-    list: (typeof company)["list"] | (typeof terms)["list"] | (typeof community)["list"]
-  ) =>
+  const setItems = (list: (typeof company)["list"] | (typeof terms)["list"]) =>
     list.map(({ title, path }: any, index: number) => {
       return (
         <Link
@@ -189,7 +170,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
     });
 
   return (
-    <Menu position="bottom-end" shadow="md" width={debouncedWidth < 993 ? 300 : 600}>
+    <Menu position="bottom-end" shadow="md" width={debouncedWidth < 993 ? 300 : 400}>
       <Menu.Target>
         <IconButton>
           <Gigachamburger />
@@ -210,7 +191,7 @@ function HamburgerMenu({ children }: { children: React.ReactNode }) {
           },
         }}
       >
-        {[company, terms, community].map(({ header, list, icon }) =>
+        {[company, terms].map(({ header, list, icon }) =>
           width < 993 ? (
             <Accordion defaultValue="accordion-menu" key={header} sx={{ width: "100%" }}>
               <Accordion.Item value={header}>

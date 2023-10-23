@@ -6,19 +6,12 @@ import sass from "../styles/Footer.module.scss";
 export const Footer = () => {
   const mainList = [
     { title: "About", path: "/company/about" },
-    { title: "Join the team", path: "/company/jointheteam" },
-    { title: "Become a Contributor", path: "/community/contributor" },
-    { title: "Press", path: "/company/press" },
     { title: "Blog", path: "/blog" },
-    { title: "Terms & Conditions", path: "/tos/conditions" },
-    { title: "Community", path: "/community" },
-    { title: "Luminova Awards", path: "/community/awards" },
-  ];
-
-  const additionalList = [
-    { title: "Help Center", path: "/company/helpcenter" },
+    { title: "Advertise", path: "/advertise" },
+    { title: "Terms & Conditions", path: "/tos/terms" },
     { title: "Privacy Policy", path: "/tos/privacy" },
     { title: "License", path: "/tos/license" },
+    { title: "Cookies", path: "/tos/cookies" },
   ];
 
   return (
@@ -39,17 +32,8 @@ export const Footer = () => {
           <Link to="/">
             <Logo />
           </Link>
-          <p>Make something awesome</p>
+          <p style={{marginBottom: "0"}}>Make something awesome</p>
         </div>
-        <nav>
-          <ul>
-            {additionalList.map(({ title, path }) => (
-              <li key={title}>
-                <Link to={path}>{title}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
       </div>
     </footer>
   );
