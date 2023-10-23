@@ -1,19 +1,49 @@
+$paragraphLineHeight: 1.5;
 .container {
   padding: 20px 10px;
   margin: 20px 0;
 
   section {
-    padding: 40px 0;
+    margin-top: 40px;
+    padding: 20px;
   }
 }
 
-$paragraphLineHeight: 1.5;
+h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
 
+h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  line-height: $paragraphLineHeight;
+  margin-bottom: 20px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
 .headerSection {
   display: flex;
   justify-content: center;
-
+  gap: 20px;
   @media screen and (max-width: 767px) {
     flex-direction: column;
     align-items: center;
@@ -42,24 +72,6 @@ $paragraphLineHeight: 1.5;
         font-size: 3rem;
       }
     }
-
-    p {
-      max-width: 540px;
-      font-size: 18px;
-      line-height: $paragraphLineHeight;
-      margin-bottom: 20px;
-    }
-
-    .headerBtn {
-      button {
-        background-color: black;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        cursor: pointer;
-        border-radius: 5px;
-      }
-    }
   }
   .headerImg {
     margin: auto;
@@ -72,6 +84,10 @@ $paragraphLineHeight: 1.5;
   flex-direction: column;
   align-items: center;
 
+  p {
+    max-width: 540px;
+    text-align: center;
+  }
   .heroTopText {
     text-align: center;
     font-size: 21px;
@@ -86,18 +102,61 @@ $paragraphLineHeight: 1.5;
 
   .usableImagesPreview {
     margin-bottom: 40px;
-    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     & img {
       margin-bottom: 32px;
     }
     h4 {
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
     }
+  }
+}
 
-    p {
-        line-height: $paragraphLineHeight;
+.awesome {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  align-items: center;
+  .awesomeText {
+    margin-bottom: 30px;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    .awesomeText {
+      width: 100%;
+    }
+  }
+}
+
+.free {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  .freeText {
+    margin-bottom: 30px;
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    .freeText {
+      width: 100%;
+    }
+  }
+}
+
+.awesome,
+.free {
+  & > div {
+    width: 50%;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      
     }
   }
 }
