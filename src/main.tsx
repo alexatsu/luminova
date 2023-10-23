@@ -8,6 +8,7 @@ import { baseURL } from "./shared/utils";
 
 console.log(baseURL, "baseURL");
 
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
