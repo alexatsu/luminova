@@ -1,6 +1,6 @@
 import { env } from "./env";
 
-const baseURL = `http://v2004009.hosted-by-vdsina.ru`;
+const baseURL = env("BASE_URL");
 const images = `${baseURL}/images`;
 const collections = `${baseURL}/collections`;
 const user = `${baseURL}/user`;
