@@ -14,15 +14,6 @@ This is a project that mainly for learning purpose the functionality of backend 
 - Bootstrapped blog but no content/only placeholders
 - ToS module
 
-## Stack
-
-- React on front
-- Node + Python(ai model) on back
-- Self-hosted backend
-- Contentful CMS
-- Cloudinary CDN
-- and bunch of techologies for cashing, text, servers, search and so on
-
 ## Repositories related to this
 
 [backend](https://github.com/AlexanderKudr/luminova-backend)
