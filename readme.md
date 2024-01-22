@@ -1,7 +1,7 @@
 # Overview
 
 This is a project that mainly for learning purpose the functionality of backend + devops, a ripoff of Unsplash.
-
+> stopped hosting (to up it again, need to switch Postgres to Sqlite and keep it to backend)
 > all images, sources is taken from Unsplash, credits to them for everything
 
 ## Features
